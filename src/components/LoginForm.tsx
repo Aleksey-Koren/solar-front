@@ -14,53 +14,45 @@ interface FormikValues {
 }
 
 enum LoginStatus {
-    Refreshed,
-    InvalidCredentials,
-    Blocked
+    REFRESHED = "Refreshed",
+    VALID_CREDENTIALS = "VALID_CREDENTIALS",
+    INVALID_CREDENTIALS = "INVALID_CREDENTIALS",
+    BLOCKED = "BLOCKED"
 }
 
-interface State {
+interface IState {
     status: LoginStatus;
-}
-
-const hasToken: (resp: AxiosResponse<Token, any>) => boolean = function(resp) {
-    return resp.data.data !== null;
-}
-
-const invalidCredentials: (resp: AxiosResponse<Token, any>) => boolean = function(resp) {
-    return resp.data.data === null && resp.data.blocked === null;
-}
-const isBlocked: (resp: AxiosResponse<Token, any>) => boolean = function(resp) {
-    return resp.data.data === '' && resp.data.blocked !== null;
+    blockDuration?: string;
 }
 
 const LoginForm: React.FC = () => {
 
-    const [state, setState] = useState<State>({status: LoginStatus.Refreshed});
-    //from 'react-router' or from 'react-router-dom'?
+    const [state, setState] = useState<IState>({status: LoginStatus.REFRESHED});
     const navigate = useNavigate();
 
     const onSubmit = (values: FormikValues, actions: FormikHelpers<FormikValues>) => {
 
-        const user: User = Builder<User>()
+        const user: User = Builder(User)
             .login(values.login)
             .password(values.password)
             .build();
 
         login(user).then(resp => {
-            if(hasToken(resp)) {
-                localStorage.setItem('auth_token', resp.data.data);
-                actions.setSubmitting(false);
-                navigate('/')
-            } else if (invalidCredentials(resp)) {
-                setState({...state, status: LoginStatus.InvalidCredentials});
-                actions.resetForm();
-            } else if (isBlocked(resp)) {
-                setState({...state, status: LoginStatus.Blocked});
-                actions.resetForm();
+            switch (resp.data.status) {
+                case "VALID_CREDENTIALS" :
+                    localStorage.setItem('auth_token', resp.data.data);
+                    navigate('/');
+                    break;
+                case "INVALID_CREDENTIALS":
+                    setState({status: LoginStatus.INVALID_CREDENTIALS});
+                    actions.resetForm();
+                    break;
+                case "BLOCKED":
+                    generateBlockedTimer(resp, setState, state);
+                    actions.resetForm();
+                    break;
             }
         });
-
     }
 
     return (
@@ -76,18 +68,36 @@ const LoginForm: React.FC = () => {
         >
             <Form>
                 <label htmlFor="login">First Name</label>
-                <Field name="login" type="text" />
-                <ErrorMessage name="login" />
+                <Field name="login" type="text"/>
+                <ErrorMessage name="login"/>
 
                 <label htmlFor="password">Last Name</label>
-                <Field name="password" type="text" />
-                <ErrorMessage name="password" />
+                <Field name="password" type="text"/>
+                <ErrorMessage name="password"/>
 
                 <button type="submit">Submit</button>
+                {state.blockDuration !== undefined ?
+                    <div><strong>{'Account is blocked for: ' + state.blockDuration}</strong></div> : null}
+                {state.status === LoginStatus.INVALID_CREDENTIALS ?
+                    <div><strong>Invalid login or password</strong></div> : null}
             </Form>
         </Formik>
-
     )
+}
+
+const generateBlockedTimer = (resp: AxiosResponse<Token>, setState: (state: IState) => void, state: IState) => {
+    let durationInSeconds = (resp.data.blocked / 1000);
+    let id = setInterval(() => {
+        let date = new Date(0);
+        date.setSeconds(durationInSeconds);
+        let timeString = date.toISOString().substring(11, 19);
+        setState({status: LoginStatus.BLOCKED, blockDuration: timeString});
+        durationInSeconds = --durationInSeconds;
+        if (durationInSeconds <= 0) {
+            clearInterval(id);
+            setState({...state, blockDuration: undefined})
+        }
+    }, 1000)
 }
 
 export default LoginForm;

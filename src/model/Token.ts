@@ -1,5 +1,5 @@
 export class Token {
     data: string = null;
-    onHack: boolean = null;
+    status: string = null;
     blocked: number = null;
 }
