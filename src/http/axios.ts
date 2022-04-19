@@ -18,10 +18,11 @@ axiosApi.interceptors.response.use(response => {
         return response;
     },
     (error) => {
-        if (error.response.status === 403) {
+        if (error.response && error.response.status === 403) {
             window.location.href = '/login'
         }
-        console.log('RESPONSE ERROR. ' + error.response.status)
+
+        console.log('RESPONSE ERROR. ' + error)
 
         return Promise.reject(error);
     }
