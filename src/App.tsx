@@ -3,6 +3,7 @@ import './App.css';
 import {BrowserRouter} from "react-router-dom";
 import {Route, Routes} from "react-router";
 import {axiosApi} from "./http/axios";
+import Registration from "./component/registration/Registration";
 
 function App() {
 
@@ -15,7 +16,7 @@ function App() {
                     </>
                 }/>
                 <Route path={"/login"} element={<>LOGIN</>}/>
-                <Route path={"/registration"} element={<>REGISTRATION</>}/>
+                <Route path={"/registration"} element={<Registration/>}/>
             </Routes>
         </BrowserRouter>
     );
