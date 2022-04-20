@@ -107,7 +107,7 @@ function Registration() {
                                 </div>
                             </div>
                         </div>
-                        <ErrorPopup errorMessage={error} isError={error != null}
+                        <ErrorPopup errorMessage={error} isError={error != null} autoHideDuration={5000}
                                     handlePopupClose={() => setError(null)}/>
                     </Form>
                 )}
