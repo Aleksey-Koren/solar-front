@@ -1,39 +1,29 @@
 import './Navbar.css'
-import {Link} from "react-router-dom";
-import Button from '@mui/material/Button/Button';
-import {Menu, MenuItem} from "@mui/material";
+import {Link, useNavigate} from "react-router-dom";
 import React from "react";
 
 function Navbar() {
-    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-    const open = Boolean(anchorEl);
-    const handleClick = (event: any) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    let navigate = useNavigate();
 
     return (
         <div className={"navbar"}>
-            <Link className={"navbar__link"} to={"/"}>Star Map</Link>
-            <Link className={"navbar__link"} to={"/"}>Dashboard</Link>
-            <Button
-                onMouseOver={handleClick}
-                onMouseLeave={() => console.log('leave button')}
-                aria-controls={open ? 'basic-menu' : undefined}
-                aria-haspopup="true"
-                aria-expanded={open ? 'true' : undefined}
-            >
-                Config
-            </Button>
-            <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}
-            >
-                <MenuItem onClick={handleClose}>Profile</MenuItem>
-                <MenuItem onClick={handleClose}>My account</MenuItem>
-                <MenuItem onClick={handleClose}>Logout</MenuItem>
-            </Menu>
-            <button className={"logout_button"}>Logout</button>
+            <Link className={"navbar__link link_hover"} to={"/"}>Star Map</Link>
+            <Link className={"navbar__link link_hover"} to={"/"}>Dashboard</Link>
+            <div className={"navbar__dropdown_menu"}>
+                <p className={"navbar__link"}>Config</p>
+                <div className={"navbar__menu_list"}>
+                    <Link to="/">Planets Management</Link>
+                    <Link to="/">Products Management</Link>
+                    <Link to="/">Stations Management</Link>
+                    <Link to="/">Inventory Management</Link>
+                    <Link to="/">Permissions Management</Link>
+                    <Link to="/">Users Management</Link>
+                </div>
+            </div>
+            <p className={"navbar__logout link_hover"} onClick={() => {
+                localStorage.removeItem('token');
+                navigate('/login')
+            }}>Logout</p>
         </div>
     );
 }

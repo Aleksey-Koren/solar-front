@@ -91,7 +91,7 @@ const LoginForm: React.FC = () => {
                                          open={formik.errors.login !== undefined && formik.touched.login}
                                          placement={"top"} arrow>
                                     <div>
-                                        <Field className={"login_input_field"} name="login" type="text"/>
+                                        <Field className={"login_input_field"} name="login" type="text" placeholder={"Login/email"} />
                                     </div>
                                 </Tooltip>
                             </div>
@@ -103,7 +103,7 @@ const LoginForm: React.FC = () => {
                                          open={formik.errors.password !== undefined && formik.touched.password}
                                          placement={"top"} arrow>
                                     <div>
-                                        <Field className={"login_input_field"} name="password" type="text"/>
+                                        <Field className={"login_input_field"} name="password" type="password" placeholder={"Password"}/>
                                     </div>
                                 </Tooltip>
                             </div>
@@ -130,7 +130,7 @@ const LoginForm: React.FC = () => {
             )}
         </Formik>
         <ErrorPopup errorMessage={state.errorText} isError={state.errorText !== undefined} autoHideDuration={5000}
-                    handlePopupClose={() => setState({... state, errorText: undefined})}/>
+                    handlePopupClose={() => setState({...state, errorText: undefined})}/>
     </div>
 
     )
