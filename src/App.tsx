@@ -5,6 +5,7 @@ import {Route, Routes} from "react-router";
 import {axiosApi} from "./http/axios";
 import Registration from "./component/registration/Registration";
 import LoginForm from "./component/login/LoginForm";
+import Navbar from "./component/navbar/Navbar";
 
 function App() {
     return (
@@ -12,6 +13,7 @@ function App() {
             <Routes>
                 <Route path={"/"} element={
                     <>
+                        <Navbar/>
                         <button onClick={() => axiosApi.get("users/1")}>CLICK</button>
                     </>
                 }/>
