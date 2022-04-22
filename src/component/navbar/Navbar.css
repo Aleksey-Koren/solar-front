@@ -34,7 +34,7 @@
     color: white;
 }
 
-.navbar__dropdown_menu a:last-child:hover {
+.navbar__dropdown_menu a:last-child {
     border-bottom: none;
 }
 
@@ -60,7 +60,7 @@
 /* LOGOUT */
 .navbar__logout {
     float: right;
-    /*margin-right: 10px;*/
+    margin-right: 10px;
     padding: 5px 15px;
     font-size: 20px;
     background: #262424;

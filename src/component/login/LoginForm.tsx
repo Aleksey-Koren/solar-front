@@ -48,8 +48,8 @@ const LoginForm: React.FC = () => {
         login(user).then(resp => {
             console.log(resp.data);
             switch (resp.data.status) {
-                case LoginStatus.VALID_CREDENTIALS :
-                    localStorage.setItem('auth_token', resp.data.data);
+                case LoginStatus.VALID_CREDENTIALS:
+                    sessionStorage.setItem('auth_token', resp.data.data);
                     navigate('/');
                     break;
                 case LoginStatus.INVALID_CREDENTIALS:

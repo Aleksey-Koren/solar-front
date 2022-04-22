@@ -5,6 +5,7 @@ import {Route, Routes} from "react-router";
 import Registration from "./component/registration/Registration";
 import LoginForm from "./component/login/LoginForm";
 import Navbar from "./component/navbar/Navbar";
+import ProductTable from "./component/product/ProductTable";
 
 function App() {
     return (
@@ -13,6 +14,7 @@ function App() {
                 <Route path={"/"} element={<Navbar/>}/>
                 <Route path={"/registration"} element={<Registration/>}/>
                 <Route path={"/login"} element={<LoginForm/>}/>
+                <Route path={"/product"} element={<ProductTable/>}/>
             </Routes>
         </BrowserRouter>
     );
