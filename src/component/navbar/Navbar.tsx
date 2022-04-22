@@ -12,7 +12,7 @@ function Navbar() {
             <div className={"navbar__dropdown_menu"}>
                 <p className={"navbar__link"}>Config</p>
                 <div className={"navbar__menu_list"}>
-                    <Link to="/">Planets Management</Link>
+                    <Link to="/planets">Planets Management</Link>
                     <Link to="/">Products Management</Link>
                     <Link to="/">Stations Management</Link>
                     <Link to="/">Inventory Management</Link>

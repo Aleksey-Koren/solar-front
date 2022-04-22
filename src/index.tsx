@@ -7,8 +7,14 @@ import promise from "redux-promise-middleware";
 import {Provider} from "react-redux";
 import ReactDOM from 'react-dom';
 import {composeWithDevTools} from "@redux-devtools/extension";
+import {planetReducer} from "./redux/planets/planetReducer";
+import {PlanetState} from "./redux/planets/planetTypes";
 
-const reducers = combineReducers({});
+export interface IState {
+    planets: PlanetState
+}
+
+const reducers = combineReducers({planets: planetReducer});
 export const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, promise)));
 
 ReactDOM.render(
@@ -17,4 +23,3 @@ ReactDOM.render(
     </Provider>,
     document.getElementById('root')
 );
-

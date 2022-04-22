@@ -1,4 +1,4 @@
-import {BasicObjectView} from "./BasicObjectView";
+import {BasicObjectView} from "./object/BasicObjectView";
 
 export class User {
     id: number = null;
