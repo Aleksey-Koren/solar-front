@@ -8,8 +8,11 @@ import {IState} from "../../index";
 const ProductTable: React.FC<Props> = (props) => {
 
     useEffect(() => {
-        props.fetchProductsAction(fetchProducts, 0, 5);
-    });
+        props.fetchProductsAction(0, 5);
+    }, [props.fetchProductsAction]);
+
+    // props.fetchProductsAction(0, 5);
+
 
     return (<div>
             <Navbar/>

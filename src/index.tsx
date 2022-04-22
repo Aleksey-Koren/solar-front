@@ -12,7 +12,9 @@ export interface IState {
     products: IProductsState
 }
 
-const reducers = combineReducers({products: productReducer});
+const reducers = combineReducers({
+    products: productReducer
+});
 export const store = createStore(reducers, composeWithDevTools(applyMiddleware(promise)));
 
 ReactDOM.render(
