@@ -1,7 +1,7 @@
 import {connect, ConnectedProps} from "react-redux";
 import Navbar from "../navbar/Navbar";
 import {fetchProducts} from "../../service/productService";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {fetchProductsAction} from "./productActions";
 import {IState} from "../../index";
 import './styles.css';
@@ -10,11 +10,11 @@ import {CustomTable, IColumnDescription} from "../custom_table/CustomTable";
 const ProductTable: React.FC<Props> = (props) => {
 
     useEffect(() => {
-        props.fetchProductsAction(0, 5);
+        props.fetchProductsAction(0, 2);
     }, []);
 
     let tableHeaders: Array<IColumnDescription> = [
-        {dataField: "id", text: "Id"},
+        {dataField: "id", text: "Id", hidden: true},
         {dataField: "title", text: "Title"},
         {dataField: "image", text: "Image"},
         {dataField: "bulk", text: "Bulk"},

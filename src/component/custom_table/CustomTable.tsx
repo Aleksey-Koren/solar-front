@@ -1,10 +1,16 @@
 import React from "react";
 import styles from "./Styles.module.css";
 import {Product} from "../../model/product/Product";
+import {processHeader, processRowElement} from "./utils";
+
+export interface IElementWithId {
+    id: number
+}
 
 export interface IColumnDescription {
     dataField: string,
     text: string
+    hidden?: boolean;
 }
 
 interface IProps<T> {
@@ -17,16 +23,13 @@ export const CustomTable: React.FC<IProps<any>> = (props) => {
     return (<div>
         <table className={styles.table}>
             <thead>
-            {props.headers.map(s => {
-                return <th><span>{s.text}</span></th>
-            })}
+                {props.headers.map(s => <th><span>{processHeader(s)}</span></th>)}
             </thead>
             <tbody>
-            {props.data.map(row => {
-                return <tr>{
-                    props.headers.map(header => <td>{row[header.dataField]}</td>)
-                }</tr>
-            })}
+                {props.data.map(row =>
+                    <tr>
+                        {props.headers.map(header => <td>{processRowElement(header, row)}</td>)}
+                    </tr>)}
             </tbody>
         </table>
     </div>)
