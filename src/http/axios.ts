@@ -4,9 +4,7 @@ export const axiosApi = axios.create({baseURL: 'http://localhost:8081/api/'});
 
 axiosApi.interceptors.request.use(request => {
     if (!['login', 'register'].includes(request.url)) {
-        let token: string = sessionStorage.getItem("auth_token");
-            request.headers["auth_token"] = token;
-
+        request.headers.auth_token = sessionStorage.getItem("auth_token");
     }
     console.log('REQUEST INTERCEPTOR.' + request)
 
