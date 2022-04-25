@@ -23,14 +23,24 @@ export const CustomTable: React.FC<IProps<any>> = (props) => {
     return (<div>
         <table className={styles.table}>
             <thead>
-                {props.headers.map(s => <th><span>{processHeader(s)}</span></th>)}
+                <tr>
+                    {props.headers.map(s => <th key={s.text}><span>{processHeader(s)}</span></th>)}
+                </tr>
             </thead>
             <tbody>
                 {props.data.map(row =>
-                    <tr>
-                        {props.headers.map(header => <td>{processRowElement(header, row)}</td>)}
+                    <tr key={row.id}>
+                        {props.headers.map(header => <td key={header.text}>{processRowElement(header, row)}</td>)}
                     </tr>)}
             </tbody>
         </table>
+        {/*<div className={styles.pagination_controller}>*/}
+        {/*    <div className={styles.pagination_button}>{"<<"}</div>*/}
+        {/*    <div className={styles.pagination_button}>1</div>*/}
+        {/*    <div className={styles.pagination_button}>2</div>*/}
+        {/*    <div className={styles.pagination_button}>3</div>*/}
+        {/*    <div className={styles.pagination_button}>{">>"}</div>*/}
+        {/*</div>*/}
+
     </div>)
 }
