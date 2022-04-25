@@ -6,12 +6,12 @@ import {fetchProducts} from "../../service/productService";
 
 interface IFetchProductsAct {
     type: string;
-    payload: Promise<AxiosResponse<Page<Product>>>;
+    payload: Promise<AxiosResponse<Page<Product>>> | AxiosResponse<Page<Product>>
 }
 
 export type TProductActions = IFetchProductsAct;
 
-export function fetchProductsAction (page: number, size: number): IFetchProductsAct  {
+export function fetchProductsAction (page: number, size: number): IFetchProductsAct{
     return {
         type: "FETCH_PRODUCTS",
         payload: fetchProducts(page, size)

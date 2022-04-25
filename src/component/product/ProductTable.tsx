@@ -4,21 +4,38 @@ import {fetchProducts} from "../../service/productService";
 import {useEffect} from "react";
 import {fetchProductsAction} from "./productActions";
 import {IState} from "../../index";
+import './styles.css';
+import {CustomTable, IColumnDescription} from "../custom_table/CustomTable";
 
 const ProductTable: React.FC<Props> = (props) => {
 
     useEffect(() => {
         props.fetchProductsAction(0, 5);
-    }, [props.fetchProductsAction]);
+    }, []);
 
-    // props.fetchProductsAction(0, 5);
+    let tableHeaders: Array<IColumnDescription> = [
+        {dataField: "id", text: "Id"},
+        {dataField: "title", text: "Title"},
+        {dataField: "image", text: "Image"},
+        {dataField: "bulk", text: "Bulk"},
+        {dataField: "mass", text: "Mass"},
+        {dataField: "price", text: "Price"},
+        {dataField: "volume", text: "Volume"}
+    ];
 
 
     return (<div>
-            <Navbar/>
-        {props.isPending === true ? <h1>Loading...</h1>: null}
-        {props.products.length > 0 && !props.isPending && !props.error ? <p>{props.products.map((s: { toString: () => any; }) => s.toString())}</p> : null}
-        {props.error ? <h1>Error</h1> : null}
+        <Navbar/>
+        {/*{props.isPending === true ? <h1>Loading...</h1>: null}*/}
+
+        {/*    {props.products.length > 0 && !props.isPending && !props.error*/}
+        {/*    ?*/}
+        {/*        props.products.map(s => {return <p>{s.title}</p>})*/}
+        {/*    :*/}
+        {/*        null}*/}
+
+        {/*{props.error ? <h1>Error</h1> : null}*/}
+        <CustomTable headers={tableHeaders} data={props.products}/>
     </div>);
 }
 
