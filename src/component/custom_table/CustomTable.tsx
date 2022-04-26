@@ -1,6 +1,5 @@
 import React from "react";
 import styles from "./Styles.module.css";
-import {Product} from "../../model/product/Product";
 import {processHeader, processRowElement} from "./utils";
 
 export interface IElementWithId {

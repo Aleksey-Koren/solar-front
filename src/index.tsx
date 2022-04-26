@@ -7,13 +7,14 @@ import promise from "redux-promise-middleware";
 import {Provider} from "react-redux";
 import ReactDOM from 'react-dom';
 import {composeWithDevTools} from "@redux-devtools/extension";
-import {IProductsState, productReducer} from "./component/product/productReducer";
+import {productReducer} from "./redux/products/productReducer";
 import {planetReducer} from "./redux/planets/planetReducer";
 import {PlanetState} from "./redux/planets/planetTypes";
+import {TProductsState} from "./redux/products/productsTypes";
 // const reducers = combineReducers({});
 
 export interface IState {
-    products: IProductsState;
+    products: TProductsState;
     planets: PlanetState;
 }
 

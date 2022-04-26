@@ -6,19 +6,23 @@ import Registration from "./component/registration/Registration";
 import LoginForm from "./component/login/LoginForm";
 import Navbar from "./component/navbar/Navbar";
 import Planets from "./component/planets/Planets";
-import ProductTable from "./component/product/ProductTable";
+import ProductTable from "./component/products/table/Products";
+import { unstable_ClassNameGenerator as ClassNameGenerator } from '@mui/material/className';
+
+
+ClassNameGenerator.configure((componentName) => `zaebali-${componentName}`);
 
 function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route path={"/"} element={<Navbar/>}/>
-                <Route path={"/registration"} element={<Registration/>}/>
-                <Route path={"/login"} element={<LoginForm/>}/>
-                <Route path={"/product"} element={<ProductTable/>}/>
-                <Route path={"/planets"} element={<Planets/>}/>
-            </Routes>
-        </BrowserRouter>
+            <BrowserRouter>
+                <Routes>
+                    <Route path={"/"} element={<Navbar/>}/>
+                    <Route path={"/registration"} element={<Registration/>}/>
+                    <Route path={"/login"} element={<LoginForm/>}/>
+                    <Route path={"/products"} element={<ProductTable/>}/>
+                    <Route path={"/planets"} element={<Planets/>}/>
+                </Routes>
+            </BrowserRouter>
     );
 }
 

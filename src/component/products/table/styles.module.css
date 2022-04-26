@@ -1,0 +1,52 @@
+.header {
+    color: white;
+}
+
+.header_wrapper {
+    display: flex;
+    justify-content: center;
+    background-color: #232323;
+}
+
+/*PAGE_CONTAINER*/
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/*PRIMARY CONTENT CONTAINER*/
+.primary_content_container {
+    flex: 1;
+    /*flex-grow: 3;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #232323;
+}
+
+/*CIRCULAR_PROGRESS ELEMENT*/
+.circularProgress_colorPrimary {
+    color: #ecca19;
+}
+
+/*TABLE*/
+.table_container {
+    /*margin: 3% 5%;*/
+    width: max-content !important;
+    background-color: black;
+    border-radius: 20px;
+    border: 2px #adadad solid;
+}
+
+.tableCell_head_root {
+    color: #ecca19 !important;
+}
+
+.tableCell_body_root {
+    color: white !important;
+}
+
+.tablePagination_root {
+    color: #ecca19 !important;
+}

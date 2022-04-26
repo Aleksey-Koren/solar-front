@@ -13,7 +13,7 @@ function Navbar() {
                 <p className={"navbar__link"}>Config</p>
                 <div className={"navbar__menu_list"}>
                     <Link to="/planets">Planets Management</Link>
-                    <Link to="/">Products Management</Link>
+                    <Link to="/products">Products Management</Link>
                     <Link to="/">Stations Management</Link>
                     <Link to="/">Inventory Management</Link>
                     <Link to="/">Permissions Management</Link>
