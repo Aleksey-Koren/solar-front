@@ -3,6 +3,7 @@ import {IFetchProductsAct, IProductAct, TProductActions} from "./productActions"
 import {AxiosResponse} from "axios";
 import {Page} from "../../model/Page";
 import {
+    DELETE_PRODUCT, DELETE_PRODUCT_FULFILLED, DELETE_PRODUCT_PENDING, DELETE_PRODUCT_REJECTED,
     FETCH_PRODUCTS_FULFILLED,
     FETCH_PRODUCTS_PENDING,
     FETCH_PRODUCTS_REJECTED, GO_TO_CREATE,
@@ -46,13 +47,22 @@ export function productReducer(state:TProductsState = initialState, action: TPro
             return {...initialState, isError: true};
 
         case SAVE_PRODUCT_PENDING:
-            return {...initialState, isLoading: true}
+            return {...initialState, isLoading: true};
 
         case SAVE_PRODUCT_REJECTED:
             return {...initialState, isError: true};
 
         case SAVE_PRODUCT_FULFILLED:
-            return {...initialState, isProductSaved: true}
+            return {...initialState, isProductSaved: true};
+
+        case DELETE_PRODUCT_PENDING:
+            return {...initialState, isLoading: true};
+
+        case DELETE_PRODUCT_REJECTED:
+            return {...initialState, isError: true};
+
+        case DELETE_PRODUCT_FULFILLED:
+            return {...initialState, isProductSaved: true};
 
         case GO_TO_EDIT:
             let goToEditAction = action as IProductAct
@@ -61,13 +71,13 @@ export function productReducer(state:TProductsState = initialState, action: TPro
                 isEditing: true,
                 products: state.products,
                 productId: goToEditAction.payload
-            }
+            };
 
         case GO_TO_CREATE:
             return {
                 ...initialState,
                 isCreating: true
-            }
+            };
 
         default:
             return state;

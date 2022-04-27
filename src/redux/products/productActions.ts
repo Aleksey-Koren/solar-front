@@ -1,7 +1,7 @@
 import {Product} from "../../model/product/Product";
 import {Page} from "../../model/Page";
 import {AxiosResponse} from "axios";
-import {fetchProducts, saveProduct} from "../../service/productService";
+import {deleteProduct, fetchProducts, saveProduct, TDeleteResponse} from "../../service/productService";
 import {DELETE_PRODUCT, FETCH_PRODUCTS, GO_TO_CREATE, GO_TO_EDIT, SAVE_PRODUCT} from "./productsTypes";
 
 export interface IFetchProductsAct {
@@ -14,12 +14,18 @@ export interface ISaveProductsAct {
     payload: Promise<AxiosResponse<Product>> | AxiosResponse<Page<Product>>;
 }
 
+export interface IDeleteProductsAct {
+    type: string;
+    payload: Promise<AxiosResponse<TDeleteResponse>> | AxiosResponse<TDeleteResponse>;
+}
+
+
 export interface IProductAct {
     type: string;
     payload?: number;
 }
 
-export type TProductActions = IFetchProductsAct | ISaveProductsAct |IProductAct;
+export type TProductActions = IFetchProductsAct | ISaveProductsAct | IDeleteProductsAct | IProductAct;
 
 export function fetchProductsAction (page: number, size: number): IFetchProductsAct {
     return {
@@ -38,7 +44,7 @@ export function saveProductAction (product: Product): ISaveProductsAct {
 export function deleteProductAction (productId: number): IDeleteProductsAct {
     return {
         type: DELETE_PRODUCT,
-        payload: saveProduct(productId)
+        payload: deleteProduct(productId)
     }
 }
 

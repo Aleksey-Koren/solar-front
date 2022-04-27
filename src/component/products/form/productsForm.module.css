@@ -57,3 +57,17 @@
     width: 145px;
     font-weight: bold;
 }
+
+.delete_button {
+    background-color: darkred;
+    box-shadow: darkred 10px 10px 20px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 50px;
+    left: 10px;
+    height: 100px;
+    width: 100px;
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
+}
