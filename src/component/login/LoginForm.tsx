@@ -87,7 +87,7 @@ const LoginForm: React.FC = () => {
                                     <AccountCircleRoundedIcon fontSize={"large"} sx={{color: 'white'}}/>
                                 </div>
                                 <Tooltip title={formik.errors.login ? formik.errors.login : ''}
-                                         open={formik.errors.login !== undefined && formik.touched.login === true}
+                                         open={!!formik.errors.login && !!formik.touched.login}
                                          placement={"top"} arrow>
                                     <div>
                                         <Field className={styles.login_input_field} name="login" type="text" placeholder={"Login/email"} />
@@ -99,7 +99,7 @@ const LoginForm: React.FC = () => {
                                     <KeySharpIcon fontSize={"large"} sx={{color: 'white'}}/>
                                 </div>
                                 <Tooltip title={formik.errors.password ? formik.errors.password : ''}
-                                         open={formik.errors.password !== undefined && formik.touched.password === true}
+                                         open={!!formik.errors.password && !!formik.touched.password}
                                          placement={"top"} arrow>
                                     <div>
                                         <Field className={styles.login_input_field} name="password" type="password" placeholder={"Password"}/>

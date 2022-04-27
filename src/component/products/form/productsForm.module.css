@@ -1,0 +1,31 @@
+
+/*.header_block {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    background-color: #232323;*/
+/*}*/
+
+.form_block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #262424;
+    width: max-content;
+    height: max-content;
+    border-radius: 30px;
+    border: gold 1px solid;
+    box-shadow: black 10px 10px 20px;
+}
+
+.header_text {
+    color: white;
+    margin: 10px 0;
+}
+
+.input {
+    height: 20px;
+    width: 150px;
+    border-radius: 20px;
+    padding: 0 10px;
+}

@@ -1,9 +1,14 @@
 import './Navbar.css'
 import {Link, useNavigate} from "react-router-dom";
 import React from "react";
+import {connect, ConnectedProps, useDispatch} from "react-redux";
+import {fetchProductsAction} from "../../redux/products/productActions";
 
 function Navbar() {
+
     let navigate = useNavigate();
+
+    const dispatch = useDispatch();
 
     return (
         <div className={"navbar"}>
@@ -13,7 +18,10 @@ function Navbar() {
                 <p className={"navbar__link"}>Config</p>
                 <div className={"navbar__menu_list"}>
                     <Link to="/planets">Planets Management</Link>
-                    <Link to="/products">Products Management</Link>
+                    <Link to="/products"
+                          onClick={(event) => dispatch(fetchProductsAction(0, 10))}>
+                        Products Management
+                    </Link>
                     <Link to="/">Stations Management</Link>
                     <Link to="/">Inventory Management</Link>
                     <Link to="/">Permissions Management</Link>

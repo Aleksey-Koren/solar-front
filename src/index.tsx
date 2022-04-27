@@ -25,7 +25,6 @@ const reducers = combineReducers({
 
 export const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, promise)));
 
-
 ReactDOM.render(
     <Provider store={store}>
         <App/>

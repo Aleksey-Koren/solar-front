@@ -12,13 +12,14 @@ import {
 import ProductsTableHead from "./table/ProductsTableHead";
 import ProductsTableBody from "./table/ProductsTableBody";
 import ProductsTableFooter from "./table/ProductsTableFooter";
+import ProductsForm from "./form/ProductsForm";
 
 
-const ProductTable: React.FC<Props> = (props) => {
+const Products: React.FC<Props> = (props) => {
 
     useEffect(() => {
         props.fetchProductsAction(0, props.productsPerPage);
-    }, []);
+    }, [fetchProductsAction]);
 
     return (
         <div className={styles.container}>
@@ -27,24 +28,38 @@ const ProductTable: React.FC<Props> = (props) => {
                 <h1 className={styles.header}>PRODUCTS</h1>
             </div>
 
-            {props.isLoading
-                ?
-                <div className={styles.primary_content_container}>
+            <div className={styles.primary_content_container}>
+
+                {props.isLoading
+                    ?
                     <CircularProgress classes={{colorPrimary: styles.circularProgress_colorPrimary}}/>
-                </div>
-                : props.isError
-                    ? <div className={styles.primary_content_container}><h1>Error Message</h1></div>
-                    :
-                    <div className={styles.primary_content_container}>
-                        <TableContainer classes={{root: styles.table_container}}>
-                            <Table classes={{root: styles.table}}>
-                                <ProductsTableHead/>
-                                <ProductsTableBody/>
-                                <ProductsTableFooter/>
-                            </Table>
-                        </TableContainer>
-                    </div>
-            }
+                    : null
+                }
+
+                {props.isError
+                    ?
+                    <h1>Error Message</h1>
+                    : null
+                }
+
+                {props.isDisplayingTable
+                    ?
+                    <TableContainer classes={{root: styles.table_container}}>
+                        <Table classes={{root: styles.table}}>
+                            <ProductsTableHead/>
+                            <ProductsTableBody/>
+                            <ProductsTableFooter/>
+                        </Table>
+                    </TableContainer>
+                    : null
+                }
+
+                {props.isEditing
+                    ?
+                    <ProductsForm/>
+                    : null
+                }
+            </div>
         </div>
     );
 }
@@ -52,7 +67,10 @@ const ProductTable: React.FC<Props> = (props) => {
 const mapStateToProps = (state: IState) => ({
     isLoading: state.products.isLoading,
     isError: state.products.isError,
-    productsPerPage: state.products.itemsPerPage,
+    isDisplayingTable: state.products.isDisplayingTable,
+    isEditing: state.products.isEditing,
+    isCreating: state.products.isEditing,
+    productsPerPage: state.products.itemsPerPage
 })
 
 const mapDispatchToProps = {
@@ -63,4 +81,4 @@ const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>;
 
-export default connector(ProductTable);
+export default connector(Products);
