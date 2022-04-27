@@ -6,6 +6,7 @@ import Registration from "./component/registration/Registration";
 import LoginForm from "./component/login/LoginForm";
 import Navbar from "./component/navbar/Navbar";
 import Planets from "./component/planets/Planets";
+import PlanetForm from "./component/planets/form/PlanetForm";
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                 <Route path={"/registration"} element={<Registration/>}/>
                 <Route path={"/login"} element={<LoginForm/>}/>
                 <Route path={"/planets"} element={<Planets/>}/>
+                <Route path={"/planet-form"} element={<PlanetForm/>}/>
             </Routes>
         </BrowserRouter>
     );

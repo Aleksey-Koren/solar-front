@@ -1,0 +1,31 @@
+/* BOX - IF MOONS NOT EXIST */
+.without_moons_box {
+    background: #262424;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    font-weight: bold;
+}
+
+/* CLOSE ICON */
+.close_icon {
+    color: gold;
+    transition: 500ms linear;
+}
+
+.close_icon:hover {
+    color: red;
+}
+
+/* APP BAR */
+.app_bar {
+    position: relative !important;
+    background: #262424 !important;
+}
+
+/* TABLE CONTAINER */
+.table_container {
+    background: #262424;
+}

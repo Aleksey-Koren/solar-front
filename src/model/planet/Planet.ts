@@ -23,5 +23,4 @@ export class Planet {
     volume: string = null;
     angle: number = null;
     type: string = null;
-    moons: Planet[] = [];
 }

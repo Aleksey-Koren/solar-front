@@ -1,9 +1,9 @@
-import './RegistrationStyles.css'
+import styles from './RegistrationStyles.module.css'
 import {Link, NavigateFunction, useNavigate} from "react-router-dom";
 import AccountCircleRoundedIcon from '@mui/icons-material/AccountCircleRounded';
 import KeySharpIcon from '@mui/icons-material/KeySharp';
 import LockResetIcon from '@mui/icons-material/LockReset';
-import {Field, Form, Formik, useFormik} from 'formik';
+import {Field, Form, Formik} from 'formik';
 import * as yup from 'yup'
 import {Tooltip} from "@mui/material";
 import {register} from "../../service/authService";
@@ -23,7 +23,7 @@ function Registration() {
     const [error, setError] = useState<string>();
 
     return (
-        <div className="container">
+        <div className={styles.container}>
             <Formik
                 initialValues={{login: '', password: '', repeatPassword: ''}}
                 onSubmit={(values) => onSubmitButtonClick(values, setError, navigate)}
@@ -31,76 +31,75 @@ function Registration() {
             >
                 {formik => (
                     <Form>
-                        <div className="form">
-                            <div className="form__header">
+                        <div className={styles.form}>
+                            <div className={styles.form__header}>
                                 <h1>Registration</h1>
                             </div>
-                            <div className="form__fields">
-                                <div className="form__input ">
+                            <div className={styles.form__fields}>
+                                <div className={styles.form__input}>
                                     <Tooltip
                                         title={'You may use email address or any other unique name. We have no email verification.\n' +
                                             'However, restore access to account only possible if we know your email'}
                                         placement={"top"}>
-                                        <div className="icon">
+                                        <div className={styles.icon}>
                                             <AccountCircleRoundedIcon fontSize={"large"} sx={{color: 'white'}}/>
                                         </div>
                                     </Tooltip>
                                     <Tooltip title={formik.errors.login ? formik.errors.login : ''}
-                                             open={formik.errors.login !== undefined && formik.touched.login}
+                                             open={!!formik.errors.login && !!formik.touched.login}
                                              placement={"top"} arrow>
                                         <div>
                                             <Field
                                                 name={"login"}
                                                 type={"text"}
-                                                className="input_field"
+                                                className={styles.input_field}
                                                 placeholder={"Login or Email"}
                                             />
                                         </div>
                                     </Tooltip>
                                 </div>
-                                <div className="form__input">
-                                    <div className="icon">
+                                <div className={styles.form__input}>
+                                    <div className={styles.icon}>
                                         <KeySharpIcon fontSize={"large"} sx={{color: 'white'}}/>
                                     </div>
                                     <Tooltip title={formik.errors.password ? formik.errors.password : ''}
-                                             open={formik.errors.password !== undefined && formik.touched.password}
+                                             open={!!formik.errors.password && !!formik.touched.password}
                                              placement={"top"} arrow>
                                         <div>
                                             <Field
                                                 name={"password"}
                                                 type="password"
-                                                className="input_field"
+                                                className={styles.input_field}
                                                 placeholder={"Password"}
                                             />
                                         </div>
                                     </Tooltip>
                                 </div>
 
-                                <div className="form__input">
-                                    <div className="icon">
+                                <div className={styles.form__input}>
+                                    <div className={styles.icon}>
                                         <LockResetIcon fontSize={"large"} sx={{color: 'white'}}/>
                                     </div>
                                     <Tooltip title={formik.errors.repeatPassword ? formik.errors.repeatPassword : ''}
-                                             open={formik.errors.repeatPassword !== undefined && formik.touched.repeatPassword}
+                                             open={!!formik.errors.repeatPassword && !!formik.touched.repeatPassword}
                                              placement={"top"} arrow>
                                         <div>
                                             <Field
                                                 name={"repeatPassword"}
                                                 type="password"
-                                                className="input_field"
+                                                className={styles.input_field}
                                                 placeholder={"Repeat password"}
                                             />
                                         </div>
                                     </Tooltip>
                                 </div>
-
                             </div>
-                            <div className="form__button">
-                                <button className="submit_button" type={"submit"} disabled={!formik.isValid}>Register
+                            <div className={styles.form__button}>
+                                <button className={styles.submit_button} type={"submit"} disabled={!formik.isValid}>Register
                                 </button>
                             </div>
-                            <div className="form__footer">
-                                <div className="footer_text">
+                            <div className={styles.form__footer}>
+                                <div className={styles.footer_text}>
                                     <p>Already have account?
                                         <Link to="/login"> Sign in</Link>
                                     </p>
