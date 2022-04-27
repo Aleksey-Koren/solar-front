@@ -18,7 +18,6 @@
 /*PRIMARY CONTENT CONTAINER*/
 .primary_content_container {
     flex: 1;
-    /*flex-grow: 3;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -32,21 +31,33 @@
 
 /*TABLE*/
 .table_container {
-    /*margin: 3% 5%;*/
     width: max-content !important;
     background-color: black;
     border-radius: 20px;
     border: 2px #adadad solid;
 }
 
+.table {
+    border-radius: 20px;
+    border: 8px green solid !important;
+}
+
 .tableCell_head_root {
     color: #ecca19 !important;
+    /*border: 2px green solid !important;*/
 }
 
 .tableCell_body_root {
     color: white !important;
+    /*border: 2px green solid !important;*/
+}
+.tablePagination_root {
+    background-color: white !important;
+    box-sizing: border-box;
+    height: 50px !important;
+    /*border: 2px green solid !important;*/
 }
 
-.tablePagination_root {
-    color: #ecca19 !important;
+.spacer {
+    max-width: 0 !important;
 }

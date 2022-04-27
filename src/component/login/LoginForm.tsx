@@ -1,4 +1,4 @@
-import {Form, Formik, FormikHelpers, Field, ErrorMessage, useFormik} from 'formik';
+import {Form, Formik, FormikHelpers, Field} from 'formik';
 import {Builder} from "builder-pattern";
 import {AxiosResponse} from "axios";
 import {login} from "../../service/authService";
@@ -123,7 +123,6 @@ const LoginForm: React.FC = () => {
                                 </p>
                             </div>
                         </div>
-
                     </div>
                 </Form>
             )}

@@ -6,11 +6,7 @@ import Registration from "./component/registration/Registration";
 import LoginForm from "./component/login/LoginForm";
 import Navbar from "./component/navbar/Navbar";
 import Planets from "./component/planets/Planets";
-import ProductTable from "./component/products/table/Products";
-import { unstable_ClassNameGenerator as ClassNameGenerator } from '@mui/material/className';
-
-
-ClassNameGenerator.configure((componentName) => `zaebali-${componentName}`);
+import ProductTable from "./component/products/Products";
 
 function App() {
     return (
