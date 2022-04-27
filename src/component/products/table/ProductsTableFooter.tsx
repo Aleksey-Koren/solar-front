@@ -26,7 +26,9 @@ const ProductsTableFooter: React.FC<Props> = (props) => {
             <TableRow>
                 <TablePagination classes={{
                     root: styles.tablePagination_root,
-                    spacer: styles.spacer
+                    spacer: styles.spacer,
+                    actions: styles.actions,
+                    selectIcon: styles.actions
                 }}
                                  colSpan={6}
                                  count={props.totalProducts}

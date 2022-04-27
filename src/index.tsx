@@ -11,7 +11,6 @@ import {productReducer} from "./redux/products/productReducer";
 import {planetReducer} from "./redux/planets/planetReducer";
 import {PlanetState} from "./redux/planets/planetTypes";
 import {TProductsState} from "./redux/products/productsTypes";
-// const reducers = combineReducers({});
 
 export interface IState {
     products: TProductsState;

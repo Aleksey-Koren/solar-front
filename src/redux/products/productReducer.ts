@@ -6,7 +6,7 @@ import {
     FETCH_PRODUCTS_FULFILLED,
     FETCH_PRODUCTS_PENDING,
     FETCH_PRODUCTS_REJECTED, GO_TO_CREATE,
-    GO_TO_EDIT,
+    GO_TO_EDIT, SAVE_PRODUCT_FULFILLED, SAVE_PRODUCT_PENDING, SAVE_PRODUCT_REJECTED,
     TProductsState
 } from "./productsTypes";
 
@@ -16,6 +16,7 @@ export const initialState = ({
     isDisplayingTable: false,
     isEditing: false,
     isCreating: false,
+    isProductSaved: false,
     products: new Array<Product>(),
     productId: 0,
     currentPage: 0,
@@ -41,8 +42,17 @@ export function productReducer(state:TProductsState = initialState, action: TPro
                 totalItems: payload.data.totalElements
             };
 
-            case FETCH_PRODUCTS_REJECTED:
+        case FETCH_PRODUCTS_REJECTED:
             return {...initialState, isError: true};
+
+        case SAVE_PRODUCT_PENDING:
+            return {...initialState, isLoading: true}
+
+        case SAVE_PRODUCT_REJECTED:
+            return {...initialState, isError: true};
+
+        case SAVE_PRODUCT_FULFILLED:
+            return {...initialState, isProductSaved: true}
 
         case GO_TO_EDIT:
             let goToEditAction = action as IProductAct
@@ -56,7 +66,6 @@ export function productReducer(state:TProductsState = initialState, action: TPro
         case GO_TO_CREATE:
             return {
                 ...initialState,
-                products: state.products,
                 isCreating: true
             }
 

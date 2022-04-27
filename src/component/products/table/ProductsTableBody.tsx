@@ -3,7 +3,7 @@ import {connect, ConnectedProps, useSelector} from "react-redux";
 import React from "react";
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import styles from "../styles.module.css";
-import {goToCreateProduct, goToEditProduct} from "../../../redux/products/productActions";
+import {goToEditProductAction} from "../../../redux/products/productActions";
 
 const ProductsTableBody: React.FC<Props> = (props) => {
 
@@ -38,7 +38,7 @@ const mapStateToProps = (state: IState) => ({
 })
 
 const mapDispatchToProps = {
-    goToEditProduct
+    goToEditProduct: goToEditProductAction
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

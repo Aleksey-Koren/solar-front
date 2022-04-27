@@ -1,7 +1,7 @@
 import {connect, ConnectedProps} from "react-redux";
 import Navbar from "../navbar/Navbar";
 import React, {useEffect} from "react";
-import {fetchProductsAction} from "../../redux/products/productActions";
+import {fetchProductsAction, goToCreateProductAction} from "../../redux/products/productActions";
 import {IState} from "../../index";
 import styles from './styles.module.css';
 import {
@@ -19,7 +19,7 @@ const Products: React.FC<Props> = (props) => {
 
     useEffect(() => {
         props.fetchProductsAction(0, props.productsPerPage);
-    }, [fetchProductsAction]);
+    }, [fetchProductsAction, props.isProductSaved]);
 
     return (
         <div className={styles.container}>
@@ -44,17 +44,22 @@ const Products: React.FC<Props> = (props) => {
 
                 {props.isDisplayingTable
                     ?
-                    <TableContainer classes={{root: styles.table_container}}>
-                        <Table classes={{root: styles.table}}>
-                            <ProductsTableHead/>
-                            <ProductsTableBody/>
-                            <ProductsTableFooter/>
-                        </Table>
-                    </TableContainer>
+                    <div>
+                        <TableContainer classes={{root: styles.table_container}}>
+                            <Table>
+                                <ProductsTableHead/>
+                                <ProductsTableBody/>
+                                <ProductsTableFooter/>
+                            </Table>
+                        </TableContainer>
+                        <button className={styles.create_button} onClick={() => props.goToCreateProductAction()}>
+                            Create NEW
+                        </button>
+                    </div>
                     : null
                 }
 
-                {props.isEditing
+                {(props.isEditing || props.isCreating)
                     ?
                     <ProductsForm/>
                     : null
@@ -69,12 +74,14 @@ const mapStateToProps = (state: IState) => ({
     isError: state.products.isError,
     isDisplayingTable: state.products.isDisplayingTable,
     isEditing: state.products.isEditing,
-    isCreating: state.products.isEditing,
+    isCreating: state.products.isCreating,
+    isProductSaved: state.products.isProductSaved,
     productsPerPage: state.products.itemsPerPage
 })
 
 const mapDispatchToProps = {
-    fetchProductsAction
+    fetchProductsAction,
+    goToCreateProductAction
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

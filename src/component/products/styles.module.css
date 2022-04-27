@@ -32,24 +32,19 @@
 /*TABLE*/
 .table_container {
     width: max-content !important;
-    background-color: black;
+    background-color: #232323;
     border-radius: 20px;
-    border: 2px #adadad solid;
-}
+    border: 1px #039616 solid;
+    box-shadow: #039616 10px 10px 20px !important;
 
-.table {
-    border-radius: 20px;
-    border: 8px green solid !important;
 }
 
 .tableCell_head_root {
     color: #ecca19 !important;
-    /*border: 2px green solid !important;*/
 }
 
 .tableCell_body_root {
     color: white !important;
-    /*border: 2px green solid !important;*/
 }
 
 .title_column_text {
@@ -63,12 +58,28 @@
 }
 
 .tablePagination_root {
-    background-color: white !important;
     box-sizing: border-box;
     height: 50px !important;
-    /*border: 2px green solid !important;*/
+    color: white !important;
+}
+
+.actions {
+    color: white !important;
 }
 
 .spacer {
     max-width: 0 !important;
+}
+
+.create_button {
+    background-color: #ecca19 ;
+    box-shadow: gold 10px 10px 20px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 50px;
+    left: 10px;
+    height: 100px;
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
 }
