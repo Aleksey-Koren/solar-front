@@ -8,9 +8,9 @@ import Navbar from "./component/navbar/Navbar";
 import Planets from "./component/planets/Planets";
 import ProductTable from "./component/products/Products";
 
+import PlanetForm from "./component/planets/form/PlanetForm";
 
 function App() {
-
     return (
             <BrowserRouter>
                 <Routes>
@@ -19,7 +19,8 @@ function App() {
                     <Route path={"/login"} element={<LoginForm/>}/>
                     <Route path={"/products"} element={<ProductTable/>}/>
                     <Route path={"/planets"} element={<Planets/>}/>
-                </Routes>
+                <Route path={"/planet-form"} element={<PlanetForm/>}/>
+            </Routes>
             </BrowserRouter>
     );
 }
