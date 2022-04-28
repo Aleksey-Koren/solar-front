@@ -1,0 +1,26 @@
+export class Planet {
+    id: number = null;
+    x: number = null;
+    y: number = null;
+    population: number = null;
+    parent: number = null;
+    aldebo: number = null;
+    aphelion: number = null;
+    axialTilt: string = null;
+    eccentricity: string = null;
+    escapeVelocity: string = null;
+    inclination: string = null;
+    mass: string = null;
+    meanAnomaly: number = null;
+    meanOrbitRadius: string = null;
+    meanRadius: string = null;
+    title: string = null;
+    orbitalPeriod: number = null;
+    perihelion: string = null;
+    siderealRotationPeriod: string = null;
+    surfaceGravity: string = null;
+    surfacePressure: string = null;
+    volume: string = null;
+    angle: number = null;
+    type: string = null;
+}

@@ -1,4 +1,4 @@
-import {Form, Formik, FormikHelpers, Field, ErrorMessage, useFormik} from 'formik';
+import {Form, Formik, FormikHelpers, Field} from 'formik';
 import {Builder} from "builder-pattern";
 import {AxiosResponse} from "axios";
 import {login} from "../../service/authService";
@@ -11,7 +11,7 @@ import ErrorPopup from "../error-popup/ErrorPopup";
 import {Tooltip} from "@mui/material";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import KeySharpIcon from "@mui/icons-material/KeySharp";
-import './Login.css'
+import styles from './loginForm.module.css'
 
 interface IFormikValues {
     login: string;
@@ -46,10 +46,9 @@ const LoginForm: React.FC = () => {
             .build();
 
         login(user).then(resp => {
-            console.log(resp.data);
             switch (resp.data.status) {
-                case LoginStatus.VALID_CREDENTIALS :
-                    localStorage.setItem('auth_token', resp.data.data);
+                case LoginStatus.VALID_CREDENTIALS:
+                    sessionStorage.setItem('auth_token', resp.data.data);
                     navigate('/');
                     break;
                 case LoginStatus.INVALID_CREDENTIALS:
@@ -65,7 +64,7 @@ const LoginForm: React.FC = () => {
     }
 
     return (
-    <div className="login_container">
+    <div className={styles.login_container}>
         <Formik
             initialValues={{login: '', password: ''}}
             validationSchema={
@@ -78,59 +77,58 @@ const LoginForm: React.FC = () => {
         >
             {formik => (
                 <Form>
-                    <div className="login_form">
-                        <div className="login_form__header">
+                    <div className={styles.login_form}>
+                        <div className={styles.login_form__header}>
                             <h1>Signing In</h1>
                         </div>
-                        <div className="login_form__fields">
-                            <div className={"login_form__input"}>
-                                <div className="login_icon">
+                        <div className={styles.login_form__fields}>
+                            <div className={styles.login_form__input}>
+                                <div className={styles.login_icon}>
                                     <AccountCircleRoundedIcon fontSize={"large"} sx={{color: 'white'}}/>
                                 </div>
                                 <Tooltip title={formik.errors.login ? formik.errors.login : ''}
-                                         open={formik.errors.login !== undefined && formik.touched.login}
+                                         open={!!formik.errors.login && !!formik.touched.login}
                                          placement={"top"} arrow>
                                     <div>
-                                        <Field className={"login_input_field"} name="login" type="text"/>
+                                        <Field className={styles.login_input_field} name="login" type="text" placeholder={"Login/email"} />
                                     </div>
                                 </Tooltip>
                             </div>
-                            <div className={"login_form__input"}>
-                                <div className="login_icon">
+                            <div className={styles.login_form__input}>
+                                <div className={styles.login_icon}>
                                     <KeySharpIcon fontSize={"large"} sx={{color: 'white'}}/>
                                 </div>
                                 <Tooltip title={formik.errors.password ? formik.errors.password : ''}
-                                         open={formik.errors.password !== undefined && formik.touched.password}
+                                         open={!!formik.errors.password && !!formik.touched.password}
                                          placement={"top"} arrow>
                                     <div>
-                                        <Field className={"login_input_field"} name="password" type="text"/>
+                                        <Field className={styles.login_input_field} name="password" type="password" placeholder={"Password"}/>
                                     </div>
                                 </Tooltip>
                             </div>
                         </div>
-                        <div className={"login_footer_block"}>
+                        <div className={styles.login_footer_block}>
                             {state.blockDuration !== undefined
                                 ?
                                 <div>
-                                    <strong className={"login_blocked_text"}>{'Account is blocked for:  ' + state.blockDuration}</strong>
+                                    <strong className={styles.login_blocked_text}>{'Account is blocked for:  ' + state.blockDuration}</strong>
                                 </div>
                                 : null}
-                            <div className={"login_form__button"}>
-                                <button className={"login_submit_button"} type="submit">Submit</button>
+                            <div className={styles.login_form__button}>
+                                <button className={styles.login_submit_button} type="submit">Submit</button>
                             </div>
-                            <div className={"login_form__footer"}>
-                                <p className={"login_footer_text"}>Don't have an account?
-                                    <Link className={"login_link_text"} to={"/registration"}>  Register</Link>
+                            <div className={styles.login_form__footer}>
+                                <p className={styles.login_footer_text}>Don't have an account?
+                                    <Link className={styles.login_link_text} to={"/registration"}>  Register</Link>
                                 </p>
                             </div>
                         </div>
-
                     </div>
                 </Form>
             )}
         </Formik>
         <ErrorPopup errorMessage={state.errorText} isError={state.errorText !== undefined} autoHideDuration={5000}
-                    handlePopupClose={() => setState({... state, errorText: undefined})}/>
+                    handlePopupClose={() => setState({...state, errorText: undefined})}/>
     </div>
 
     )

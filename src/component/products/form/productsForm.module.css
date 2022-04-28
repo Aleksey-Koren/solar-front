@@ -1,0 +1,73 @@
+
+/*.header_block {*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    background-color: #232323;*/
+/*}*/
+
+.form_block {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: #262424;
+    width: max-content;
+    height: max-content;
+    border-radius: 30px;
+    border: #039616 1px solid;
+    box-shadow: #039616 10px 10px 20px;
+    padding: 30px;
+}
+
+.header_text {
+    color: white;
+    margin: 10px 0;
+}
+
+.input {
+    height: 30px;
+    width: 200px;
+    border-radius: 20px;
+    padding: 0 10px;
+    font-size: 20px;
+}
+
+.input_block {
+    width: 100%;
+    margin: 15px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
+.input_block_spacer {
+    min-width: 20px;
+}
+
+.input_label {
+    color: #ecca19;
+    width: 70px;
+    font-size: 24px;
+}
+
+.button {
+    margin-top: 20px;
+    margin-bottom: 10px;
+    border-radius: 20px;
+    height: 35px;
+    width: 145px;
+    font-weight: bold;
+}
+
+.delete_button {
+    background-color: darkred;
+    box-shadow: darkred 10px 10px 20px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 50px;
+    left: 10px;
+    height: 100px;
+    width: 100px;
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
+}

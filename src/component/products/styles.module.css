@@ -1,0 +1,85 @@
+.header {
+    color: white;
+}
+
+.header_wrapper {
+    display: flex;
+    justify-content: center;
+    background-color: #232323;
+}
+
+/*PAGE_CONTAINER*/
+.container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/*PRIMARY CONTENT CONTAINER*/
+.primary_content_container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #232323;
+}
+
+/*CIRCULAR_PROGRESS ELEMENT*/
+.circularProgress_colorPrimary {
+    color: #ecca19 !important;
+}
+
+/*TABLE*/
+.table_container {
+    width: max-content !important;
+    background-color: #232323;
+    border-radius: 20px;
+    border: 1px #039616 solid;
+    box-shadow: #039616 10px 10px 20px !important;
+
+}
+
+.tableCell_head_root {
+    color: #ecca19 !important;
+}
+
+.tableCell_body_root {
+    color: white !important;
+}
+
+.title_column_text {
+    font-size: 18px;
+}
+
+.title_column_text:hover {
+    color: #b40808;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+.tablePagination_root {
+    box-sizing: border-box;
+    height: 50px !important;
+    color: white !important;
+}
+
+.actions {
+    color: white !important;
+}
+
+.spacer {
+    max-width: 0 !important;
+}
+
+.create_button {
+    background-color: #ecca19 ;
+    box-shadow: gold 10px 10px 20px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 50px;
+    left: 10px;
+    height: 100px;
+    font-size: 20px;
+    padding: 10px;
+    font-weight: bold;
+}

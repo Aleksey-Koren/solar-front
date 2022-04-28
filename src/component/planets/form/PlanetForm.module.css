@@ -1,0 +1,107 @@
+/* ------------ WRAPPER (for set height) ------------ */
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* ------------ ALL TABLE <td> ------------ */
+td {
+    padding: 20px 5px 20px 0;
+}
+
+/* ------------ FORM CONTAINER ------------ */
+.form_container {
+    display: flex;
+    flex-grow: 3;
+    justify-content: center;
+    align-items: center;
+    background: #727272;
+}
+
+/* ------------ FORM ------------ */
+.planet_form {
+    width: 90%;
+    height: 700px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: 2px #60ad60 solid;
+    border-radius: 30px;
+    background: #262424;
+    box-shadow: black 15px 15px 20px;
+}
+
+/* ------------ FORM HEADER ------------ */
+.planet_form__header {
+    width: 100%;
+    padding-bottom: 10px;
+    margin-top: 20px;
+    color: #60ad60;
+    letter-spacing: 10px;
+    text-align: center;
+    border-bottom: 2px gold solid;
+}
+
+/* ------------ FORM BODY ------------ */
+.planet_form__body {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    border-radius: 30px;
+    padding: 0 10px;
+    margin: 40px 0;
+}
+
+/* FIELDS LABELS */
+.planet_form__field_label {
+    color: #ffffff;
+    font-weight: bold;
+    text-align: center;
+    font-size: 18px;
+}
+
+/* INPUT FIELDS */
+.planet_form__input_field {
+    width: 250px;
+    height: 40px;
+    padding: 0 15px;
+    border-radius: 20px;
+    font-size: 20px;
+    background: #f5f5f5;
+}
+
+.planet_form__input_field:focus {
+    box-shadow: #60ad60 2px 2px 10px;
+}
+
+/* SELECT FIELD */
+.planet_form__select_field {
+    padding: 0 15px;
+    border-radius: 20px;
+    font-size: 20px;
+    background: #f5f5f5;
+    width: 284px;
+    height: 44px;
+}
+
+/* ------------ FORM FOOTER ------------ */
+.planet_form__footer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+/* BUTTONS */
+.planet_form__button {
+    width: 250px;
+    height: 40px;
+    margin: 0 50px;
+    font-size: 20px;
+    font-weight: bold;
+    border-radius: 20px;
+}
+
+.planet_form__button:hover {
+    box-shadow: #60ad60 2px 2px 10px;
+}
