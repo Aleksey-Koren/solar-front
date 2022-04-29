@@ -1,21 +1,20 @@
 import React from 'react';
 import './index.css';
 import App from './App';
-import {applyMiddleware, combineReducers, createStore} from "redux";
-import thunk from "redux-thunk";
+import {combineReducers, configureStore} from "@reduxjs/toolkit";
 import promise from "redux-promise-middleware";
 import {Provider, TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
 import ReactDOM from 'react-dom';
-import {composeWithDevTools} from "@redux-devtools/extension";
 import {productReducer} from "./redux/products/productReducer";
 import {planetReducer} from "./redux/planets/planetReducer";
+import thunk from "redux-thunk";
 
 const reducers = combineReducers({
     products: productReducer,
     planets: planetReducer
 });
 
-export const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, promise)));
+export const store = configureStore({reducer: reducers, devTools: true, middleware: [thunk, promise]})
 
 export type AppDispatch = typeof store.dispatch
 export type AppState = ReturnType<typeof store.getState>

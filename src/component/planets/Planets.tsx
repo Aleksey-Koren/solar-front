@@ -17,6 +17,7 @@ const Planets: React.FC<Props> = (props) => {
         props.findPlanetsAndStars(0, 10)
     }, [props.findPlanetsAndStars])
 
+
     return (
         <>
             <Navbar/>
