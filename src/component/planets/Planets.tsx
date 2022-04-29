@@ -3,16 +3,15 @@ import {CircularProgress, Stack, Table, TableContainer} from "@mui/material";
 import Navbar from "../navbar/Navbar";
 import React, {useEffect} from "react";
 import {connect, ConnectedProps} from 'react-redux';
-import {IState} from "../../index";
 import {findPlanetsAndStars, hideErrorPopup} from '../../redux/planets/planetActions';
 import PlanetsTableHeader from "./table/PlanetsTableHeader";
 import PlanetsTableBody from "./table/PlanetsTableBody";
 import PlanetsTableFooter from "./table/PlanetsTableFooter";
-import {Link, useNavigate} from "react-router-dom";
+import {Link} from "react-router-dom";
 import ErrorPopup from "../error-popup/ErrorPopup";
+import {AppState} from "../../index";
 
 const Planets: React.FC<Props> = (props) => {
-    const navigate = useNavigate();
 
     useEffect(() => {
         props.findPlanetsAndStars(0, 10)
@@ -42,7 +41,7 @@ const Planets: React.FC<Props> = (props) => {
     );
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: AppState) => ({
     isLoading: state.planets.isLoading,
     isError: state.planets.isError,
 })

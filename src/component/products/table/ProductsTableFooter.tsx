@@ -1,9 +1,9 @@
 import {connect, ConnectedProps} from "react-redux";
-import {IState} from "../../../index";
 import {TableFooter, TablePagination, TableRow} from "@mui/material";
 import styles from "../styles.module.css";
 import React from "react";
 import {fetchProductsAction} from "../../../redux/products/productActions";
+import {AppState} from "../../../index";
 
 const ProductsTableFooter: React.FC<Props> = (props) => {
 
@@ -46,7 +46,7 @@ const ProductsTableFooter: React.FC<Props> = (props) => {
     )
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: AppState) => ({
     totalProducts: state.products.totalItems,
     currentPage: state.products.currentPage,
     productsPerPage: state.products.itemsPerPage

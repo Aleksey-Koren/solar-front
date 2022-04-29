@@ -1,6 +1,4 @@
 import React from "react";
-import {useDispatch, useSelector} from "react-redux";
-import {IState} from "../../../index";
 import {Field, Form, Formik, FormikHelpers} from "formik";
 import * as Yup from "yup";
 import {Tooltip} from "@mui/material";
@@ -9,12 +7,13 @@ import {IProductsState} from "../../../redux/products/productsTypes";
 import styles from "./productsForm.module.css";
 import {deleteProductAction, fetchProductsAction, saveProductAction} from "../../../redux/products/productActions";
 import {Builder} from "builder-pattern";
+import {AppState, useAppDispatch, useAppSelector} from "../../../index";
 
 function ProductsForm() {
 
     let state: IProductsState | null;
-    useSelector((globalState: IState) => state = globalState.products);
-    const dispatch = useDispatch();
+    useAppSelector((globalState: AppState) => state = globalState.products);
+    const dispatch = useAppDispatch();
 
     const retrieveInitialValues = (): Product => {
         if (state.isCreating) {

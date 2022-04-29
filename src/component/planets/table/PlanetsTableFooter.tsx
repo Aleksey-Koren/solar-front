@@ -1,5 +1,5 @@
 import React from "react";
-import {IState} from "../../../index";
+import {AppState} from "../../../index";
 import {findMoons, findPlanetsAndStars} from "../../../redux/planets/planetActions";
 import {connect, ConnectedProps} from "react-redux";
 import {TableFooter, TablePagination, TableRow} from "@mui/material";
@@ -31,7 +31,7 @@ const PlanetsTableFooter: React.FC<Props> = (props) => {
     )
 }
 
-const mapStateToProps = (state: IState, ownProps?: { parentPlanet?: Planet }) => ({
+const mapStateToProps = (state: AppState, ownProps?: { parentPlanet?: Planet }) => ({
     currentPage: state.planets.currentPage,
     totalPlanetsAmount: state.planets.totalPlanetsAmount,
     planetsOnPage: state.planets.planetsOnPage,

@@ -2,7 +2,6 @@ import {connect, ConnectedProps} from "react-redux";
 import Navbar from "../navbar/Navbar";
 import React, {useEffect} from "react";
 import {fetchProductsAction, goToCreateProductAction} from "../../redux/products/productActions";
-import {IState} from "../../index";
 import styles from './styles.module.css';
 import {
     CircularProgress,
@@ -13,6 +12,7 @@ import ProductsTableHead from "./table/ProductsTableHead";
 import ProductsTableBody from "./table/ProductsTableBody";
 import ProductsTableFooter from "./table/ProductsTableFooter";
 import ProductsForm from "./form/ProductsForm";
+import {AppState} from "../../index";
 
 
 const Products: React.FC<Props> = (props) => {
@@ -69,7 +69,7 @@ const Products: React.FC<Props> = (props) => {
     );
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: AppState) => ({
     isLoading: state.products.isLoading,
     isError: state.products.isError,
     isDisplayingTable: state.products.isDisplayingTable,

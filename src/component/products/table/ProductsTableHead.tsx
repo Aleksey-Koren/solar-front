@@ -1,9 +1,6 @@
 import {TableCell, TableHead, TableRow} from "@mui/material";
 import styles from "../styles.module.css";
 import React from "react";
-import {IState} from "../../../index";
-import {fetchProductsAction} from "../../../redux/products/productActions";
-import {connect, ConnectedProps} from "react-redux";
 
 
 const ProductsTableHead: React.FC = () => {

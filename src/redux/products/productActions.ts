@@ -27,34 +27,35 @@ export interface IProductAct {
 
 export type TProductActions = IFetchProductsAct | ISaveProductsAct | IDeleteProductsAct | IProductAct;
 
-export function fetchProductsAction (page: number, size: number): IFetchProductsAct {
+export function fetchProductsAction(page: number, size: number): IFetchProductsAct {
     return {
         type: FETCH_PRODUCTS,
         payload: fetchProducts(page, size).then()
     }
 }
 
-export function saveProductAction (product: Product): ISaveProductsAct {
+export function saveProductAction(product: Product): ISaveProductsAct {
     return {
         type: SAVE_PRODUCT,
         payload: saveProduct(product)
     }
 }
 
-export function deleteProductAction (productId: number): IDeleteProductsAct {
+export function deleteProductAction(productId: number): IDeleteProductsAct {
     return {
         type: DELETE_PRODUCT,
         payload: deleteProduct(productId)
     }
 }
 
-export function goToEditProductAction (productId: number): IProductAct {
+export function goToEditProductAction(productId: number): IProductAct {
     return {
         type: GO_TO_EDIT,
         payload: productId
     }
 }
-export function goToCreateProductAction (): IProductAct {
+
+export function goToCreateProductAction(): IProductAct {
     return {
         type: GO_TO_CREATE
     }

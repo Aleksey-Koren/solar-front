@@ -2,12 +2,12 @@ import './Navbar.css'
 import {Link, useNavigate} from "react-router-dom";
 import React from "react";
 import {fetchProductsAction} from "../../redux/products/productActions";
-import {useDispatch} from "react-redux";
 import {findPlanetsAndStars} from "../../redux/planets/planetActions";
+import {useAppDispatch} from "../../index";
 
 function Navbar() {
     let navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
 
     return (
         <div className={"navbar"}>

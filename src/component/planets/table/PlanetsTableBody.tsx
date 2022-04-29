@@ -1,11 +1,11 @@
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import React from "react";
 import {connect, ConnectedProps} from "react-redux";
-import {IState} from "../../../index";
 import '../Planets.module.css'
 import {Link} from "react-router-dom";
 import style from "../Planets.module.css";
 import {hideMoonsModal} from "../../../redux/planets/planetActions";
+import {AppState} from "../../../index";
 
 const PlanetsTableBody: React.FC<Props> = (props) => {
     const onLinkClick = () => props.isMoonsModalOpen ? props.hideMoonsModal() : null;
@@ -27,7 +27,7 @@ const PlanetsTableBody: React.FC<Props> = (props) => {
     );
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: AppState) => ({
     planets: state.planets.planets,
     isMoonsModalOpen: state.planets.isMoonsModalOpen
 })

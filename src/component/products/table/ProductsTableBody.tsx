@@ -1,15 +1,12 @@
-import {IState} from "../../../index";
 import {connect, ConnectedProps, useSelector} from "react-redux";
 import React from "react";
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import styles from "../styles.module.css";
 import {goToEditProductAction} from "../../../redux/products/productActions";
+import {AppState} from "../../../index";
 
 const ProductsTableBody: React.FC<Props> = (props) => {
-
     // const state = useSelector();
-
-
 
     return (
         <TableBody>
@@ -33,7 +30,7 @@ const ProductsTableBody: React.FC<Props> = (props) => {
     )
 }
 
-const mapStateToProps = (state: IState) => ({
+const mapStateToProps = (state: AppState) => ({
     products: state.products.products,
 })
 

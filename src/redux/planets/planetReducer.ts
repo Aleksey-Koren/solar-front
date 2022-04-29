@@ -7,10 +7,12 @@ import {
     FIND_PLANETS_PENDING,
     FIND_PLANETS_REJECTED,
     HIDE_ERROR_POPUP,
-    HIDE_MOONS_MODAL,
+    HIDE_MOONS_MODAL, IPlanetState, PlanetAction,
     PlanetState,
     SHOW_MOONS_MODAL,
 } from "./planetTypes";
+import {AxiosResponse} from "axios";
+import {Page} from "../../model/Page";
 
 const initState = {
     isLoading: false,
@@ -23,7 +25,7 @@ const initState = {
     totalPagesAmount: 1
 }
 
-export function planetReducer(state: PlanetState = initState, action: any) {
+export function planetReducer(state: PlanetState = initState, action: PlanetAction) {
     switch (action.type) {
         case FIND_MOONS_PENDING:
         case FIND_PLANETS_PENDING :
@@ -31,13 +33,14 @@ export function planetReducer(state: PlanetState = initState, action: any) {
 
         case FIND_MOONS_FULFILLED:
         case FIND_PLANETS_FULFILLED:
+            const payload = action.payload as AxiosResponse<Page<Planet>>;
             return {
                 ...state,
-                planets: action.payload.data.content,
-                currentPage: action.payload.data.number,
-                planetsOnPage: action.payload.data.size,
-                totalPlanetsAmount: action.payload.data.totalElements,
-                totalPagesAmount: action.payload.data.totalPages,
+                planets: payload.data.content,
+                currentPage: payload.data.number,
+                planetsOnPage: payload.data.size,
+                totalPlanetsAmount: payload.data.totalElements,
+                totalPagesAmount: payload.data.totalPages,
                 isError: false,
                 isLoading: false
             };

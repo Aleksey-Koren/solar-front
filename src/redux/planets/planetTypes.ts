@@ -22,7 +22,7 @@ export type PlanetState = IPlanetState & IDefaultStateField;
 /** ACTION */
 interface IPlanetAction {
     type: string;
-    payload: Promise<AxiosResponse<Page<Planet>, any>>
+    payload: Promise<AxiosResponse<Page<Planet>>> | AxiosResponse<Page<Planet>>
 }
 
 export type PlanetAction = IPlanetAction;

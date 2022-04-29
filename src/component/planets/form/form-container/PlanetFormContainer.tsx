@@ -6,19 +6,18 @@ import {findAllPlanetsNamesForDropdown} from "../../../../service/planetService"
 import {useNavigate} from "react-router-dom";
 import Tooltip from "@mui/material/Tooltip";
 import {PlanetFormContainerProps} from "../formik-config/formikConfig";
-import {useDispatch} from "react-redux";
 import {showMoonsModal} from "../../../../redux/planets/planetActions";
+import {useAppDispatch} from "../../../../index";
 
 
 function PlanetFormContainer(props: PlanetFormContainerProps) {
     const navigate = useNavigate();
-    const dispatch = useDispatch();
+    const dispatch = useAppDispatch();
     const [dropdownOptions, setDropdownOptions] = useState<DropdownOption[]>([]);
 
     useEffect(() => {
         findAllPlanetsNamesForDropdown().then(resp => setDropdownOptions(resp.data));
     }, [])
-
     return (
         <div className={style.planet_form}>
             <div className={style.planet_form__header}>
@@ -122,9 +121,10 @@ function PlanetFormContainer(props: PlanetFormContainerProps) {
 
                         <td className={style.planet_form__field_label}>Orbital Period (days)</td>
                         <td>
-                            <Tooltip title={props.formik.errors.orbitalPeriod ? `${props.formik.errors.orbitalPeriod}` : ''}
-                                     open={!!props.formik.errors.orbitalPeriod && !!props.formik.touched.orbitalPeriod}
-                                     placement={"top"} arrow>
+                            <Tooltip
+                                title={props.formik.errors.orbitalPeriod ? `${props.formik.errors.orbitalPeriod}` : ''}
+                                open={!!props.formik.errors.orbitalPeriod && !!props.formik.touched.orbitalPeriod}
+                                placement={"top"} arrow>
                                 <div>
                                     <Field name={"orbitalPeriod"} type={"number"}
                                            className={style.planet_form__input_field}/>

@@ -7,10 +7,10 @@ import React, {useEffect} from "react";
 import PlanetsTableHeader from "../../table/PlanetsTableHeader";
 import PlanetsTableBody from "../../table/PlanetsTableBody";
 import PlanetsTableFooter from "../../table/PlanetsTableFooter";
-import {IState} from "../../../../index";
 import {findMoons, hideErrorPopup, hideMoonsModal} from "../../../../redux/planets/planetActions";
 import {connect, ConnectedProps} from "react-redux";
 import {Planet} from "../../../../model/planet/Planet";
+import {AppState} from "../../../../index";
 
 const MoonsModal: React.FC<Props> = (props) => {
     useEffect(() => {
@@ -47,7 +47,7 @@ const MoonsModal: React.FC<Props> = (props) => {
     );
 }
 
-const mapStateToProps = (state: IState, ownProps: { parentPlanet: Planet }) => ({
+const mapStateToProps = (state: AppState, ownProps: { parentPlanet: Planet }) => ({
     isLoading: state.planets.isLoading,
     isError: state.planets.isError,
     parentPlanet: ownProps.parentPlanet,
