@@ -5,8 +5,7 @@ import styles from "../styles.module.css";
 import {goToEditProductAction} from "../../../redux/products/productActions";
 import {AppState} from "../../../index";
 
-const ProductsTableBody: React.FC<Props> = (props) => {
-    // const state = useSelector();
+const ProductsTableBody = (props: Props) => {
 
     return (
         <TableBody>

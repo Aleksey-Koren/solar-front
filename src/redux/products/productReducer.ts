@@ -25,15 +25,15 @@ export const initialState = ({
     totalItems: 0
 })
 
-export function productReducer(state:TProductsState = initialState, action: TProductActions): TProductsState {
+export function productReducer(state:TProductsState = initialState, action:any): TProductsState {
     switch (action.type) {
 
         case FETCH_PRODUCTS_PENDING:
             return {...initialState, isLoading: true};
 
         case FETCH_PRODUCTS_FULFILLED:
-            let fetchProductsAction = action as IFetchProductsAct;
-            let payload = fetchProductsAction.payload as AxiosResponse<Page<Product>>;
+            // let fetchProductsAction = action as IFetchProductsAct;
+            let payload = action.payload as AxiosResponse<Page<Product>>;
             return {
                 ...initialState,
                 isDisplayingTable: true,

@@ -15,7 +15,7 @@ import ProductsForm from "./form/ProductsForm";
 import {AppState} from "../../index";
 
 
-const Products: React.FC<Props> = (props) => {
+const Products = (props:Props) => {
 
     useEffect(() => {
         props.fetchProductsAction(0, props.productsPerPage);

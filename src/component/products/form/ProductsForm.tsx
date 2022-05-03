@@ -7,13 +7,17 @@ import {IProductsState} from "../../../redux/products/productsTypes";
 import styles from "./productsForm.module.css";
 import {deleteProductAction, fetchProductsAction, saveProductAction} from "../../../redux/products/productActions";
 import {Builder} from "builder-pattern";
-import {AppState, useAppDispatch, useAppSelector} from "../../../index";
+import {AppDispatch, AppState, useAppDispatch, useAppSelector} from "../../../index";
+import {Dispatch} from "redux";
+import {AxiosResponse} from "axios";
 
 function ProductsForm() {
 
     let state: IProductsState | null;
     useAppSelector((globalState: AppState) => state = globalState.products);
-    const dispatch = useAppDispatch();
+
+    const dispatch: AppDispatch = useAppDispatch()
+
 
     const retrieveInitialValues = (): Product => {
         if (state.isCreating) {

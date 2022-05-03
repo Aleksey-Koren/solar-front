@@ -6,17 +6,17 @@ import {DELETE_PRODUCT, FETCH_PRODUCTS, GO_TO_CREATE, GO_TO_EDIT, SAVE_PRODUCT} 
 
 export interface IFetchProductsAct {
     type: string;
-    payload: Promise<AxiosResponse<Page<Product>>> | AxiosResponse<Page<Product>>;
+    payload: Promise<AxiosResponse<Page<Product>>>
 }
 
 export interface ISaveProductsAct {
     type: string;
-    payload: Promise<AxiosResponse<Product>> | AxiosResponse<Page<Product>>;
+    payload: Promise<AxiosResponse<Product>>
 }
 
 export interface IDeleteProductsAct {
     type: string;
-    payload: Promise<AxiosResponse<TDeleteResponse>> | AxiosResponse<TDeleteResponse>;
+    payload: Promise<AxiosResponse<void>> | AxiosResponse<TDeleteResponse>;
 }
 
 

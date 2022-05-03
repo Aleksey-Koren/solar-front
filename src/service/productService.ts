@@ -13,6 +13,6 @@ export function saveProduct(product: Product): Promise<AxiosResponse<Product>> {
     return axiosApi.post("product", product);
 }
 
-export function deleteProduct(productId: number): Promise<AxiosResponse<TDeleteResponse>> {
+export function deleteProduct(productId: number): Promise<AxiosResponse<void>> {
     return axiosApi.delete("product/" + productId);
 }

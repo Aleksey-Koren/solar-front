@@ -15,7 +15,7 @@ const reducers = combineReducers({
     planets: planetReducer
 });
 
-export const store = createStore(reducers, composeWithDevTools(applyMiddleware(thunk, promise)));
+export const store = createStore(reducers, composeWithDevTools(applyMiddleware( thunk, promise)));
 
 export type AppDispatch = typeof store.dispatch
 export type AppState = ReturnType<typeof store.getState>
