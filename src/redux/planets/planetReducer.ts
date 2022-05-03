@@ -7,12 +7,12 @@ import {
     FIND_PLANETS_PENDING,
     FIND_PLANETS_REJECTED,
     HIDE_ERROR_POPUP,
-    HIDE_MOONS_MODAL, IPlanetState, PlanetAction,
+    HIDE_MOONS_MODAL,
     PlanetState,
     SHOW_MOONS_MODAL,
 } from "./planetTypes";
-import {AxiosResponse} from "axios";
 import {Page} from "../../model/Page";
+import {IFulfilledAction, PlanetActionNew} from "../redux-types";
 
 const initState = {
     isLoading: false,
@@ -25,7 +25,7 @@ const initState = {
     totalPagesAmount: 1
 }
 
-export function planetReducer(state: PlanetState = initState, action: PlanetAction) {
+export function planetReducer(state: PlanetState = initState, action: PlanetActionNew) {
     switch (action.type) {
         case FIND_MOONS_PENDING:
         case FIND_PLANETS_PENDING :
@@ -33,14 +33,14 @@ export function planetReducer(state: PlanetState = initState, action: PlanetActi
 
         case FIND_MOONS_FULFILLED:
         case FIND_PLANETS_FULFILLED:
-            const payload = action.payload as AxiosResponse<Page<Planet>>;
+            const action1 = action as IFulfilledAction<Page<Planet>>;
             return {
                 ...state,
-                planets: payload.data.content,
-                currentPage: payload.data.number,
-                planetsOnPage: payload.data.size,
-                totalPlanetsAmount: payload.data.totalElements,
-                totalPagesAmount: payload.data.totalPages,
+                planets: action1.payload.data.content,
+                currentPage: action1.payload.data.number,
+                planetsOnPage: action1.payload.data.size,
+                totalPlanetsAmount: action1.payload.data.totalElements,
+                totalPagesAmount: action1.payload.data.totalPages,
                 isError: false,
                 isLoading: false
             };
