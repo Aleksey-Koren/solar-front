@@ -8,11 +8,13 @@ import {
     FIND_PLANETS_REJECTED,
     HIDE_ERROR_POPUP,
     HIDE_MOONS_MODAL,
+    PlanetAction,
     PlanetState,
     SHOW_MOONS_MODAL,
+    UPDATE_PLANET_REJECTED,
 } from "./planetTypes";
 import {Page} from "../../model/Page";
-import {IFulfilledAction, PlanetActionNew} from "../redux-types";
+import {IFulfilledAction} from "../redux-types";
 
 const initState = {
     isLoading: false,
@@ -25,7 +27,7 @@ const initState = {
     totalPagesAmount: 1
 }
 
-export function planetReducer(state: PlanetState = initState, action: PlanetActionNew) {
+export function planetReducer(state: PlanetState = initState, action: PlanetAction) {
     switch (action.type) {
         case FIND_MOONS_PENDING:
         case FIND_PLANETS_PENDING :
@@ -47,6 +49,7 @@ export function planetReducer(state: PlanetState = initState, action: PlanetActi
 
         case FIND_MOONS_REJECTED:
         case FIND_PLANETS_REJECTED:
+        case UPDATE_PLANET_REJECTED:
             return {...state, isError: true, isLoading: false};
 
         case HIDE_ERROR_POPUP:

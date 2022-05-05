@@ -9,19 +9,22 @@ import Planets from "./component/planets/Planets";
 import ProductTable from "./component/products/Products";
 
 import PlanetForm from "./component/planets/form/PlanetForm";
+import Permissions from "./component/permissions/Permissions";
 
 function App() {
     return (
-            <BrowserRouter>
-                <Routes>
-                    <Route path={"/"} element={<Navbar/>}/>
-                    <Route path={"/registration"} element={<Registration/>}/>
-                    <Route path={"/login"} element={<LoginForm/>}/>
-                    <Route path={"/products"} element={<ProductTable/>}/>
-                    <Route path={"/planets"} element={<Planets/>}/>
+        <BrowserRouter>
+            <Routes>
+                <Route path={"/"} element={<Navbar/>}/>
+                <Route path={"/registration"} element={<Registration/>}/>
+                <Route path={"/login"} element={<LoginForm/>}/>
+                <Route path={"/products"} element={<ProductTable/>}/>
+                <Route path={"/planets"} element={<Planets/>}/>
                 <Route path={"/planet-form"} element={<PlanetForm/>}/>
+                <Route path={"/permissions"} element={<Permissions/>}/>
             </Routes>
-            </BrowserRouter>
+        </BrowserRouter>
     );
 }
+
 export default App;

@@ -1,12 +1,8 @@
 import {Planet} from "../../model/planet/Planet";
-import {AxiosResponse} from "axios";
 import {Page} from "../../model/Page";
+import {ActionType, IDefaultStateField} from "../redux-types";
 
 /** STATE */
-export interface IDefaultStateField {
-    isLoading: boolean;
-    isError: boolean;
-}
 
 export interface IPlanetState {
     planets: Planet[];
@@ -19,13 +15,7 @@ export interface IPlanetState {
 
 export type PlanetState = IPlanetState & IDefaultStateField;
 
-/** ACTION */
-interface IPlanetAction {
-    type: string;
-    payload: Promise<AxiosResponse<Page<Planet>>> | AxiosResponse<Page<Planet>>
-}
-
-export type PlanetAction = IPlanetAction;
+export type PlanetAction = ActionType<Planet> | ActionType<Page<Planet>>;
 
 /** ACTION TYPES */
 export const FIND_PLANETS = 'FIND_PLANETS'
@@ -41,3 +31,5 @@ export const FIND_MOONS = 'FIND_MOONS'
 export const FIND_MOONS_FULFILLED = 'FIND_MOONS_FULFILLED'
 export const FIND_MOONS_REJECTED = 'FIND_MOONS_REJECTED'
 export const FIND_MOONS_PENDING = 'FIND_MOONS_PENDING'
+/** ---------------------------------------------- */
+export const UPDATE_PLANET_REJECTED = 'UPDATE_PLANET_REJECTED'

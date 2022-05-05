@@ -17,13 +17,10 @@ function Navbar() {
                 <p className={"navbar__link"}>Config</p>
                 <div className={"navbar__menu_list"}>
                     <Link to="/planets" onClick={() => dispatch(findPlanetsAndStars(0, 10))}>Planets Management</Link>
-                    <Link to="/products"
-                          onClick={(event) => dispatch(fetchProductsAction(0, 10))}>
-                        Products Management
-                    </Link>
+                    <Link to="/products" onClick={() => dispatch(fetchProductsAction(0, 10))}>Products Management</Link>
                     <Link to="/">Stations Management</Link>
                     <Link to="/">Inventory Management</Link>
-                    <Link to="/">Permissions Management</Link>
+                    <Link to="/permissions">Permissions Management</Link>
                     <Link to="/">Users Management</Link>
                 </div>
             </div>

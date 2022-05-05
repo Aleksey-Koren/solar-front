@@ -3,8 +3,8 @@ import {Alert, Snackbar} from "@mui/material";
 interface ErrorPopupProps {
     isError: boolean;
     errorMessage: string;
-    handlePopupClose: () => void;
-    autoHideDuration: number;
+    handlePopupClose?: () => void;
+    autoHideDuration?: number;
 }
 
 

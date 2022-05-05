@@ -1,7 +1,24 @@
 import {AxiosResponse} from "axios";
-import {Planet} from "../model/planet/Planet";
-import {Page} from "../model/Page";
 
+/** ACTIONS POSTFIX */
+export const PENDING_POSTFIX = '_PENDING'
+export const FULFILLED_POSTFIX = '_FULFILLED'
+export const REJECTED_POSTFIX = '_REJECTED'
+
+
+/** DEFAULT STATE */
+export interface IPaginationState {
+    currentPage: number;
+    itemsPerPage: number;
+    totalItems: number;
+}
+
+export interface IDefaultStateField {
+    isLoading: boolean;
+    isError: boolean;
+}
+
+/** REDUX-PROMISE TYPES */
 export interface IFulfilledAction<T> {
     type: String,
     payload: AxiosResponse<T>
@@ -25,7 +42,3 @@ export interface IPlainDataAction<T> {
 export type IReduxPromiseAction<T> = IPendingAction<T> | IFulfilledAction<T> | IRejectedAction;
 
 export type ActionType<T> = IReduxPromiseAction<T> | IPlainDataAction<T>;
-
-export type PlanetActionNew = ActionType<Planet> | ActionType<Page<Planet>>;
-
-// as IFulfilledAction<Page<Planet>>

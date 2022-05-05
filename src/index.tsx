@@ -8,10 +8,12 @@ import ReactDOM from 'react-dom';
 import {productReducer} from "./redux/products/productReducer";
 import {planetReducer} from "./redux/planets/planetReducer";
 import thunk from "redux-thunk";
+import {permissionsReducer} from "./redux/permissions/permissionsReducer";
 
 const reducers = combineReducers({
     products: productReducer,
-    planets: planetReducer
+    planets: planetReducer,
+    permissions: permissionsReducer
 });
 
 export const store = configureStore({reducer: reducers, devTools: true, middleware: [thunk, promise]})
