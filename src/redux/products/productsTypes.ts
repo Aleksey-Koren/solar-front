@@ -1,11 +1,5 @@
 import {Product} from "../../model/product/Product";
-import {IDefaultStateField} from "../planets/planetTypes";
-
-export interface IPaginationState {
-    currentPage: number;
-    itemsPerPage: number;
-    totalItems: number;
-}
+import {IDefaultStateField, IPaginationState} from "../redux-types";
 
 export interface IProductsState {
     isDisplayingTable: boolean;

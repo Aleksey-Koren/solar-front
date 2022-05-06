@@ -1,5 +1,5 @@
-/* ------------ WRAPPER (for set height) ------------ */
-.wrapper {
+/* ------------ PAGE CONTAINER ------------ */
+.container {
     display: flex;
     flex-direction: column;
     height: 100vh;

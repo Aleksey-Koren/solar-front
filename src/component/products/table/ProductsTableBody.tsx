@@ -1,4 +1,4 @@
-import {connect, ConnectedProps, useSelector} from "react-redux";
+import {connect, ConnectedProps} from "react-redux";
 import React from "react";
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import styles from "../styles.module.css";

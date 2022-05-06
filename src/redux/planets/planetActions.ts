@@ -3,13 +3,14 @@ import {
     FIND_PLANETS,
     HIDE_ERROR_POPUP,
     HIDE_MOONS_MODAL,
-    PlanetAction,
-    SHOW_MOONS_MODAL
+    SHOW_MOONS_MODAL,
+    UPDATE_PLANET_REJECTED
 } from "./planetTypes";
-import {findPlanetsPerPage} from "../../service/planetService";
-import {IPendingAction, PlanetActionNew} from "../redux-types";
+import {findPlanetsPerPage, savePlanet} from "../../service/planetService";
+import {IPendingAction} from "../redux-types";
 import {Planet} from "../../model/planet/Planet";
 import {Page} from "../../model/Page";
+import {Dispatch} from "redux";
 
 export function findPlanetsAndStars(page: number, size: number, parentId?: number, ids?: number[]): IPendingAction<Page<Planet>> {
     return {
@@ -22,6 +23,14 @@ export function findMoons(page: number, size: number, parentId: number): any {
     return {
         type: FIND_MOONS,
         payload: findPlanetsPerPage(page, size, null, parentId)
+    }
+}
+
+export function updatePlanet(planet: Planet) {
+    return (dispatch: Dispatch) => {
+        savePlanet(planet)
+            .then(() => window.location.href = '/planets')
+            .catch(() => dispatch({type: UPDATE_PLANET_REJECTED}))
     }
 }
 

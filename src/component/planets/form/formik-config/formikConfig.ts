@@ -1,13 +1,16 @@
 import * as yup from "yup";
 import {Planet} from "../../../../model/planet/Planet";
 import {FormikProps} from "formik";
-import {savePlanet} from "../../../../service/planetService";
 
 export const planetValidationSchema = yup.object().shape({
     title: yup.string().required('Title cannot be empty'),
-    orbitalPeriod: yup.number().typeError('Orbital period should be a number').required('Orbital period cannot be empty').min(0),
     angle: yup.number().typeError('Angle should be a number').required('Angle cannot be empty').min(-6.18).max(6.18),
     type: yup.string().required('Select type').nullable(),
+    orbitalPeriod: yup.number().typeError('Orbital period should be a number').when("type", (type: string) => {
+        if (type !== 'star') {
+            return yup.string().required('Orbital period cannot be empty')
+        }
+    }),
     parent: yup.string().nullable().when("type", (type: string) => {
         if (type !== 'star') {
             return yup.string().required('Select parent')
@@ -45,8 +48,4 @@ export const planetFormInitValues = (planet: Planet) => ({
 export interface PlanetFormContainerProps {
     planet?: Planet,
     formik: FormikProps<any>
-}
-
-export const onPlanetFormSubmit = (planet: Planet) => {
-    savePlanet(planet).then(resp => window.location.href = '/planets')
 }
