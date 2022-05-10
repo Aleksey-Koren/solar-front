@@ -4,6 +4,7 @@ import {Page} from "../../model/Page";
 
 export interface IUsersState {
     users: User[];
+    totalPagesAmount: number;
 }
 
 export type TUsersState = IUsersState & IDefaultStateField & IPaginationState;
