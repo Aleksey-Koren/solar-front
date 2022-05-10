@@ -1,19 +1,10 @@
 export class Product {
-    id: number;
-    title: string;
-    image: string;
-    bulk: number;
-    mass: number;
-    price: number;
-    volume: number;
+    id: number | null = null;
+    title: string | null = null;
+    image: string | null = null
+    bulk: number | null = null;
+    mass: number | null = null;
+    price: number | null = null;
+    volume: number | null = null;
 
-    constructor() {
-        this.id = null;
-        this.title = null;
-        this.image = null;
-        this.bulk = null;
-        this.mass = null;
-        this.price = null;
-        this.volume = null;
-    }
 }
