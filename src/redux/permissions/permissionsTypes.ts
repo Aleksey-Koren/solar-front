@@ -1,6 +1,5 @@
 import {ActionType, IDefaultStateField, REJECTED_POSTFIX} from "../redux-types";
 import {Permission} from "../../model/Permission";
-import {Page} from "../../model/Page";
 
 export interface IPermissionsState {
     permissions: Permission[];
@@ -10,7 +9,7 @@ export interface IPermissionsState {
 
 export type TPermissionsState = IPermissionsState & IDefaultStateField;
 
-export type TPermissionsAction = ActionType<Permission> | ActionType<Page<Permission>>;
+export type TPermissionsAction = ActionType<Permission> | ActionType<Permission[]>;
 
 export const FIND_PERMISSIONS = 'FIND_PERMISSIONS';
 export const SET_OPEN_PERMISSION_FORM_MODAL = 'SET_OPEN_PERMISSION_FORM_MODAL';
