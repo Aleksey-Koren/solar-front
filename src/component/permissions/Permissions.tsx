@@ -8,7 +8,7 @@ import {
     findAllPermissions,
     setOpenPermissionFormModal
 } from "../../redux/permissions/permissionsActions";
-import style from './Permissions.module.css'
+import globalStyle from '../GlobalStyles.module.css'
 import PermissionsFormModal from "./modal/PermissionsFormModal";
 import ErrorPopup from "../error-popup/ErrorPopup";
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -25,9 +25,9 @@ const Permissions: React.FC<Props> = (props) => {
     }, [props.findAllPermissions])
 
     return (
-        <div className={style.container}>
+        <div className={globalStyle.wrapper}>
             <Navbar/>
-            <h1 className={style.permissions_title}>
+            <h1 className={globalStyle.page_title}>
                 Permissions list
             </h1>
 
@@ -41,12 +41,12 @@ const Permissions: React.FC<Props> = (props) => {
 
                     {selectedPermissionsIds.length > 0 &&
                         <IconButton onClick={() => props.deleteSelectedPermissions(selectedPermissionsIds)}>
-                            <DeleteIcon className={style.delete_icon} fontSize={"large"}/>
+                            <DeleteIcon className={globalStyle.delete_icon} fontSize={"large"}/>
                         </IconButton>
                     }
 
                     <IconButton onClick={() => props.setOpenPermissionFormModal(true)}>
-                        <AddIcon className={style.add_icon} fontSize={"large"}/>
+                        <AddIcon className={globalStyle.add_icon} fontSize={"large"}/>
                     </IconButton>
 
                     <PermissionsFormModal/>

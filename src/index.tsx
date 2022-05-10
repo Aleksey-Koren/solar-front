@@ -9,11 +9,13 @@ import {productReducer} from "./redux/products/productReducer";
 import {planetReducer} from "./redux/planets/planetReducer";
 import thunk from "redux-thunk";
 import {permissionsReducer} from "./redux/permissions/permissionsReducer";
+import {usersReducer} from "./redux/users/usersReducer";
 
 const reducers = combineReducers({
     products: productReducer,
     planets: planetReducer,
-    permissions: permissionsReducer
+    permissions: permissionsReducer,
+    users: usersReducer
 });
 
 export const store = configureStore({reducer: reducers, devTools: true, middleware: [thunk, promise]})

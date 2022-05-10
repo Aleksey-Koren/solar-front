@@ -10,6 +10,7 @@ import ProductTable from "./component/products/Products";
 
 import PlanetForm from "./component/planets/form/PlanetForm";
 import Permissions from "./component/permissions/Permissions";
+import Users from './component/users/Users';
 import {Stations} from "./component/stations/Stations";
 
 function App() {
@@ -23,6 +24,7 @@ function App() {
                 <Route path={"/planets"} element={<Planets/>}/>
                 <Route path={"/planet-form"} element={<PlanetForm/>}/>
                 <Route path={"/permissions"} element={<Permissions/>}/>
+                <Route path={"/users"} element={<Users/>}/>
                 <Route path={"/stations"} element={<Stations/>}></Route>
             </Routes>
         </BrowserRouter>

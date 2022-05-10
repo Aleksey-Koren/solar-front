@@ -1,4 +1,5 @@
-import style from './Planets.module.css'
+import planetsStyle from './Planets.module.css'
+import globalStyle from '../GlobalStyles.module.css'
 import {IconButton, Table, TableContainer} from "@mui/material";
 import Navbar from "../navbar/Navbar";
 import React, {useEffect} from "react";
@@ -22,15 +23,15 @@ const Planets: React.FC<Props> = (props) => {
 
 
     return (
-        <div className={style.container}>
+        <div className={globalStyle.wrapper}>
             <Navbar/>
 
-            <h1 className={style.planets_title}>Planet list</h1>
+            <h1 className={globalStyle.page_title}>Planet list</h1>
 
             <div>
                 {props.isLoading
                     ? <LoadProgress/>
-                    : <TableContainer classes={{root: style.MuiTableContainer_root}}>
+                    : <TableContainer classes={{root: planetsStyle.MuiTableContainer_root}}>
                         <Table>
                             <PlanetsTableHeader/>
                             <PlanetsTableBody/>
@@ -41,7 +42,7 @@ const Planets: React.FC<Props> = (props) => {
             </div>
 
             <IconButton onClick={() => navigate('/planet-form')}>
-                <AddIcon className={style.add_icon} fontSize={"large"} />
+                <AddIcon className={globalStyle.add_icon} fontSize={"large"}/>
             </IconButton>
 
             <ErrorPopup isError={props.isError} errorMessage={'Server error. Please, refresh page'}
