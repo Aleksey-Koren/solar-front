@@ -28,4 +28,9 @@ export class BasicObjectView {
     energyConsumption: number = null;
     isEnabled: boolean = null;
     modificationId: number = null;
+
+
+    constructor(id: number) {
+        this.id = id;
+    }
 }

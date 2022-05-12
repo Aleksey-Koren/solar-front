@@ -24,6 +24,11 @@
     color: #ecca19 !important;
 }
 
+.MuiTableCell_alignCenter:after {
+    content: '*';
+    color: red;
+}
+
 .MuiTableCell_footer {
     color: white !important;
     border: 2px #60ad60 solid !important;

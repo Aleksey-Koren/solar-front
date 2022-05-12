@@ -1,9 +1,9 @@
-import {Checkbox, TableBody, TableCell, TableRow} from "@mui/material";
+import {TableBody, TableCell, TableRow} from "@mui/material";
 import {connect, ConnectedProps} from "react-redux";
 import React from "react";
 import {AppState} from "../../../index";
-import globalStyles from '../../GlobalStyles.module.css'
 import usersStyles from '../Users.module.css'
+import {editUser} from "../../../redux/users/usersActions";
 
 const UsersTableBody: React.FC<Props> = (props) => {
 
@@ -12,10 +12,6 @@ const UsersTableBody: React.FC<Props> = (props) => {
             {props.users.map(user => (
                 <TableRow key={user.id}>
 
-                    <TableCell padding="checkbox" classes={{body: usersStyles.MuiTableCell_body}}>
-                        <Checkbox className={globalStyles.body_checkbox}/>
-                    </TableCell>
-
                     <TableCell padding={"checkbox"} classes={{body: usersStyles.MuiTableCell_body}}>
                         {user.id}
                     </TableCell>
@@ -23,7 +19,7 @@ const UsersTableBody: React.FC<Props> = (props) => {
                     <TableCell align={"center"} classes={{
                         body: usersStyles.MuiTableCell_body,
                         alignCenter: usersStyles.MuiTableCell_alignCenter
-                    }}>
+                    }} onClick={() => props.editUser(user)}>
                         {user.title}
                     </TableCell>
 
@@ -37,7 +33,11 @@ const mapStateToProps = (state: AppState) => ({
     users: state.users.users
 })
 
-const connector = connect(mapStateToProps, null)
+const mapDispatchToProps = {
+    editUser
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps)
 
 type Props = ConnectedProps<typeof connector>
 

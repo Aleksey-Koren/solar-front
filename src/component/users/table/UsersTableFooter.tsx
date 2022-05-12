@@ -3,8 +3,12 @@ import {connect, ConnectedProps} from "react-redux";
 import {TableFooter, TablePagination, TableRow} from "@mui/material";
 import usersStyle from "../Users.module.css";
 import {AppState} from "../../../index";
+import {findUsers} from "../../../redux/users/usersActions";
 
 const UsersTableFooter: React.FC<Props> = (props) => {
+
+    const onPageChange = (e: React.ChangeEvent<any>, page: number) => props.findUsers(page, props.usersOnPage);
+    const onRowsPerPageChange = (event: React.ChangeEvent<any>) => props.findUsers(0, Number(event.target.value));
 
     return (
         <TableFooter>
@@ -14,12 +18,12 @@ const UsersTableFooter: React.FC<Props> = (props) => {
                     spacer: usersStyle.MuiTablePagination_spacer,
                     toolbar: usersStyle.MuiTablePagination_toolbar
                 }}
-                                 colSpan={5} count={props.totalUsersAmount} rowsPerPage={props.usersOnPage}
+                                 count={props.totalUsersAmount} rowsPerPage={props.usersOnPage}
                                  page={props.currentPage} rowsPerPageOptions={[5, 10, 25]}
-                                 labelRowsPerPage={<span>Users on page:</span>}
+                                 onPageChange={onPageChange} onRowsPerPageChange={onRowsPerPageChange}
+                                 labelRowsPerPage={<span>Planets on page:</span>}
                                  labelDisplayedRows={({page}) => `Page: ${page + 1}/${props.totalPagesAmount}`}
                                  showFirstButton={true} showLastButton={true}
-                                 onPageChange={() => console.log('')}
                 />
             </TableRow>
         </TableFooter>
@@ -31,11 +35,13 @@ const mapStateToProps = (state: AppState) => ({
     currentPage: state.users.currentPage,
     usersOnPage: state.users.itemsPerPage,
     totalPagesAmount: state.users.totalPagesAmount
-
-
 })
 
-const connector = connect(mapStateToProps, null);
+const mapDispatchToProps = {
+    findUsers
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
 
 type Props = ConnectedProps<typeof connector>
 
