@@ -1,6 +1,6 @@
 import {ActionType, IDefaultStateField, IPaginationState, REJECTED_POSTFIX} from "../redux-types";
 import {User} from "../../model/User";
-import {Page} from "../../model/Page";
+import {Page} from "../../model/util/Page";
 
 export interface IUsersState {
     users: User[];

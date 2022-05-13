@@ -117,7 +117,7 @@ const UserFormModal: React.FC<Props> = (props) => {
 
                         <DialogActions className={style.dialog__actions}>
                             <Button onClick={() => props.removeUser(props.editedUser?.id)}>Delete</Button>
-                            <Button type={"submit"}>Save</Button>
+                            <Button type={"submit"} disabled={formik.dirty}>Save</Button>
                         </DialogActions>
                     </Form>
                 )}

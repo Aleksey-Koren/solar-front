@@ -1,7 +1,7 @@
 import {Product} from "../../model/product/Product";
 import {IFetchProductsAct, IProductAct, TProductActions} from "./productActions";
 import {AxiosResponse} from "axios";
-import {Page} from "../../model/Page";
+import {Page} from "../../model/util/Page";
 import {
     DELETE_PRODUCT_FULFILLED,
     DELETE_PRODUCT_PENDING,

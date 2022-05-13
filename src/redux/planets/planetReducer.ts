@@ -13,7 +13,7 @@ import {
     SHOW_MOONS_MODAL,
     UPDATE_PLANET_REJECTED,
 } from "./planetTypes";
-import {Page} from "../../model/Page";
+import {Page} from "../../model/util/Page";
 import {IFulfilledAction} from "../redux-types";
 
 const initState = {

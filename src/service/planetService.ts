@@ -1,6 +1,6 @@
 import {axiosApi} from "../http/axios";
 import {Planet} from "../model/planet/Planet";
-import {Page} from "../model/Page";
+import {Page} from "../model/util/Page";
 import qs from "qs";
 import {DropdownOption} from "../model/planet/DropdownOption";
 

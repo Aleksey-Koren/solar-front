@@ -9,7 +9,7 @@ import {
 } from "./usersTypes";
 import {FULFILLED_POSTFIX, IFulfilledAction, IPlainDataAction, PENDING_POSTFIX, REJECTED_POSTFIX} from "../redux-types";
 import {User} from "../../model/User";
-import {Page} from "../../model/Page";
+import {Page} from "../../model/util/Page";
 
 const initState: TUsersState = ({
     isLoading: false,

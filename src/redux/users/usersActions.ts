@@ -1,6 +1,6 @@
 import {deleteUser, findUsersPerPage, saveUser, UserFilter} from "../../service/userService";
 import {IPendingAction, IPlainDataAction} from "../redux-types";
-import {Page} from "../../model/Page";
+import {Page} from "../../model/util/Page";
 import {User} from "../../model/User";
 import {CLOSE_EDIT_FORM, EDIT_USER, FETCH_USERS, REMOVE_USER_REJECTED, UPDATE_USER_REJECTED} from "./usersTypes";
 import {Dispatch} from "redux";

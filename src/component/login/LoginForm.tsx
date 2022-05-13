@@ -12,6 +12,7 @@ import {Tooltip} from "@mui/material";
 import AccountCircleRoundedIcon from "@mui/icons-material/AccountCircleRounded";
 import KeySharpIcon from "@mui/icons-material/KeySharp";
 import styles from './loginForm.module.css'
+import {connectStompClient} from "../../http/webSocket";
 
 interface IFormikValues {
     login: string;
@@ -49,6 +50,7 @@ const LoginForm: React.FC = () => {
             switch (resp.data.status) {
                 case LoginStatus.VALID_CREDENTIALS:
                     sessionStorage.setItem('auth_token', resp.data.data);
+                    connectStompClient(resp.data.data)
                     navigate('/');
                     break;
                 case LoginStatus.INVALID_CREDENTIALS:

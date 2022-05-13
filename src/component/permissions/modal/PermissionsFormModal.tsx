@@ -8,7 +8,7 @@ import {Permission} from "../../../model/Permission";
 
 const PermissionsFormModal: React.FC<Props> = (props) => {
     const [permissionTitle, setPermissionTitle] = useState<string>(props.editedPermission?.title);
-    const [isErrorInput, setErrorInput] = useState<boolean>(true);
+    const [isErrorInput, setErrorInput] = useState<boolean>(false);
 
 
     const onSaveButtonClick = () => props.saveOrUpdatePermission(new Permission(props.editedPermission?.id, permissionTitle));
