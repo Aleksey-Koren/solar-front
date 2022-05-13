@@ -1,0 +1,19 @@
+/*TABLE CONTAINER*/
+.table_container {
+    width: max-content !important;
+    margin: auto;
+    border: 4px #60ad60 solid !important;
+}
+
+.tableCell_head {
+    font-size: 20px !important;
+    border: 2px #60ad60 solid !important;
+    color:  #ecca19 !important;
+    text-align: center !important;
+}
+
+.tableCell_body {
+    border: 2px #60ad60 solid !important;
+    color:  white !important;
+
+}

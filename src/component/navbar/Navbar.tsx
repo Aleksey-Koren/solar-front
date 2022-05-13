@@ -26,7 +26,7 @@ function Navbar() {
                 <div className={"navbar__menu_list"}>
                     <Link to="/planets" onClick={onPlanetsClick}>Planets Management</Link>
                     <Link to="/products" onClick={onProductsClick}>Products Management</Link>
-                    <Link to="/">Stations Management</Link>
+                    <Link to="/stations">Stations Management</Link>
                     <Link to="/">Inventory Management</Link>
                     <Link to="/permissions" onClick={onPermissionsClick}>Permissions Management</Link>
                     <Link to="/users" onClick={onUsersClick}>Users Management</Link>

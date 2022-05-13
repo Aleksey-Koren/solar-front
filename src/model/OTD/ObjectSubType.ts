@@ -1,0 +1,9 @@
+export enum ObjectSubType {
+    STATIC = 'STATIC',
+    MINING = 'MINING',
+    MILITARY = 'MILITARY',
+    SCIENCE = 'SCIENCE',
+    PRODUCTION = 'PRODUCTION',
+    ASYLUM = 'ASYLUM',
+    DYNAMIC = 'DYNAMIC'
+}

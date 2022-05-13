@@ -11,7 +11,7 @@ import ProductTable from "./component/products/Products";
 import PlanetForm from "./component/planets/form/PlanetForm";
 import Permissions from "./component/permissions/Permissions";
 import Users from './component/users/Users';
-import {Stations} from "./component/stations/Stations";
+import Stations from "./component/stations/Stations";
 
 function App() {
     return (
