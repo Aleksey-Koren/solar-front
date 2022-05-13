@@ -11,6 +11,7 @@ import {User} from "../../model/User";
 import {Builder} from "builder-pattern";
 import {Dispatch, SetStateAction, useState} from "react";
 import ErrorPopup from "../error-popup/ErrorPopup";
+import {connectStompClient} from "../../http/webSocket";
 
 const validationSchema = yup.object().shape({
     login: yup.string().required('Login\\email cannot be empty').min(3),
@@ -127,6 +128,7 @@ function onSubmitButtonClick(formValues: any, setError: Dispatch<SetStateAction<
             setError(response.data.error);
         } else {
             localStorage.setItem('token', response.data.token)
+            connectStompClient(response.data.token)
             navigate('/')
         }
     }).catch(error => {

@@ -1,5 +1,5 @@
 import {axiosApi} from "../http/axios";
-import {Page} from "../model/Page";
+import {Page} from "../model/util/Page";
 import {Product} from "../model/product/Product";
 import {AxiosResponse} from "axios";
 

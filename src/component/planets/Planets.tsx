@@ -28,18 +28,18 @@ const Planets: React.FC<Props> = (props) => {
 
             <h1 className={globalStyle.page_title}>Planet list</h1>
 
-            <div>
-                {props.isLoading
-                    ? <LoadProgress/>
-                    : <TableContainer classes={{root: planetsStyle.MuiTableContainer_root}}>
+            {props.isLoading
+                ? <LoadProgress/>
+                : <div>
+                    <TableContainer classes={{root: planetsStyle.MuiTableContainer_root}}>
                         <Table>
                             <PlanetsTableHeader/>
                             <PlanetsTableBody/>
                             <PlanetsTableFooter/>
                         </Table>
                     </TableContainer>
-                }
-            </div>
+                </div>
+            }
 
             <IconButton onClick={() => navigate('/planet-form')}>
                 <AddIcon className={globalStyle.add_icon} fontSize={"large"}/>

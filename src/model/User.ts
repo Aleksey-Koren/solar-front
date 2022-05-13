@@ -1,4 +1,4 @@
-import {BasicObjectView} from "./object/BasicObjectView";
+import {Permission} from "./Permission";
 
 export class User {
     id: number = null;
@@ -7,9 +7,10 @@ export class User {
     email: string = null;
     password: string = null;
     money: number = null;
-    location: BasicObjectView = null;
+    locationId: number = null;
     hackBlock: Date = null;
     hackAttempts: Date = null;
     avatar: string = null;
     emailNotifications: number = null;
+    permissions: Permission[] = [];
 }

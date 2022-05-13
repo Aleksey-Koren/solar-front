@@ -1,5 +1,5 @@
 import {Product} from "../../model/product/Product";
-import {Page} from "../../model/Page";
+import {Page} from "../../model/util/Page";
 import {AxiosResponse} from "axios";
 import {deleteProduct, fetchProducts, saveProduct, TDeleteResponse} from "../../service/productService";
 import {DELETE_PRODUCT, FETCH_PRODUCTS, GO_TO_CREATE, GO_TO_EDIT, SAVE_PRODUCT} from "./productsTypes";

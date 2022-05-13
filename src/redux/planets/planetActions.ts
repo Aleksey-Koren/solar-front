@@ -9,7 +9,7 @@ import {
 import {findPlanetsPerPage, savePlanet} from "../../service/planetService";
 import {IPendingAction} from "../redux-types";
 import {Planet} from "../../model/planet/Planet";
-import {Page} from "../../model/Page";
+import {Page} from "../../model/util/Page";
 import {Dispatch} from "redux";
 
 export function findPlanetsAndStars(page: number, size: number, parentId?: number, ids?: number[]): IPendingAction<Page<Planet>> {

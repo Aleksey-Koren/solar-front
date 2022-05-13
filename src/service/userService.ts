@@ -1,5 +1,5 @@
 import {axiosApi} from "../http/axios";
-import {Page} from "../model/Page";
+import {Page} from "../model/util/Page";
 import {User} from "../model/User";
 
 export interface UserFilter {

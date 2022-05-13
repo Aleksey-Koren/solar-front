@@ -1,5 +1,5 @@
 import {Planet} from "../../model/planet/Planet";
-import {Page} from "../../model/Page";
+import {Page} from "../../model/util/Page";
 import {ActionType, IDefaultStateField} from "../redux-types";
 
 /** STATE */
