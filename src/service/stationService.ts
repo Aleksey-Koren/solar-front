@@ -1,6 +1,6 @@
 import {StationDto} from "../model/station/StationDto";
 import {axiosApi} from "../http/axios";
-import {Page} from "../model/Page";
+import {Page} from "../model/util/Page";
 
 
 export function fetchStations(page: number, size: number) {

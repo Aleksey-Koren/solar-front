@@ -12,12 +12,13 @@ import PlanetForm from "./component/planets/form/PlanetForm";
 import Permissions from "./component/permissions/Permissions";
 import Users from './component/users/Users';
 import Stations from "./component/stations/Stations";
+import Messenger from "./component/messenger/Messenger";
 
 function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path={"/"} element={<Navbar/>}/>
+                <Route path={"/"} element={<Messenger/>}></Route>
                 <Route path={"/registration"} element={<Registration/>}/>
                 <Route path={"/login"} element={<LoginForm/>}/>
                 <Route path={"/products"} element={<ProductTable/>}/>
