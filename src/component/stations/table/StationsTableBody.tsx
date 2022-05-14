@@ -1,6 +1,6 @@
 import {AppState} from "../../../index";
 import {connect, ConnectedProps} from "react-redux";
-import React, {useEffect} from "react";
+import React from "react";
 import {findStationsActionCreator} from "../../../redux/stations/stationActions";
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import {StationForTable} from "../../../model/station/StationForTable";

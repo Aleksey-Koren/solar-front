@@ -33,59 +33,7 @@ export async function mapStationDtoToStationForTable (dto: StationDto) {
     stationForTable.planet = await generatePlanetTitle(planetResp.data);
     stationForTable.type = OTDResp.data.title;
     return stationForTable;
-
-
-    // if(dto.userId !== null) {
-    //    return  await retrieveDataWithUser(stationForTable, dto);
-    // } else {
-    //     await retriveDataWithoutUser(stationForTable, dto);
-    // }
-    // return dto.userId !== null ? retrieveDataWithUser(stationForTable, dto) : retriveDataWithoutUser(stationForTable, dto);
 }
-
-// async function retriveDataWithoutUser(stationForTable: StationForTable, dto: StationDto) {
-//     try {
-//         let result = stationForTable;
-//         let planetResp = await findPlanetById(dto.planet);
-//         let OTDResp = await findOTDById(dto.hullId);
-//         return {
-//             ...result,
-//             planet: generatePlanetTitle(planetResp.data),
-//             type: OTDResp.data.title
-//         }
-//     }catch (e: any) {
-//         throw new Error(e);
-//     }
-
-    // Promise.all([
-    //     findPlanetById(dto.planet),
-    //     findOTDById(dto.hullId),
-    // ]).then(([planetResp, OTDResp]) => {
-    //    result.planet = generatePlanetTitle(planetResp.data);
-    //    result.type = OTDResp.data.title;
-    //    return result;
-    // }).catch(() => {
-    //     console.log('retriveDataWithoutUser CATCH');
-    //    return result;
-    // })
-
-// }
-//
-// function retrieveDataWithUser(stationForTable: StationForTable, dto: StationDto) {
-//     let result = stationForTable;
-//     Promise.all([
-//         findPlanetById(dto.planet),
-//         findUserById(dto.userId),
-//         findOTDById(dto.hullId),
-//     ]).then(([planetResp, userResp, OTDResp]) => {
-//         result.planet = generatePlanetTitle(planetResp.data);
-//         result.user = userResp.data.title;
-//         result.type = OTDResp.data.title;
-//     }).catch(() => {
-//         console.log('retrieveDataWithUser CATCH')
-//     })
-//     return result;
-// }
 
 async function generatePlanetTitle(planet: Planet) {
 

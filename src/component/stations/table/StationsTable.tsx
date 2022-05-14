@@ -1,36 +1,24 @@
 import React, {useEffect} from "react";
-import {AppState} from "../../../index";
-import {connect, ConnectedProps} from "react-redux";
 import StationsTableHead from "./StationsTableHead";
 import StationsTableBody from "./StationsTableBody";
-import {findStationsActionCreator} from "../../../redux/stations/stationActions";
 import {Table, TableContainer} from "@mui/material";
 import styles from "./stationTable.module.css";
+import StationsTableFooter from "./StationsTableFooter";
 
-const StationsTable: React.FC<Props> = (props) => {
-
-
+const StationsTable: React.FC = () => {
 
     return (
             <TableContainer className={styles.table_container}>
                 <Table>
                     <StationsTableHead/>
                     <StationsTableBody/>
+                    <StationsTableFooter/>
                 </Table>
             </TableContainer>
     )
 }
+// const connector = connect(mapStateToProps, mapDispatchToProps);
 
-const mapStateToProps = (state: AppState) => ({
+// type Props = ConnectedProps<typeof connector>;
 
-})
-
-const mapDispatchToProps = {
-
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
-
-type Props = ConnectedProps<typeof connector>;
-
-export default connector(StationsTable);
+export default StationsTable;
