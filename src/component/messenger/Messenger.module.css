@@ -1,0 +1,48 @@
+.div{
+    min-height: 100vh;
+    max-height: 100vh;
+    /*padding: 20px;*/
+    /*box-sizing: border-box;*/
+}
+
+.chatSection {
+    min-height: 100vh;
+}
+
+/*.container {*/
+/*    max-height: 100vh;*/
+/*}*/
+
+.messageArea {
+    /*flex: 11;*/
+    /*flex: 10 !important;*/
+}
+
+.list{
+    max-height: 90vh;
+    overflow-y: scroll;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.bottom_div {
+    /*flex: 1;*/
+
+    justify-content: center;
+}
+
+.bottom_div_div {
+    padding: 20px 20px 10px 20px;
+
+}
+
+.text_field{
+}
+
+.icon{
+    margin-left: 30px !important;
+}
+
+.borderRight500 {
+    border-right: 1px solid red;
+}
