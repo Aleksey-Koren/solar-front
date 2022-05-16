@@ -12,6 +12,8 @@ import {Builder} from "builder-pattern";
 import {Dispatch, SetStateAction, useState} from "react";
 import ErrorPopup from "../error-popup/ErrorPopup";
 import {connectStompClient} from "../../http/webSocket";
+import {AppDispatch, useAppDispatch} from "../../index";
+import {messengerInitialization} from "../../redux/messenger/messengerActions";
 
 const validationSchema = yup.object().shape({
     login: yup.string().required('Login\\email cannot be empty').min(3),
@@ -22,12 +24,13 @@ const validationSchema = yup.object().shape({
 function Registration() {
     let navigate = useNavigate();
     const [error, setError] = useState<string>();
+    const dispatch = useAppDispatch();
 
     return (
         <div className={styles.container}>
             <Formik
                 initialValues={{login: '', password: '', repeatPassword: ''}}
-                onSubmit={(values) => onSubmitButtonClick(values, setError, navigate)}
+                onSubmit={(values) => onSubmitButtonClick(values, setError, navigate, dispatch)}
                 validationSchema={validationSchema}
             >
                 {formik => (
@@ -117,7 +120,10 @@ function Registration() {
 }
 
 
-function onSubmitButtonClick(formValues: any, setError: Dispatch<SetStateAction<string>>, navigate: NavigateFunction) {
+function onSubmitButtonClick(formValues: any,
+                             setError: Dispatch<SetStateAction<string>>,
+                             navigate: NavigateFunction,
+                             dispatch: AppDispatch) {
     let user = Builder(User)
         .login(formValues.login)
         .password(formValues.password)
@@ -127,8 +133,8 @@ function onSubmitButtonClick(formValues: any, setError: Dispatch<SetStateAction<
         if (response.data.error) {
             setError(response.data.error);
         } else {
-            localStorage.setItem('token', response.data.token)
-            connectStompClient(response.data.token)
+            sessionStorage.setItem('auth_token', response.data.token)
+            dispatch(messengerInitialization());
             navigate('/')
         }
     }).catch(error => {

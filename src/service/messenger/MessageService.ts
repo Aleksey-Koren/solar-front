@@ -1,12 +1,12 @@
 import {axiosApi} from "../../http/axios";
 import {Page} from "../../model/util/Page";
-import {Message} from "../../model/messenger/message/Message";
+import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 
 export class MessageService {
 
     static getMessageHistory(roomId: number, page?: number, size?: number) {
 
-        return axiosApi.get<Page<Message>>(`chat/room/${roomId}/messages`);
+        return axiosApi.get<Page<MessageEntity>>(`chat/room/${roomId}/messages`);
     }
 
     static saveEmailNotifications(messageTypes: string[]) {

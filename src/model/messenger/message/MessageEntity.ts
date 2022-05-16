@@ -1,4 +1,4 @@
-export class Message {
+export class MessageEntity {
     id: number | null = null;
     senderId: number | null = null;
     roomId: number | null = null;

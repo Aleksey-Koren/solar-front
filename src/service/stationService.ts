@@ -12,3 +12,7 @@ export function fetchStations(page: number, size: number) {
         }
     });
 }
+
+function foo(arg: number) {
+
+}

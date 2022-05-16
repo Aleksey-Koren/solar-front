@@ -11,6 +11,7 @@ import thunk from "redux-thunk";
 import {permissionsReducer} from "./redux/permissions/permissionsReducer";
 import {usersReducer} from "./redux/users/usersReducer";
 import {stationsReducer} from "./redux/stations/stationsReducer";
+import {messengerReducer} from "./redux/messenger/messengerReducer";
 
 const reducers = combineReducers({
     products: productReducer,
@@ -18,6 +19,7 @@ const reducers = combineReducers({
     permissions: permissionsReducer,
     users: usersReducer,
     stations: stationsReducer,
+    messenger: messengerReducer
 });
 
 export const store = configureStore({reducer: reducers, devTools: true, middleware: [thunk, promise]})

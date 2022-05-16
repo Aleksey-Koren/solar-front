@@ -7,206 +7,68 @@ import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 import Paper from '@mui/material/Paper/Paper';
 import TextField from '@mui/material/TextField/TextField';
-import React from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import Fab from '@mui/material/Fab/Fab';
 import style from './Messenger.module.css'
+import {AppDispatch, AppState, useAppDispatch, useAppSelector} from "../../index";
+import {connect, ConnectedProps} from "react-redux";
+import {MessageEntity} from "../../model/messenger/message/MessageEntity";
+import {MessageService} from "../../service/messenger/MessageService";
+import {RoomService} from "../../service/messenger/RoomService";
+import {sendMessage} from "../../http/webSocket";
+import {setMessagesToState} from "../../redux/messenger/messengerActions";
 
 
-const Messenger = () => {
+const Messenger: React.FC<TProps> = (props) => {
+
+    const [messageText, setMessageText] = useState<string>('');
+    const [roomId, setRoomId] = useState<number>(null);
+    const dispatch = useAppDispatch();
 
     return (
         <div className={style.div}>
             <Grid container component={Paper} className={style.chatSection}>
                 <Grid item xs={3} className={style.borderRight500}>
-                    <List>
-                        <ListItem button key="RemySharp">
-                            <ListItemIcon>
-                                <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg"/>
-                            </ListItemIcon>
-                            <ListItemText primary="John Wick"></ListItemText>
-                        </ListItem>
-                    </List>
-                    <Divider/>
+                    {/*<List>*/}
+                    {/*    <ListItem button key="RemySharp">*/}
+                    {/*        <ListItemIcon>*/}
+                    {/*            <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg"/>*/}
+                    {/*        </ListItemIcon>*/}
+                    {/*        <ListItemText primary="John Wick"></ListItemText>*/}
+                    {/*    </ListItem>*/}
+                    {/*</List>*/}
+                    {/*<Divider/>*/}
                     <Grid item xs={12} style={{padding: '10px'}}>
                         <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth/>
                     </Grid>
                     <Divider/>
                     <List>
-                        <ListItem button key="RemySharp">
-                            <ListItemIcon>
-                                <Avatar alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/1.jpg"/>
-                            </ListItemIcon>
-                            <ListItemText primary="Remy Sharp">Remy Sharp</ListItemText>
-                            <ListItemText secondary="online"></ListItemText>
-                        </ListItem>
-                        <ListItem button key="Alice">
-                            <ListItemIcon>
-                                <Avatar alt="Alice" src="https://material-ui.com/static/images/avatar/3.jpg"/>
-                            </ListItemIcon>
-                            <ListItemText primary="Alice">Alice</ListItemText>
-                        </ListItem>
-                        <ListItem button key="CindyBaker">
-                            <ListItemIcon>
-                                <Avatar alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/2.jpg"/>
-                            </ListItemIcon>
-                            <ListItemText primary="Cindy Baker">Cindy Baker</ListItemText>
-                        </ListItem>
+                        {props.rooms.map(room => (
+                            <ListItem button key={room.id} onClick={() => fetchMessages(room.id, dispatch,  setRoomId, props.messages)}>
+                                <ListItemText>{room.amount}</ListItemText>
+                                <ListItemText>{room.title}</ListItemText>
+                            </ListItem>
+                        ))}
+                        {JSON.stringify(props.messages)}
                     </List>
                 </Grid>
                 <Grid container direction={'column'} item xs={9}>
                     <Grid item className={style.messageArea}>
                         <List className={style.list}>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
+
+                            {props.messages.get(roomId)?.map(s => (
+                                <ListItem key={s.id}>
+                                    <Grid container>
+                                        <Grid item xs={12}>
+                                            <ListItemText>{`${s.createdAt} | ${s.senderId}`}</ListItemText>
+                                        </Grid>
+                                        <Grid item xs={12}>
+                                            <ListItemText>{s.message}</ListItemText>
+                                        </Grid>
                                     </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="2">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey, Iam Good! What about you ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:31"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="3">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Cool. i am good, let's catch up!"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="10:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?" style={{textAlign: 'right'}}></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30" style={{textAlign: 'right'}}></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
-                            <ListItem key="1">
-                                <Grid container>
-                                    <Grid item xs={12}>
-                                        <ListItemText primary="Hey man, What's up ?"></ListItemText>
-                                    </Grid>
-                                    <Grid item xs={12}>
-                                        <ListItemText secondary="09:30"></ListItemText>
-                                    </Grid>
-                                </Grid>
-                            </ListItem>
+                                </ListItem>
+                            ))}
 
                         </List>
                         <Divider/>
@@ -215,11 +77,20 @@ const Messenger = () => {
                     <Grid item className={style.bottom_div}>
                         <Grid container className={style.bottom_div_div}>
                             <Grid item xs={11}>
-                                <TextField label="Type Something" fullWidth className={style.text_field}/>
+                                <TextField className={style.text_field}
+                                           placeholder="Type your message"
+                                           fullWidth
+                                           onChange={(event) => setMessageText(event.target.value)}
+                                />
                             </Grid>
 
                             <Grid item xs={1}>
-                                <Fab className={style.icon} size={"large"}><SendIcon/></Fab>
+                                <Fab className={style.icon}
+                                     size={"large"}
+                                     onClick={() => sendMessage(roomId, 2, messageText)}
+                                >
+                                    <SendIcon/>
+                                </Fab>
                             </Grid>
                         </Grid>
                     </Grid>
@@ -229,4 +100,33 @@ const Messenger = () => {
     );
 }
 
-export default Messenger;
+function fetchMessages(roomId: number,
+                       dispatch: AppDispatch,
+                       setRoomId: Dispatch<SetStateAction<number>>,
+                       messages: Map<number, MessageEntity[]>
+) {
+    Promise.all([
+        MessageService.getMessageHistory(roomId, 0, 20),
+        RoomService.getUsersOfRoom(roomId)
+    ]).then(([messagesResp, usersResp]) => {
+        setRoomId(roomId);
+        let newMap = new Map(messages);
+        newMap.set(roomId, messagesResp.data.content.reverse());
+        dispatch(setMessagesToState(newMap));
+    })
+}
+
+const mapStateToProps = (state: AppState) => ({
+    rooms: state.messenger.rooms,
+    messages: state.messenger.messages
+})
+
+const mapDispatchToProps = {
+
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+type TProps = ConnectedProps<typeof connector>;
+
+export default connector(Messenger);
