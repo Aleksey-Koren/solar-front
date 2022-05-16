@@ -2,7 +2,6 @@
 .table_container {
     width: max-content !important;
     margin: auto;
-    border: 4px #60ad60 solid !important;
 }
 
 .tableCell_head {
@@ -15,6 +14,7 @@
 .tableCell_body {
     border: 2px #60ad60 solid !important;
     color:  white !important;
-
 }
+
+
 

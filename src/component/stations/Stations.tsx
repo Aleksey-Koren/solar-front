@@ -3,15 +3,15 @@ import React, {useEffect} from "react";
 import Navbar from "../navbar/Navbar";
 import {connect, ConnectedProps} from "react-redux";
 import StationsTable from "./table/StationsTable";
-import globalStyles from "../GlobalStyles.module.css";
+import globalStyles from "../global-styles/GlobalStyles.module.css";
 import LoadProgress from "../circular-progress/LoadProgress";
 import {findStationsActionCreator} from "../../redux/stations/stationActions";
 
 const Stations: React.FC<Props> = (props) => {
 
     useEffect(() => {
-        props.findStationsActionCreator(0, 10);
-    }, [findStationsActionCreator])
+        props.findStationsActionCreator(0, 3);
+    }, [])
 
     return (
         <div className={globalStyles.wrapper}>

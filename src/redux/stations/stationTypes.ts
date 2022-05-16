@@ -16,6 +16,13 @@ export interface StationsWithPlanetsDropdownPayload {
     planetsDropdown: Map<number, string>;
 }
 
+export interface StationsForTablePage {
+    stations: StationForTable[];
+    totalElements: number;
+    size: number;
+    number: number;
+}
+
 export const SET_STATIONS = 'SET_STATIONS';
 export const SET_ERROR = 'SET_ERROR';
 export const SET_IS_LOADING = 'SET_IS_LOADING';

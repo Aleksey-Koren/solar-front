@@ -1,6 +1,6 @@
 import React from "react";
 import {TableCell, TableHead, TableRow} from "@mui/material";
-import styles from "./stationTable.module.css";
+import styles from "../../global-styles/MUITable.module.css";
 
 const StationsTableHead: React.FC = () => {
     return (

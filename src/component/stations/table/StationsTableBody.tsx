@@ -5,7 +5,7 @@ import {findStationsActionCreator} from "../../../redux/stations/stationActions"
 import {TableBody, TableCell, TableRow} from "@mui/material";
 import {StationForTable} from "../../../model/station/StationForTable";
 import {Link} from "react-router-dom";
-import styles from "./stationTable.module.css";
+import styles from "../../global-styles/MUITable.module.css";
 
 const StationsTableBody: React.FC<TProps> = (props) => {
 

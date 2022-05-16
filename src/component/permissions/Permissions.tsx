@@ -8,7 +8,7 @@ import {
     findAllPermissions,
     setOpenPermissionFormModal
 } from "../../redux/permissions/permissionsActions";
-import globalStyle from '../GlobalStyles.module.css'
+import globalStyle from '../global-styles/GlobalStyles.module.css'
 import PermissionsFormModal from "./modal/PermissionsFormModal";
 import ErrorPopup from "../error-popup/ErrorPopup";
 import DeleteIcon from '@mui/icons-material/Delete';

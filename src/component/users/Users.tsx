@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import {AppState} from "../../index";
 import {connect, ConnectedProps} from "react-redux";
 import {findUsers} from "../../redux/users/usersActions";
-import globalStyle from '../GlobalStyles.module.css'
+import globalStyle from '../global-styles/GlobalStyles.module.css'
 import Navbar from "../navbar/Navbar";
 import LoadProgress from "../circular-progress/LoadProgress";
 import ErrorPopup from "../error-popup/ErrorPopup";

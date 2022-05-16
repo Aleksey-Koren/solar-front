@@ -9,18 +9,18 @@ import {
 import {StationDto} from "../../model/station/StationDto";
 import {ActionType, IPlainDataAction} from "../redux-types";
 import {StationForTable} from "../../model/station/StationForTable";
+import {Page} from "../../model/util/Page";
 
 const initialState: TStationState = {
     stations: new Array<StationForTable>(),
     planetsDropdown: new Map<number, string>(),
-    totalItems: null,
-    itemsPerPage: 10,
+    totalItems: 0,
+    itemsPerPage: 3,
     currentPage: 0,
     isError: false,
     isLoading: false
 
 }
-
 
 
 export function stationsReducer (state: TStationState = initialState, action: TStationAction) {
@@ -32,11 +32,14 @@ export function stationsReducer (state: TStationState = initialState, action: TS
         case SET_ERROR:
             return {...state, isError: true, isLoading: false}
         case SET_STATIONS:
-            castedAction = action as IPlainDataAction<StationForTable[]>
+            castedAction = action as IPlainDataAction<Page<StationForTable>>
             console.log(castedAction.payload);
             return {...state,
-                stations: castedAction.payload,
-                isLoading: false
+                stations: castedAction.payload.content,
+                isLoading: false,
+                itemsPerPage: castedAction.payload.size,
+                currentPage: castedAction.payload.number,
+                totalItems: castedAction.payload.totalElements
             }
         default: return state;
     }

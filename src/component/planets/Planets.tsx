@@ -1,5 +1,5 @@
 import planetsStyle from './Planets.module.css'
-import globalStyle from '../GlobalStyles.module.css'
+import globalStyle from '../global-styles/GlobalStyles.module.css'
 import {IconButton, Table, TableContainer} from "@mui/material";
 import Navbar from "../navbar/Navbar";
 import React, {useEffect} from "react";

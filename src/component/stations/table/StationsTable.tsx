@@ -2,7 +2,7 @@ import React, {useEffect} from "react";
 import StationsTableHead from "./StationsTableHead";
 import StationsTableBody from "./StationsTableBody";
 import {Table, TableContainer} from "@mui/material";
-import styles from "./stationTable.module.css";
+import styles from "../../global-styles/MUITable.module.css";
 import StationsTableFooter from "./StationsTableFooter";
 
 const StationsTable: React.FC = () => {
