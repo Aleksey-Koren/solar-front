@@ -133,7 +133,6 @@ function onSubmitButtonClick(formValues: any,
             setError(response.data.error);
         } else {
             sessionStorage.setItem('auth_token', response.data.token)
-            dispatch(messengerInitialization());
             navigate('/')
         }
     }).catch(error => {

@@ -1,4 +1,11 @@
-import {FETCH_ROOMS, SET_MESSAGES, SET_ROOMS, TMessengerAction, TMessengerState} from "./messengerTypes";
+import {
+    FETCH_ROOMS,
+    SET_MESSAGES,
+    SET_ROOM_MEMBERS,
+    SET_ROOMS,
+    TMessengerAction,
+    TMessengerState
+} from "./messengerTypes";
 import {Room} from "../../model/messenger/room/Room";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {User} from "../../model/User";
@@ -8,7 +15,7 @@ import Immutable from "immutable";
 const initialState: TMessengerState = {
     rooms: new Array<Room>(),
     messages: Immutable.Map<number, MessageEntity[]>(),
-    roomMembers: new Map<number, User[]>(),
+    roomMembers: Immutable.Map<number, User[]>(),
     isError: false,
     isLoading: false
 }
@@ -34,6 +41,10 @@ export function messengerReducer(state: TMessengerState = initialState, action: 
             let setMessagesAction = action as IPlainDataAction<Immutable.Map<number, MessageEntity[]>>;
             console.log(setMessagesAction.payload);
             return {...state, messages: setMessagesAction.payload}
+
+        case SET_ROOM_MEMBERS:
+            const usersAction = action as IPlainDataAction<Immutable.Map<number, User[]>>;
+            return {...state, roomMembers: usersAction.payload};
 
         default:
             return state;

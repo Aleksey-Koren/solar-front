@@ -1,19 +1,20 @@
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {Room} from "../../model/messenger/room/Room";
-import {AppDispatch} from "../../index";
+import {AppDispatch, AppState} from "../../index";
 import {connectStompClient, subscribeToRooms} from "../../http/webSocket";
 import {RoomService} from "../../service/messenger/RoomService";
 import {IPendingAction, IPlainDataAction} from "../redux-types";
-import {FETCH_ROOMS, SET_MESSAGES, SET_ROOMS} from "./messengerTypes";
+import {FETCH_ROOMS, SET_MESSAGES, SET_ROOM_MEMBERS, SET_ROOMS} from "./messengerTypes";
 import Immutable from "immutable";
+import {User} from "../../model/User";
 
 export function messengerInitialization() {
-    return (dispatch: AppDispatch) => {
+    return (dispatch: AppDispatch, getState: () => AppState) => {
 
         const callback = () => {
             RoomService.getRoomsWithAmountUnreadMessages()
                 .then(resp => {
-                    subscribeToRooms(resp.data);
+                    subscribeToRooms(resp.data, getState, dispatch);
                     dispatch(setRoomsToState(resp.data));
                 })
         }
@@ -36,6 +37,14 @@ export function setMessagesToState(payload: Immutable.Map<number, MessageEntity[
     }
 }
 
+export function setRoomMembersToState(payload: Immutable.Map<number, User[]>): IPlainDataAction<Immutable.Map<number, User[]>> {
+
+    return {
+        type: SET_ROOM_MEMBERS,
+        payload: payload
+    }
+}
+
 export function fetchRooms(): IPendingAction<Room[]> {
 
     return {
@@ -43,3 +52,4 @@ export function fetchRooms(): IPendingAction<Room[]> {
         payload: RoomService.getRoomsWithAmountUnreadMessages()
     }
 }
+

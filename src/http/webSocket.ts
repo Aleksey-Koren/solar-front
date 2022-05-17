@@ -1,7 +1,7 @@
 import SockJS from "sockjs-client";
 import {Client, Message, over} from "stompjs";
 import {Room} from "../model/messenger/room/Room";
-import {store} from "../index";
+import {AppDispatch, AppState} from "../index";
 import {MessageEntity} from "../model/messenger/message/MessageEntity";
 import {RoomService} from "../service/messenger/RoomService";
 import Immutable from "immutable";
@@ -15,32 +15,32 @@ export function connectStompClient(authToken: string, callback: () => void) {
     stompClient.connect({'auth_token': authToken}, callback, () => console.log('WEB SOCKET ERROR'));
 }
 
-export function subscribeToRooms(rooms: Room[]) {
+export function subscribeToRooms(rooms: Room[], getState: () => AppState, dispatch: AppDispatch) {
     rooms.forEach(room => {
-        stompClient.subscribe(`/room/${room.id}`, (message: Message) => processMessage(message));
+        stompClient.subscribe(`/room/${room.id}`, (message: Message) => processMessage(message, getState, dispatch));
     })
 }
 
-function processMessage(message: Message) {
+function processMessage(message: Message, getState: () => AppState, dispatch: AppDispatch) {
     const messageEntity: MessageEntity = JSON.parse(message.body);
     const messageRoomId = messageEntity.roomId;
-    const messages = store.getState().messenger.messages;
+    const messages = getState().messenger.messages;
 
     if (messages.has(messageRoomId)) {
         const map = new Map(messages);
         map.set(messageRoomId, [...messages.get(messageRoomId), messageEntity]);
 
-        store.dispatch(setMessagesToState(Immutable.Map(map)))
+        dispatch(setMessagesToState(Immutable.Map(map)))
         RoomService.updateLastSeenAt(messageRoomId).then();
     } else {
-        const rooms = store.getState().messenger.rooms;
+        const rooms = getState().messenger.rooms;
         const updatedRooms = rooms.map(room => {
             if (room.id === messageRoomId) {
                 room.amount++;
             }
             return room;
         })
-        store.dispatch(setRoomsToState(updatedRooms));
+        dispatch(setRoomsToState(updatedRooms));
     }
 }
 

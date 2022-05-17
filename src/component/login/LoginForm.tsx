@@ -54,8 +54,6 @@ const LoginForm: React.FC<TProps> = (props) => {
             switch (resp.data.status) {
                 case LoginStatus.VALID_CREDENTIALS:
                     sessionStorage.setItem('auth_token', resp.data.data);
-                    retrieveUserId();
-                    dispatch(messengerInitialization());
                     navigate('/');
                     break;
                 case LoginStatus.INVALID_CREDENTIALS:

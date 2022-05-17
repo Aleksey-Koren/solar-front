@@ -15,15 +15,25 @@ import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {MessageService} from "../../service/messenger/MessageService";
 import {RoomService} from "../../service/messenger/RoomService";
 import {sendMessage} from "../../http/webSocket";
-import {fetchRooms, setMessagesToState} from "../../redux/messenger/messengerActions";
+import {
+    messengerInitialization,
+    setMessagesToState,
+    setRoomMembersToState
+} from "../../redux/messenger/messengerActions";
 import Immutable from 'immutable';
+import {User} from "../../model/User";
+import {retrieveUserId} from "../../service/authService";
 
 
 const Messenger: React.FC<TProps> = (props) => {
+    useEffect(() => {
+        props.messengerInitialization();
+    }, [props.messengerInitialization]);
 
     useEffect(() => {
-        props.fetchRooms();
-    }, [])
+        const element = document.getElementById('list');
+        element.scrollTop = element.scrollHeight;
+    });
 
     const [messageText, setMessageText] = useState<string>('');
     const [roomId, setRoomId] = useState<number>(null);
@@ -49,7 +59,7 @@ const Messenger: React.FC<TProps> = (props) => {
                     <List>
                         {props.rooms.map(room => (
                             <ListItem button key={room.id}
-                                      onClick={() => fetchMessages(room.id, dispatch, setRoomId, props.messages)}>
+                                      onClick={() => fetchMessages(room.id, dispatch, setRoomId, props.messages, props.roomMembers)}>
                                 <ListItemText>{room.amount}</ListItemText>
                                 <ListItemText>{room.title}</ListItemText>
                             </ListItem>
@@ -58,16 +68,21 @@ const Messenger: React.FC<TProps> = (props) => {
                 </Grid>
                 <Grid container direction={'column'} item xs={9}>
                     <Grid item className={style.messageArea}>
-                        <List className={style.list}>
+                        <List className={style.list} id={'list'}>
 
                             {props.messages.get(roomId)?.map(s => (
                                 <ListItem key={s.id}>
                                     <Grid container>
                                         <Grid item xs={12}>
-                                            <ListItemText>{`${s.createdAt} | ${s.senderId}`}</ListItemText>
+                                            <ListItemText
+                                                style={{textAlign: (s.senderId === retrieveUserId() ? 'right' : 'left')}}>
+                                                {generateMessageInfo(s, props.roomMembers.get(roomId))}
+                                            </ListItemText>
                                         </Grid>
                                         <Grid item xs={12}>
-                                            <ListItemText>{s.message}</ListItemText>
+                                            <ListItemText style={{textAlign: (s.senderId === retrieveUserId() ? 'right' : 'left')}}>
+                                                {s.message}
+                                            </ListItemText>
                                         </Grid>
                                     </Grid>
                                 </ListItem>
@@ -110,25 +125,40 @@ const Messenger: React.FC<TProps> = (props) => {
 function fetchMessages(roomId: number,
                        dispatch: AppDispatch,
                        setRoomId: Dispatch<SetStateAction<number>>,
-                       messages: Immutable.Map<number, MessageEntity[]>
+                       messages: Immutable.Map<number, MessageEntity[]>,
+                       roomMembers: Immutable.Map<number, User[]>
 ) {
+    // if (!messages.has(roomId)) {
     Promise.all([
         MessageService.getMessageHistory(roomId, 0, 20),
         RoomService.getUsersOfRoom(roomId)
     ]).then(([messagesResp, usersResp]) => {
         setRoomId(roomId);
-        const map = new Map(messages).set(roomId, messagesResp.data.content.reverse());
-        dispatch(setMessagesToState(Immutable.Map(map)));
+
+        const roomMembersMap = new Map(roomMembers).set(roomId, usersResp.data);
+        dispatch(setRoomMembersToState(Immutable.Map(roomMembersMap)));
+
+        const messagesMap = new Map(messages).set(roomId, messagesResp.data.content.reverse());
+        dispatch(setMessagesToState(Immutable.Map(messagesMap)));
     })
+    // }
+}
+
+function generateMessageInfo(message: MessageEntity, roomMembers: User[]) {
+    const user = roomMembers.find(member => member.id === message.senderId);
+    const messageDate = new Date(message.createdAt).toLocaleTimeString();
+
+    return `${messageDate} | ${user.title}`;
 }
 
 const mapStateToProps = (state: AppState) => ({
     rooms: state.messenger.rooms,
-    messages: state.messenger.messages
+    messages: state.messenger.messages,
+    roomMembers: state.messenger.roomMembers
 })
 
 const mapDispatchToProps = {
-    fetchRooms
+    messengerInitialization
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
