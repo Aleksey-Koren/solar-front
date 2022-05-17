@@ -1,47 +1,46 @@
 import SockJS from "sockjs-client";
 import {Client, Message, over} from "stompjs";
 import {Room} from "../model/messenger/room/Room";
-import {AppDispatch} from "../index";
+import {store} from "../index";
 import {MessageEntity} from "../model/messenger/message/MessageEntity";
 import {RoomService} from "../service/messenger/RoomService";
+import Immutable from "immutable";
+import {setMessagesToState, setRoomsToState} from "../redux/messenger/messengerActions";
 
 export let stompClient: Client = null;
 
 export function connectStompClient(authToken: string, callback: () => void) {
-    const sockJS = new SockJS('http://localhost:8081/api/ws', {});
+    const sockJS = new SockJS('http://localhost:8081/api/ws', {}, {timeout: -1});
     stompClient = over(sockJS);
-
-
-    stompClient.connect({'auth_token': authToken},
-        callback,
-        () => console.log('WEB SOCKET ERROR')
-    );
+    stompClient.connect({'auth_token': authToken}, callback, () => console.log('WEB SOCKET ERROR'));
 }
 
-export function subscribeToRooms(rooms: Room[], dispatch: AppDispatch, messagesMap: Map<number, MessageEntity[]>) {
+export function subscribeToRooms(rooms: Room[]) {
     rooms.forEach(room => {
-        stompClient.subscribe(`/room/${room.id}`, (message: Message) => processMessage(message, dispatch, messagesMap, rooms));
+        stompClient.subscribe(`/room/${room.id}`, (message: Message) => processMessage(message));
     })
 }
 
-function processMessage(message: Message,
-                        dispatch: AppDispatch,
-                        messagesMap: Map<number, MessageEntity[]>,
-                        rooms: Room[]) {
-
+function processMessage(message: Message) {
     const messageEntity: MessageEntity = JSON.parse(message.body);
-    if (messagesMap.has(messageEntity.roomId)) {
-        messagesMap.set(messageEntity.roomId, [...messagesMap.get(messageEntity.roomId), messageEntity]);
-        let newMap = {... messagesMap};
-        messagesMap = newMap;
-        RoomService.updateLastSeenAt(messageEntity.roomId).then();
+    const messageRoomId = messageEntity.roomId;
+    const messages = store.getState().messenger.messages;
+
+    if (messages.has(messageRoomId)) {
+        const map = new Map(messages);
+        map.set(messageRoomId, [...messages.get(messageRoomId), messageEntity]);
+
+        store.dispatch(setMessagesToState(Immutable.Map(map)))
+        RoomService.updateLastSeenAt(messageRoomId).then();
     } else {
-        rooms = rooms.map(s => {
-            if (s.id === messageEntity.roomId) {
-                s.amount++
+        const rooms = store.getState().messenger.rooms;
+        const updatedRooms = rooms.map(room => {
+            if (room.id === messageRoomId) {
+                room.amount++;
             }
-            return s;
-        });
+            return room;
+        })
+        store.dispatch(setRoomsToState(updatedRooms));
     }
 }
 

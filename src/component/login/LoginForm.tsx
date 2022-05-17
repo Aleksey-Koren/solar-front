@@ -1,7 +1,7 @@
 import {Form, Formik, FormikHelpers, Field} from 'formik';
 import {Builder} from "builder-pattern";
 import {AxiosResponse} from "axios";
-import {login} from "../../service/authService";
+import {login, retrieveUserId} from "../../service/authService";
 import * as Yup from 'yup';
 import {User} from "../../model/User";
 import {Token} from "../../model/Token";
@@ -54,6 +54,7 @@ const LoginForm: React.FC<TProps> = (props) => {
             switch (resp.data.status) {
                 case LoginStatus.VALID_CREDENTIALS:
                     sessionStorage.setItem('auth_token', resp.data.data);
+                    retrieveUserId();
                     dispatch(messengerInitialization());
                     navigate('/');
                     break;

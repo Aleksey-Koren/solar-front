@@ -1,9 +1,7 @@
-import Avatar from '@mui/material/Avatar';
 import Divider from '@mui/material/Divider';
 import Grid from '@mui/material/Grid/Grid';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem/ListItem';
-import ListItemIcon from '@mui/material/ListItemIcon/ListItemIcon';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 import Paper from '@mui/material/Paper/Paper';
 import TextField from '@mui/material/TextField/TextField';
@@ -11,16 +9,21 @@ import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import SendIcon from '@mui/icons-material/Send';
 import Fab from '@mui/material/Fab/Fab';
 import style from './Messenger.module.css'
-import {AppDispatch, AppState, useAppDispatch, useAppSelector} from "../../index";
+import {AppDispatch, AppState, useAppDispatch} from "../../index";
 import {connect, ConnectedProps} from "react-redux";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {MessageService} from "../../service/messenger/MessageService";
 import {RoomService} from "../../service/messenger/RoomService";
 import {sendMessage} from "../../http/webSocket";
-import {setMessagesToState} from "../../redux/messenger/messengerActions";
+import {fetchRooms, setMessagesToState} from "../../redux/messenger/messengerActions";
+import Immutable from 'immutable';
 
 
 const Messenger: React.FC<TProps> = (props) => {
+
+    useEffect(() => {
+        props.fetchRooms();
+    }, [])
 
     const [messageText, setMessageText] = useState<string>('');
     const [roomId, setRoomId] = useState<number>(null);
@@ -45,12 +48,12 @@ const Messenger: React.FC<TProps> = (props) => {
                     <Divider/>
                     <List>
                         {props.rooms.map(room => (
-                            <ListItem button key={room.id} onClick={() => fetchMessages(room.id, dispatch,  setRoomId, props.messages)}>
+                            <ListItem button key={room.id}
+                                      onClick={() => fetchMessages(room.id, dispatch, setRoomId, props.messages)}>
                                 <ListItemText>{room.amount}</ListItemText>
                                 <ListItemText>{room.title}</ListItemText>
                             </ListItem>
                         ))}
-                        {JSON.stringify(props.messages)}
                     </List>
                 </Grid>
                 <Grid container direction={'column'} item xs={9}>
@@ -80,6 +83,7 @@ const Messenger: React.FC<TProps> = (props) => {
                                 <TextField className={style.text_field}
                                            placeholder="Type your message"
                                            fullWidth
+                                           value={messageText}
                                            onChange={(event) => setMessageText(event.target.value)}
                                 />
                             </Grid>
@@ -87,7 +91,10 @@ const Messenger: React.FC<TProps> = (props) => {
                             <Grid item xs={1}>
                                 <Fab className={style.icon}
                                      size={"large"}
-                                     onClick={() => sendMessage(roomId, 2, messageText)}
+                                     onClick={() => {
+                                         sendMessage(roomId, 2, messageText);
+                                         setMessageText('');
+                                     }}
                                 >
                                     <SendIcon/>
                                 </Fab>
@@ -103,16 +110,15 @@ const Messenger: React.FC<TProps> = (props) => {
 function fetchMessages(roomId: number,
                        dispatch: AppDispatch,
                        setRoomId: Dispatch<SetStateAction<number>>,
-                       messages: Map<number, MessageEntity[]>
+                       messages: Immutable.Map<number, MessageEntity[]>
 ) {
     Promise.all([
         MessageService.getMessageHistory(roomId, 0, 20),
         RoomService.getUsersOfRoom(roomId)
     ]).then(([messagesResp, usersResp]) => {
         setRoomId(roomId);
-        let newMap = new Map(messages);
-        newMap.set(roomId, messagesResp.data.content.reverse());
-        dispatch(setMessagesToState(newMap));
+        const map = new Map(messages).set(roomId, messagesResp.data.content.reverse());
+        dispatch(setMessagesToState(Immutable.Map(map)));
     })
 }
 
@@ -122,7 +128,7 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = {
-
+    fetchRooms
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

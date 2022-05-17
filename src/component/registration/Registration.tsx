@@ -11,8 +11,7 @@ import {User} from "../../model/User";
 import {Builder} from "builder-pattern";
 import {Dispatch, SetStateAction, useState} from "react";
 import ErrorPopup from "../error-popup/ErrorPopup";
-import {connectStompClient} from "../../http/webSocket";
-import {AppDispatch, useAppDispatch} from "../../index";
+import {AppDispatch, useAppDispatch, useAppSelector} from "../../index";
 import {messengerInitialization} from "../../redux/messenger/messengerActions";
 
 const validationSchema = yup.object().shape({

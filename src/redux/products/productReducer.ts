@@ -1,5 +1,5 @@
 import {Product} from "../../model/product/Product";
-import {IFetchProductsAct, IProductAct, TProductActions} from "./productActions";
+import {IProductAct} from "./productActions";
 import {AxiosResponse} from "axios";
 import {Page} from "../../model/util/Page";
 import {

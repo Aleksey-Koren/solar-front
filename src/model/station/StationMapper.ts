@@ -38,7 +38,7 @@ export async function mapStationDtoToStationForTable (dto: StationDto) {
 async function generatePlanetTitle(planet: Planet) {
 
     let parentPlanet = await findPlanetById(planet.parent)
-    if (parentPlanet.data.title != "Sun") {
+    if (parentPlanet.data.title !== "Sun") {
         return `${planet.title} (${parentPlanet.data.title})`;
     } else {
         return planet.title;

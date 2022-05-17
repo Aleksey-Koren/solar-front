@@ -1,8 +1,4 @@
-import {
-    SET_ERROR,
-    SET_IS_LOADING,
-    SET_STATIONS, StationsForTablePage,
-} from "./stationTypes";
+import {SET_ERROR, SET_IS_LOADING, SET_STATIONS,} from "./stationTypes";
 import {IPlainDataAction} from "../redux-types";
 import {AppDispatch} from "../../index";
 import {fetchStations} from "../../service/stationService";
