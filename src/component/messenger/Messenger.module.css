@@ -1,48 +1,77 @@
-.div{
-    min-height: 100vh;
-    max-height: 100vh;
-    /*padding: 20px;*/
-    /*box-sizing: border-box;*/
+.wrapper {
+    width: 1200px;
+    height: 800px;
 }
 
 .chatSection {
-    min-height: 100vh;
+    min-height: 100%;
+    max-height: 100%;
 }
 
-/*.container {*/
-/*    max-height: 100vh;*/
-/*}*/
+.message_container {
 
-.messageArea {
-    /*flex: 11;*/
-    /*flex: 10 !important;*/
 }
 
-.list{
-    max-height: 90vh;
+.message_list {
+    max-height: 650px;
     overflow-y: scroll;
     padding: 0 !important;
     margin: 0 !important;
 }
 
-.bottom_div {
-    /*flex: 1;*/
-
-    justify-content: center;
+.message_info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-.bottom_div_div {
-    padding: 20px 20px 10px 20px;
-
+.message_edit_button {
+    margin-right: 15px;
+    color: red;
 }
 
-.text_field{
+.message_edit_button:hover {
+    color: black;
 }
 
-.icon{
+.message {
+    font-weight: bold;
+}
+
+.message_div {
+    width: fit-content;
+    max-width: 50%;
+    word-break: break-word;
+    border-radius: 30px;
+    padding: 10px;
+}
+
+.unread_message_text {
+    margin-right: 15px;
+}
+
+.message_input_container {
+    padding: 20px 30px 10px 20px;
+}
+
+.message_input_field {
+}
+
+.send_icon {
     margin-left: 30px !important;
 }
 
-.borderRight500 {
+.room_container {
     border-right: 1px solid red;
+    overflow-x: hidden;
+}
+
+.room_title {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 50px;
+    overflow-y: hidden;
+    border-bottom: 1px red solid;
+    font-size: 20px;
 }
