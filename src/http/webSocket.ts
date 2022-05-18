@@ -28,8 +28,13 @@ function processMessage(message: Message, getState: () => AppState, dispatch: Ap
 
     if (messages.has(messageRoomId)) {
         const map = new Map(messages);
-        map.set(messageRoomId, [...messages.get(messageRoomId), messageEntity]);
+        const foundMessage = map.get(messageRoomId).find(message => message.id === messageEntity.id);
 
+        if (foundMessage) {
+            foundMessage.message = messageEntity.message;
+        } else {
+            map.set(messageRoomId, [...messages.get(messageRoomId), messageEntity]);
+        }
         dispatch(setMessagesToState(Immutable.Map(map)))
         RoomService.updateLastSeenAt(messageRoomId).then();
     } else {
@@ -44,10 +49,10 @@ function processMessage(message: Message, getState: () => AppState, dispatch: Ap
     }
 }
 
-export function sendMessage(roomId: number, senderId: number, message: string) {
-    console.log(roomId + "   sender: " + senderId + "    mes: " + message)
+export function sendMessage(roomId: number, senderId: number, message: string, editedMessage: MessageEntity) {
 
     stompClient.send(`/chat/${roomId}`, {}, JSON.stringify({
+        id: editedMessage?.id,
         senderId: senderId,
         message: message
     }));
