@@ -23,9 +23,12 @@ import {
 import Immutable from 'immutable';
 import {User} from "../../model/User";
 import {retrieveUserId} from "../../service/authService";
+import AsyncSelect from "react-select/async";
+import {findUserById, findUsersPerPage} from "../../service/userService";
 
 
 const Messenger: React.FC<TProps> = (props) => {
+
     useEffect(() => {
         props.messengerInitialization();
     }, [props.messengerInitialization]);
@@ -36,8 +39,15 @@ const Messenger: React.FC<TProps> = (props) => {
     });
 
     const [messageText, setMessageText] = useState<string>('');
+    const [userTitle, setUserTitle] = useState<string>('');
     const [roomId, setRoomId] = useState<number>(null);
     const dispatch = useAppDispatch();
+
+    const promiseOptions = (inputValue: string) => {
+
+        return findUsersPerPage(0, 30, {title: inputValue})
+            .then(s => s.data.content)
+    }
 
     return (
         <div className={style.div}>
@@ -52,9 +62,15 @@ const Messenger: React.FC<TProps> = (props) => {
                     {/*    </ListItem>*/}
                     {/*</List>*/}
                     {/*<Divider/>*/}
-                    <Grid item xs={12} style={{padding: '10px'}}>
-                        <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth/>
-                    </Grid>
+                    {/*<Grid item xs={12} style={{padding: '10px'}}>*/}
+                    {/*    <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth/>*/}
+                    {/*</Grid>*/}
+                    <AsyncSelect loadOptions={promiseOptions}
+                                 getOptionLabel={s => s.title}
+                                 getOptionValue={s => JSON.stringify(s)}
+                                 maxMenuHeight={350}
+                                 onChange={option => console.log(option)}
+                    />
                     <Divider/>
                     <List>
                         {props.rooms.map(room => (
@@ -74,8 +90,7 @@ const Messenger: React.FC<TProps> = (props) => {
                                 <ListItem key={s.id}>
                                     <Grid container>
                                         <Grid item xs={12}>
-                                            <ListItemText
-                                                style={{textAlign: (s.senderId === retrieveUserId() ? 'right' : 'left')}}>
+                                            <ListItemText style={{textAlign: (s.senderId === retrieveUserId() ? 'right' : 'left')}}>
                                                 {generateMessageInfo(s, props.roomMembers.get(roomId))}
                                             </ListItemText>
                                         </Grid>
@@ -145,10 +160,8 @@ function fetchMessages(roomId: number,
 }
 
 function generateMessageInfo(message: MessageEntity, roomMembers: User[]) {
-    const user = roomMembers.find(member => member.id === message.senderId);
     const messageDate = new Date(message.createdAt).toLocaleTimeString();
-
-    return `${messageDate} | ${user.title}`;
+    return `${messageDate} | ${message.senderTitle}`;
 }
 
 const mapStateToProps = (state: AppState) => ({

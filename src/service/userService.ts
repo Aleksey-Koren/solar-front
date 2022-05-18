@@ -3,14 +3,15 @@ import {Page} from "../model/util/Page";
 import {User} from "../model/User";
 
 export interface UserFilter {
-    login: string;
-    title: string;
+    login?: string;
+    title?: string;
 }
 
 export function findUsersPerPage(page: number, size: number, userFilter?: UserFilter) {
 
     return axiosApi.get<Page<User>>('users', {
-        params: {page, size, userFilter: userFilter ? userFilter : null}
+        // params: {page, size, userFilter: userFilter ? userFilter : null}
+        params: {page, size, title: userFilter?.title, login: userFilter?.login}
     })
 }
 

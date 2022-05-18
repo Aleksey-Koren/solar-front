@@ -51,4 +51,5 @@ export class RoomService {
 
         return axiosApi.put<void>(`chat/room/${roomId}/lastSeenAt`);
     }
+
 }

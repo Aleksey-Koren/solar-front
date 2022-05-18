@@ -1,6 +1,7 @@
 export class MessageEntity {
     id: number | null = null;
     senderId: number | null = null;
+    senderTitle: string | null = null;
     roomId: number | null = null;
     title: string | null = null;
     message: string | null = null;
