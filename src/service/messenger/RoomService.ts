@@ -6,11 +6,10 @@ import {User} from "../../model/User";
 
 export class RoomService {
 
-    static findRoomsWithSpecificUser(userId: number = null, title: string = null, roomType: string = null) {
+    static findRoomsWithSpecificUser(title: string = null, roomType: string = null) {
 
         return axiosApi.get<SearchRoom[]>('chat/room', {
             params: {
-                userId: userId,
                 title: title,
                 roomType: roomType
             }

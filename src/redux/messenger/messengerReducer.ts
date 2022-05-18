@@ -39,7 +39,6 @@ export function messengerReducer(state: TMessengerState = initialState, action: 
 
         case SET_MESSAGES:
             let setMessagesAction = action as IPlainDataAction<Immutable.Map<number, MessageEntity[]>>;
-            console.log(setMessagesAction.payload);
             return {...state, messages: setMessagesAction.payload}
 
         case SET_ROOM_MEMBERS:

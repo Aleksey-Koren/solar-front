@@ -24,7 +24,12 @@ import Immutable from 'immutable';
 import {User} from "../../model/User";
 import {retrieveUserId} from "../../service/authService";
 import AsyncSelect from "react-select/async";
-import {findUserById, findUsersPerPage} from "../../service/userService";
+import {findUsersPerPage} from "../../service/userService";
+import {ChatSearchOption, ChatSearchOptionType} from "../../model/messenger/chatSearchOptiom/ChatSearchOption";
+import {RoomType} from "../../model/messenger/room/RoomType";
+import jwtDecode from "jwt-decode";
+import {DecodedJwtToken} from "../../model/decodedJwtToken";
+import {SearchRoom} from "../../model/messenger/room/SearchRoom";
 
 
 const Messenger: React.FC<TProps> = (props) => {
@@ -39,14 +44,20 @@ const Messenger: React.FC<TProps> = (props) => {
     });
 
     const [messageText, setMessageText] = useState<string>('');
-    const [userTitle, setUserTitle] = useState<string>('');
     const [roomId, setRoomId] = useState<number>(null);
     const dispatch = useAppDispatch();
 
-    const promiseOptions = (inputValue: string) => {
-
-        return findUsersPerPage(0, 30, {title: inputValue})
-            .then(s => s.data.content)
+    const promiseOptions = (inputValue: string): Promise<ChatSearchOption[]> => {
+        let rooms = RoomService.findRoomsWithSpecificUser(inputValue, RoomType.PRIVATE);
+        let users = findUsersPerPage(0, 20, {title: inputValue})
+        return Promise.all([rooms, users]).then(
+            ([rooms, users]) => {
+                let options: ChatSearchOption[] = new Array<ChatSearchOption>();
+                options = options.concat(rooms.data.map(room => new ChatSearchOption(ChatSearchOptionType.ROOM, room)));
+                options = options.concat(users.data.content.map(user => new ChatSearchOption(ChatSearchOptionType.USER, user)));
+                return options;
+            }
+        )
     }
 
     return (
@@ -66,8 +77,8 @@ const Messenger: React.FC<TProps> = (props) => {
                     {/*    <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth/>*/}
                     {/*</Grid>*/}
                     <AsyncSelect loadOptions={promiseOptions}
-                                 getOptionLabel={s => s.title}
-                                 getOptionValue={s => JSON.stringify(s)}
+                                 getOptionLabel={s => generateOptionLabel(s)}
+                                 getOptionValue={s => s.toString()}
                                  maxMenuHeight={350}
                                  onChange={option => console.log(option)}
                     />
@@ -143,7 +154,6 @@ function fetchMessages(roomId: number,
                        messages: Immutable.Map<number, MessageEntity[]>,
                        roomMembers: Immutable.Map<number, User[]>
 ) {
-    // if (!messages.has(roomId)) {
     Promise.all([
         MessageService.getMessageHistory(roomId, 0, 20),
         RoomService.getUsersOfRoom(roomId)
@@ -156,13 +166,43 @@ function fetchMessages(roomId: number,
         const messagesMap = new Map(messages).set(roomId, messagesResp.data.content.reverse());
         dispatch(setMessagesToState(Immutable.Map(messagesMap)));
     })
-    // }
 }
 
 function generateMessageInfo(message: MessageEntity, roomMembers: User[]) {
     const messageDate = new Date(message.createdAt).toLocaleTimeString();
     return `${messageDate} | ${message.senderTitle}`;
 }
+
+
+function generateOptionLabel(option: ChatSearchOption) {
+
+    switch (option.type) {
+        case ChatSearchOptionType.ROOM:
+            return generateRoomTitle(option.payload as SearchRoom);
+
+        case ChatSearchOptionType.USER:
+            return 'Start chat with: ' + option.payload.title;
+
+        default:
+            return 'Unexpected option type';
+    }
+}
+
+function generateRoomTitle(room: SearchRoom) {
+    if (room.roomType === RoomType.PRIVATE) {
+        let myId = jwtDecode<DecodedJwtToken>(sessionStorage.getItem('auth_token')).user_id;
+        return 'Existing chat: ' + JSON.parse(room.title)
+            .map((s: string) => s.split(':'))
+            .filter((s: string) => parseInt(s[0]) !== myId)[0][1]
+    } else {
+        return 'Unexpected room type';
+    }
+}
+
+
+
+
+
 
 const mapStateToProps = (state: AppState) => ({
     rooms: state.messenger.rooms,
