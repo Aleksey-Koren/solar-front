@@ -47,18 +47,18 @@ const Messenger: React.FC<TProps> = (props) => {
     const [roomId, setRoomId] = useState<number>(null);
     const dispatch = useAppDispatch();
 
-    const promiseOptions = (inputValue: string): Promise<ChatSearchOption[]> => {
-        let rooms = RoomService.findRoomsWithSpecificUser(inputValue, RoomType.PRIVATE);
-        let users = findUsersPerPage(0, 20, {title: inputValue})
-        return Promise.all([rooms, users]).then(
-            ([rooms, users]) => {
-                let options: ChatSearchOption[] = new Array<ChatSearchOption>();
-                options = options.concat(rooms.data.map(room => new ChatSearchOption(ChatSearchOptionType.ROOM, room)));
-                options = options.concat(users.data.content.map(user => new ChatSearchOption(ChatSearchOptionType.USER, user)));
-                return options;
-            }
-        )
-    }
+    // const promiseOptions = (inputValue: string): Promise<ChatSearchOption[]> => {
+    //     let rooms = RoomService.findRoomsWithSpecificUser(inputValue, RoomType.PRIVATE);
+    //     let users = findUsersPerPage(0, 20, {title: inputValue})
+    //     return Promise.all([rooms, users]).then(
+    //         ([rooms, users]) => {
+    //             let options: ChatSearchOption[] = new Array<ChatSearchOption>();
+    //             options = options.concat(rooms.data.map(room => new ChatSearchOption(ChatSearchOptionType.ROOM, room)));
+    //             options = options.concat(users.data.content.map(user => new ChatSearchOption(ChatSearchOptionType.USER, user)));
+    //             return options;
+    //         }
+    //     )
+    // }
 
     return (
         <div className={style.div}>
@@ -77,7 +77,7 @@ const Messenger: React.FC<TProps> = (props) => {
                     {/*    <TextField id="outlined-basic-email" label="Search" variant="outlined" fullWidth/>*/}
                     {/*</Grid>*/}
                     <AsyncSelect loadOptions={promiseOptions}
-                                 getOptionLabel={s => generateOptionLabel(s)}
+                                 getOptionLabel={generateOptionLabel}
                                  getOptionValue={s => s.toString()}
                                  maxMenuHeight={350}
                                  onChange={option => console.log(option)}
@@ -173,12 +173,31 @@ function generateMessageInfo(message: MessageEntity, roomMembers: User[]) {
     return `${messageDate} | ${message.senderTitle}`;
 }
 
+function promiseOptions (inputValue: string): Promise<ChatSearchOption[]> {
+    let rooms = RoomService.findRoomsWithSpecificUser(inputValue, RoomType.PRIVATE);
+    let users = findUsersPerPage(0, 20, {title: inputValue})
+    return Promise.all([rooms, users]).then(
+        ([rooms, users]) => {
+            let options: ChatSearchOption[] = new Array<ChatSearchOption>();
+            options = options.concat(rooms.data.map(room => new ChatSearchOption(ChatSearchOptionType.ROOM, room)));
+            options = options.concat(users.data.content.map(user => new ChatSearchOption(ChatSearchOptionType.USER, user)));
+            return options;
+        }
+    )
+}
+
+function usersIHaveAlreadyHadPrivateChatsWithIds(myPrivateRooms: SearchRoom[]) {
+    const userIds = new Array<number>();
+    myPrivateRooms
+}
 
 function generateOptionLabel(option: ChatSearchOption) {
 
     switch (option.type) {
         case ChatSearchOptionType.ROOM:
-            return generateRoomTitle(option.payload as SearchRoom);
+            let s = generateRoomTitle(option.payload as SearchRoom);
+            console.log(s);
+            return s;
 
         case ChatSearchOptionType.USER:
             return 'Start chat with: ' + option.payload.title;
@@ -198,6 +217,7 @@ function generateRoomTitle(room: SearchRoom) {
         return 'Unexpected room type';
     }
 }
+
 
 
 
