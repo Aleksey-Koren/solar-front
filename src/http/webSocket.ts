@@ -3,9 +3,8 @@ import {Client, Message, over} from "stompjs";
 import {Room} from "../model/messenger/room/Room";
 import {AppDispatch, AppState} from "../index";
 import {MessageEntity} from "../model/messenger/message/MessageEntity";
-import {RoomService} from "../service/messenger/RoomService";
-import Immutable from "immutable";
-import {setMessagesToState, setRoomsToState} from "../redux/messenger/messengerActions";
+import {MessageType} from "../model/messenger/message/MessageType";
+import {ProcessChatMessageService} from "../service/messenger/process-message/processChatMessageService";
 
 export let stompClient: Client = null;
 
@@ -25,27 +24,17 @@ function processMessage(message: Message, getState: () => AppState, dispatch: Ap
     const messageEntity: MessageEntity = JSON.parse(message.body);
     const messageRoomId = messageEntity.roomId;
     const messages = getState().messenger.messages;
+    const rooms = getState().messenger.rooms;
+
+    //todo: SYSTEM MESSAGE SEND ONLY ON UPDATE TITLE
+    if (messageEntity.messageType === MessageType.SYSTEM) {
+        ProcessChatMessageService.updateRoomTitle(messageEntity, rooms, dispatch)
+    }
 
     if (messages.has(messageRoomId)) {
-        const map = new Map(messages);
-        const foundMessage = map.get(messageRoomId).find(message => message.id === messageEntity.id);
-
-        if (foundMessage) {
-            foundMessage.message = messageEntity.message;
-        } else {
-            map.set(messageRoomId, [...messages.get(messageRoomId), messageEntity]);
-        }
-        dispatch(setMessagesToState(Immutable.Map(map)))
-        RoomService.updateLastSeenAt(messageRoomId).then();
-    } else {
-        const rooms = getState().messenger.rooms;
-        const updatedRooms = rooms.map(room => {
-            if (room.id === messageRoomId) {
-                room.amount++;
-            }
-            return room;
-        })
-        dispatch(setRoomsToState(updatedRooms));
+        ProcessChatMessageService.appendOrUpdateMessage(messageEntity, messages, dispatch)
+    } else if (messageEntity.messageType !== MessageType.SYSTEM) {
+        ProcessChatMessageService.updateUnreadMessageAmount(rooms, messageRoomId, dispatch)
     }
 }
 

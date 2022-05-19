@@ -4,9 +4,9 @@ import {Dispatch, SetStateAction} from "react";
 import Immutable from "immutable";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {User} from "../../model/User";
-import {RoomService} from "./RoomService";
+import {RoomService} from "./room/RoomService";
 import {setMessagesToState, setRoomMembersToState} from "../../redux/messenger/messengerActions";
-import {MessageService} from "./MessageService";
+import {MessageService} from "./message/MessageService";
 import {RoomType} from "../../model/messenger/room/RoomType";
 import {retrieveUserId} from "../authService";
 

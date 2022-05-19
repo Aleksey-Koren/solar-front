@@ -1,8 +1,8 @@
-import {axiosApi} from "../../http/axios";
-import {SearchRoom} from "../../model/messenger/room/SearchRoom";
-import {CreateRoom} from "../../model/messenger/room/CreateRoom";
-import {Room} from "../../model/messenger/room/Room";
-import {User} from "../../model/User";
+import {axiosApi} from "../../../http/axios";
+import {SearchRoom} from "../../../model/messenger/room/SearchRoom";
+import {CreateRoom} from "../../../model/messenger/room/CreateRoom";
+import {Room} from "../../../model/messenger/room/Room";
+import {User} from "../../../model/User";
 
 export class RoomService {
 
@@ -43,7 +43,7 @@ export class RoomService {
 
     static updateRoomTitle(roomId: number, roomTitle: string) {
 
-        return axiosApi.patch<void>(`chat/room/${roomId}/title`, {roomTitle: roomTitle});
+        return axiosApi.patch<void>(`chat/room/${roomId}/title`, roomTitle, {headers: {'Content-Type' : 'text/plain'}});
     }
 
     static updateLastSeenAt(roomId: number) {

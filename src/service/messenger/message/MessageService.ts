@@ -1,6 +1,6 @@
-import {axiosApi} from "../../http/axios";
-import {Page} from "../../model/util/Page";
-import {MessageEntity} from "../../model/messenger/message/MessageEntity";
+import {axiosApi} from "../../../http/axios";
+import {Page} from "../../../model/util/Page";
+import {MessageEntity} from "../../../model/messenger/message/MessageEntity";
 
 export class MessageService {
 

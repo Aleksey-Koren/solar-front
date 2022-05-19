@@ -11,8 +11,7 @@ import {User} from "../../model/User";
 import {Builder} from "builder-pattern";
 import {Dispatch, SetStateAction, useState} from "react";
 import ErrorPopup from "../error-popup/ErrorPopup";
-import {AppDispatch, useAppDispatch, useAppSelector} from "../../index";
-import {messengerInitialization} from "../../redux/messenger/messengerActions";
+import {AppDispatch, useAppDispatch} from "../../index";
 
 const validationSchema = yup.object().shape({
     login: yup.string().required('Login\\email cannot be empty').min(3),
@@ -98,7 +97,8 @@ function Registration() {
                                 </div>
                             </div>
                             <div className={styles.form__button}>
-                                <button className={styles.submit_button} type={"submit"} disabled={!formik.isValid}>Register
+                                <button className={styles.submit_button} type={"submit"}
+                                        disabled={!formik.isValid}>Register
                                 </button>
                             </div>
                             <div className={styles.form__footer}>
