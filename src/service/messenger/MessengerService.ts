@@ -82,6 +82,10 @@ export class MessengerService {
                 return 'Unexpected option type';
         }
     }
+
+    static createPrivateRoomWith(invitedId: number) {
+        RoomService.createRoom({userId: invitedId, isPrivate: true})
+    }
 }
 
 function usersIHaveAlreadyHadPrivateChatsWithIds(myPrivateRooms: SearchRoom[]) {

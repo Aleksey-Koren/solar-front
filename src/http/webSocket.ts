@@ -6,6 +6,7 @@ import {MessageEntity} from "../model/messenger/message/MessageEntity";
 import {RoomService} from "../service/messenger/RoomService";
 import Immutable from "immutable";
 import {setMessagesToState, setRoomsToState} from "../redux/messenger/messengerActions";
+import {NotificationService} from "../service/messenger/NotificationService";
 
 export let stompClient: Client = null;
 
@@ -19,6 +20,8 @@ export function subscribeToRooms(rooms: Room[], getState: () => AppState, dispat
     rooms.forEach(room => {
         stompClient.subscribe(`/room/${room.id}`, (message: Message) => processMessage(message, getState, dispatch));
     })
+
+    stompClient.subscribe('/user/notifications', (notification: Message) => NotificationService.processNotification(notification, getState, dispatch));
 }
 
 function processMessage(message: Message, getState: () => AppState, dispatch: AppDispatch) {

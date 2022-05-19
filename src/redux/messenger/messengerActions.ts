@@ -7,7 +7,6 @@ import {IPendingAction, IPlainDataAction} from "../redux-types";
 import {FETCH_ROOMS, SET_MESSAGES, SET_ROOM_MEMBERS, SET_ROOMS} from "./messengerTypes";
 import Immutable from "immutable";
 import {User} from "../../model/User";
-import {retrieveUserId} from "../../service/authService";
 
 export function messengerInitialization() {
     return (dispatch: AppDispatch, getState: () => AppState) => {
@@ -21,17 +20,6 @@ export function messengerInitialization() {
         }
 
         connectStompClient(sessionStorage.getItem('auth_token'), callback);
-    }
-}
-
-export function createPrivateRoomWith(invitedId: number) {
-    return (dispatch: AppDispatch) => {
-        RoomService.createRoom({userId: retrieveUserId(), isPrivate: true})
-            .then(room => {
-                RoomService.inviteToRoom(invitedId, room.data.id)
-                    .then(s => room)
-                    .then( )
-            })
     }
 }
 
