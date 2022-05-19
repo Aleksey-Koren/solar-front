@@ -11,7 +11,7 @@
 .message_list {
     max-height: 650px;
     height: 650px;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: 0 !important;
     margin: 0 !important;
 }
@@ -74,8 +74,9 @@
 }
 
 .room_list {
-    max-height: 650px;
-    overflow-y: scroll;
+    max-height: 740px;
+    height: 740px;
+    overflow-y: auto;
 }
 
 .room_title_container {

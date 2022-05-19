@@ -1,12 +1,14 @@
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {Room} from "../../model/messenger/room/Room";
 import {AppDispatch, AppState} from "../../index";
-import {connectStompClient, subscribeToRooms} from "../../http/webSocket";
+import {connectStompClient, stompClient, subscribeToRooms} from "../../http/webSocket";
 import {RoomService} from "../../service/messenger/room/RoomService";
 import {IPendingAction, IPlainDataAction} from "../redux-types";
 import {FETCH_ROOMS, SET_EDIT_TITLE_OPEN, SET_MESSAGES, SET_ROOM_MEMBERS, SET_ROOMS} from "./messengerTypes";
 import Immutable from "immutable";
 import {User} from "../../model/User";
+import {Message} from "stompjs";
+import {NotificationService} from "../../service/messenger/NotificationService";
 
 export function messengerInitialization() {
     return (dispatch: AppDispatch, getState: () => AppState) => {
@@ -15,6 +17,7 @@ export function messengerInitialization() {
             RoomService.getRoomsWithAmountUnreadMessages()
                 .then(resp => {
                     subscribeToRooms(resp.data, getState, dispatch);
+                    stompClient.subscribe('/user/notifications', (notification: Message) => NotificationService.processNotification(notification, getState, dispatch));
                     dispatch(setRoomsToState(resp.data));
                 })
         }

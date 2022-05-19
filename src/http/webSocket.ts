@@ -13,15 +13,15 @@ export function connectStompClient(authToken: string, callback: () => void) {
     const sockJS = new SockJS('http://localhost:8081/api/ws', {}, {timeout: -1});
     stompClient = over(sockJS);
     stompClient.connect({'auth_token': authToken}, callback, () => console.log('WEB SOCKET ERROR'));
+
 }
 
 export function subscribeToRooms(rooms: Room[], getState: () => AppState, dispatch: AppDispatch) {
     rooms.forEach(room => {
         stompClient.subscribe(`/room/${room.id}`, (message: Message) => processMessage(message, getState, dispatch));
     })
-
-    stompClient.subscribe('/user/notifications', (notification: Message) => NotificationService.processNotification(notification, getState, dispatch));
 }
+
 
 function processMessage(message: Message, getState: () => AppState, dispatch: AppDispatch) {
     const messageEntity: MessageEntity = JSON.parse(message.body);
@@ -42,7 +42,6 @@ function processMessage(message: Message, getState: () => AppState, dispatch: Ap
 }
 
 export function sendMessage(roomId: number, senderId: number, message: string, editedMessage: MessageEntity) {
-
     stompClient.send(`/chat/${roomId}`, {}, JSON.stringify({
         id: editedMessage?.id,
         senderId: senderId,

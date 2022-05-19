@@ -2,6 +2,7 @@ import {Message} from "stompjs";
 import {AppDispatch, AppState} from "../../index";
 import {Room} from "../../model/messenger/room/Room";
 import {setRoomsToState} from "../../redux/messenger/messengerActions";
+import {subscribeToRooms} from "../../http/webSocket";
 
 enum NotificationType {
     INVITED_TO_ROOM = 'INVITED_TO_ROOM'
@@ -32,6 +33,8 @@ export class NotificationService {
 function processInvitedToRoom(notification: Notification, getState: () => AppState, dispatch: AppDispatch) {
     let state: AppState = getState();
     let rooms: Room[] = new Array<Room>(...state.messenger.rooms);
-    rooms.push(notification.payload as Room);
+    let room: Room = notification.payload as Room;
+    rooms.push(room);
     dispatch(setRoomsToState(rooms));
+    subscribeToRooms([room], getState, dispatch);
 }
