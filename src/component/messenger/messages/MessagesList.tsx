@@ -21,7 +21,7 @@ interface MessagesListProps {
 
 function MessagesList(props: MessagesListProps) {
     const messages = useAppSelector(state => state.messenger.messages);
-    const roomMembers = useAppSelector(state => state.messenger.roomMembers);
+
 
     const createEditIcon = (message: MessageEntity) => (
         props.currentUserId === message.senderId &&
@@ -48,7 +48,7 @@ function MessagesList(props: MessagesListProps) {
                                     <ListItemText>
                                         <span className={style.message_info}>
                                             {createEditIcon(message)}
-                                            {MessengerService.generateMessageInfo(message, roomMembers.get(props.selectedRoom?.id))}
+                                            {MessengerService.generateMessageInfo(message)}
                                         </span>
                                     </ListItemText>
 
