@@ -66,12 +66,15 @@
     overflow-x: hidden;
 }
 
+.room_title_container {
+    border-bottom: 1px red solid;
+}
+
 .room_title {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 50px;
     overflow-y: hidden;
-    border-bottom: 1px red solid;
     font-size: 20px;
 }
