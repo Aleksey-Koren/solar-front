@@ -50,7 +50,7 @@ function MessagesList(props: MessagesListProps) {
                                         <ListItemText>
                                     <span className={style.message_info}>
                                         {createEditIcon(message)}
-                                        {MessengerService.generateMessageInfo(message, roomMembers.get(props.selectedRoom?.id))}
+                                        {MessengerService.generateMessageInfo(message)}
                                     </span>
                                         </ListItemText>
 

@@ -5,9 +5,6 @@ import {AppDispatch, AppState} from "../index";
 import {MessageEntity} from "../model/messenger/message/MessageEntity";
 import {MessageType} from "../model/messenger/message/MessageType";
 import {ProcessChatMessageService} from "../service/messenger/process-message/processChatMessageService";
-import {RoomService} from "../service/messenger/RoomService";
-import Immutable from "immutable";
-import {setMessagesToState, setRoomsToState} from "../redux/messenger/messengerActions";
 import {NotificationService} from "../service/messenger/NotificationService";
 
 export let stompClient: Client = null;
