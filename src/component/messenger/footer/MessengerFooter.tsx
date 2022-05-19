@@ -54,6 +54,7 @@ function MessengerFooter(props: MessengerFooterProps) {
                          onClick={() => {
                              sendMessage(props.selectedRoom.id, retrieveUserId(), props.messageText, props.editedMessage);
                              props.setMessageText('');
+                             props.setEditedMessage(null);
                          }}
                     >
                         <SendIcon/>

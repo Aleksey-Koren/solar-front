@@ -3,13 +3,16 @@ import Grid from '@mui/material/Grid/Grid';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 import Paper from '@mui/material/Paper/Paper';
-import TextField from '@mui/material/TextField/TextField';
-import React, {useEffect, useState} from 'react';
+import React, {Dispatch, SetStateAction, useEffect, useState} from 'react';
 import style from './Messenger.module.css'
-import {AppState, useAppDispatch} from "../../index";
+import {AppDispatch, AppState, useAppDispatch} from "../../index";
 import {connect, ConnectedProps} from "react-redux";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
-import {messengerInitialization} from "../../redux/messenger/messengerActions";
+import {
+    messengerInitialization,
+    setMessagesToState,
+    setRoomMembersToState
+} from "../../redux/messenger/messengerActions";
 import {retrieveUserId} from "../../service/authService";
 import AsyncSelect from "react-select/async";
 import {findUsersPerPage} from "../../service/userService";
@@ -18,6 +21,16 @@ import {RoomType} from "../../model/messenger/room/RoomType";
 import jwtDecode from "jwt-decode";
 import {DecodedJwtToken} from "../../model/decodedJwtToken";
 import {SearchRoom} from "../../model/messenger/room/SearchRoom";
+import Immutable from "immutable";
+import {MessageService} from '../../service/messenger/MessageService';
+import {RoomService} from "../../service/messenger/RoomService";
+import {User} from "../../model/User";
+import MessengerFooter from "./footer/MessengerFooter";
+import MessagesList from "./messages/MessagesList";
+import ListItemButton from '@mui/material/ListItemButton';
+import {MessengerService} from "../../service/messenger/MessengerService";
+import {Room} from "../../model/messenger/room/Room";
+import MessengerMenu from "./menu/MessengerMenu";
 
 
 const Messenger: React.FC<TProps> = (props) => {
@@ -59,8 +72,14 @@ const Messenger: React.FC<TProps> = (props) => {
                     </List>
                 </Grid>
                 <Grid container direction={'column'} item xs={9} className={style.message_container}>
-                    <Grid item className={style.room_title}>
-                        <strong>{MessengerService.retrieveRoomTitle(selectedRoom)}</strong>
+                    <Grid container item className={style.room_title_container}>
+                        <Grid item xs={11} className={style.room_title}>
+                            <strong>{MessengerService.retrieveRoomTitle(selectedRoom)}</strong>
+                        </Grid>
+
+                        <Grid item xs={1} className={style.room_title}>
+                            <MessengerMenu/>
+                        </Grid>
                     </Grid>
 
                     <MessagesList currentUserId={currentUserId} selectedRoom={selectedRoom}
@@ -101,7 +120,7 @@ function generateMessageInfo(message: MessageEntity, roomMembers: User[]) {
     return `${messageDate} | ${message.senderTitle}`;
 }
 
-function promiseOptions (inputValue: string): Promise<ChatSearchOption[]> {
+function promiseOptions(inputValue: string): Promise<ChatSearchOption[]> {
     let rooms = RoomService.findRoomsWithSpecificUser(inputValue, RoomType.PRIVATE);
     let users = findUsersPerPage(0, 20, {title: inputValue})
     return Promise.all([rooms, users]).then(
@@ -116,7 +135,6 @@ function promiseOptions (inputValue: string): Promise<ChatSearchOption[]> {
 
 function usersIHaveAlreadyHadPrivateChatsWithIds(myPrivateRooms: SearchRoom[]) {
     const userIds = new Array<number>();
-    myPrivateRooms
 }
 
 function generateOptionLabel(option: ChatSearchOption) {
