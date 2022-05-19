@@ -56,7 +56,7 @@ const Messenger: React.FC<TProps> = (props) => {
                                  onChange={onChange}
                     />
                     <Divider/>
-                    <List>
+                    <List className={style.room_list}>
                         {props.rooms.map(room => (
                             <ListItemButton key={room.id}
                                             onClick={() => MessengerService.fetchMessages(room, dispatch, setSelectedRoom, props.messages, props.roomMembers)}>
@@ -64,6 +64,7 @@ const Messenger: React.FC<TProps> = (props) => {
                                 <ListItemText>{MessengerService.retrieveRoomTitle(room)}</ListItemText>
                             </ListItemButton>
                         ))}
+
                     </List>
                 </Grid>
                 <Grid container direction={'column'} item xs={9} className={style.message_container}>

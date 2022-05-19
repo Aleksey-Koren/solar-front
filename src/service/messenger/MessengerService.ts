@@ -19,8 +19,7 @@ export class MessengerService {
                          dispatch: AppDispatch,
                          setRoom: Dispatch<SetStateAction<Room>>,
                          messages: Immutable.Map<number, MessageEntity[]>,
-                         roomMembers: Immutable.Map<number, User[]>
-    ) {
+                         roomMembers: Immutable.Map<number, User[]>) {
         Promise.all([
             RoomService.updateLastSeenAt(room.id),
             MessageService.getMessageHistory(room.id, 0, 20),
@@ -59,7 +58,7 @@ export class MessengerService {
             ([rooms, users]) => {
                 let options: ChatSearchOption[] = new Array<ChatSearchOption>();
                 options = options.concat(rooms.data.map(room => new ChatSearchOption(ChatSearchOptionType.ROOM, room)));
-                let ids = usersIHaveAlreadyHadPrivateChatsWithIds(rooms.data);
+                let ids = MessengerService.usersIHaveAlreadyHadPrivateChatsWithIds(rooms.data);
                 let filteredUsers = users.data.content.filter(s => (!ids.includes(s.id)));
                 options = options.concat(filteredUsers.map(user => new ChatSearchOption(ChatSearchOptionType.USER, user)));
                 return options;
@@ -86,11 +85,11 @@ export class MessengerService {
     static createPrivateRoomWith(invitedId: number) {
         RoomService.createRoom({userId: invitedId, isPrivate: true})
     }
-}
 
-function usersIHaveAlreadyHadPrivateChatsWithIds(myPrivateRooms: SearchRoom[]) {
-    let myId = retrieveUserId();
-    let result = myPrivateRooms.flatMap(s => s.participants).map(s => s.id).filter(s => s !== myId);
-    result.push(myId);
-    return result;
+    private static usersIHaveAlreadyHadPrivateChatsWithIds(myPrivateRooms: SearchRoom[]) {
+        let myId = retrieveUserId();
+        let result = myPrivateRooms.flatMap(s => s.participants).map(s => s.id).filter(s => s !== myId);
+        result.push(myId);
+        return result;
+    }
 }

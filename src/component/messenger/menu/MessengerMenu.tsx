@@ -2,6 +2,8 @@ import {IconButton, Menu, MenuItem} from "@mui/material";
 import {useState} from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
+import AddIcon from '@mui/icons-material/Add';
+
 
 function MessengerMenu() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -32,11 +34,15 @@ function MessengerMenu() {
                 onClose={handleClose}
             >
                 <MenuItem key={1} onClick={handleClose} style={{paddingRight: '50px'}}>
-                    <EditIcon style={{marginRight: '10px'}}/>
+                    <EditIcon style={{marginRight: '10px', width: '40px'}}/>
                     Edit
                 </MenuItem>
-                <MenuItem>
-                    Hello #2
+                <MenuItem key={2} onClick={handleClose} style={{paddingRight: '50px'}}>
+                    <AddIcon fontSize={'large'} style={{marginRight: '10px', width: '40px'}}/>
+                    Add member
+                </MenuItem>
+                <MenuItem key={2} onClick={handleClose} style={{paddingRight: '50px'}}>
+                    Members
                 </MenuItem>
             </Menu>
         </div>

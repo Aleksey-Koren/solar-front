@@ -31,7 +31,6 @@ export class NotificationService {
 
 function processInvitedToRoom(notification: Notification, getState: () => AppState, dispatch: AppDispatch) {
     let state: AppState = getState();
-    // let rooms: Room[] = state.messenger.rooms;
     let rooms: Room[] = new Array<Room>(...state.messenger.rooms);
     rooms.push(notification.payload as Room);
     dispatch(setRoomsToState(rooms));

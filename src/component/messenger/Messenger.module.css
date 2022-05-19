@@ -66,6 +66,11 @@
     overflow-x: hidden;
 }
 
+.room_list {
+    max-height: 650px;
+    overflow-y: scroll;
+}
+
 .room_title_container {
     border-bottom: 1px red solid;
 }
