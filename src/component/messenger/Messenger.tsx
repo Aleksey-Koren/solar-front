@@ -12,12 +12,21 @@ import {messengerInitialization} from "../../redux/messenger/messengerActions";
 import {retrieveUserId} from "../../service/authService";
 import AsyncSelect from "react-select/async";
 import {ChatSearchOption, ChatSearchOptionType} from "../../model/messenger/chatSearchOptiom/ChatSearchOption";
+import {RoomType} from "../../model/messenger/room/RoomType";
+import jwtDecode from "jwt-decode";
+import {DecodedJwtToken} from "../../model/decodedJwtToken";
+import {SearchRoom} from "../../model/messenger/room/SearchRoom";
+import Immutable from "immutable";
+import {MessageService} from '../../service/messenger/message/MessageService';
+import {RoomService} from "../../service/messenger/room/RoomService";
+import {User} from "../../model/User";
 import MessengerFooter from "./footer/MessengerFooter";
 import MessagesList from "./messages/MessagesList";
 import ListItemButton from '@mui/material/ListItemButton';
 import {MessengerService} from "../../service/messenger/MessengerService";
 import {Room} from "../../model/messenger/room/Room";
 import MessengerMenu from "./menu/MessengerMenu";
+import EditTitleModal from "./menu/edit-title/EditTitleModal";
 
 
 const Messenger: React.FC<TProps> = (props) => {
@@ -67,14 +76,14 @@ const Messenger: React.FC<TProps> = (props) => {
 
                     </List>
                 </Grid>
-                <Grid container direction={'column'} item xs={9} className={style.message_container}>
+                <Grid container direction={'column'} item xs={9}>
                     <Grid container item className={style.room_title_container}>
                         <Grid item xs={11} className={style.room_title}>
                             <strong>{MessengerService.retrieveRoomTitle(selectedRoom)}</strong>
                         </Grid>
 
                         <Grid item xs={1} className={style.room_title}>
-                            <MessengerMenu/>
+                            <MessengerMenu selectedRoom={selectedRoom}/>
                         </Grid>
                     </Grid>
 
@@ -87,6 +96,9 @@ const Messenger: React.FC<TProps> = (props) => {
 
                 </Grid>
             </Grid>
+
+            <EditTitleModal selectedRoom={selectedRoom}/>
+
         </div>
     );
 }

@@ -11,6 +11,7 @@ import {useAppSelector} from "../../../index";
 import {Room} from "../../../model/messenger/room/Room";
 import {MessageEntity} from "../../../model/messenger/message/MessageEntity";
 import {MessengerService} from "../../../service/messenger/MessengerService";
+import {MessageType} from "../../../model/messenger/message/MessageType";
 
 interface MessagesListProps {
     selectedRoom: Room;
@@ -21,7 +22,7 @@ interface MessagesListProps {
 
 function MessagesList(props: MessagesListProps) {
     const messages = useAppSelector(state => state.messenger.messages);
-
+    const roomMembers = useAppSelector(state => state.messenger.roomMembers);
 
     const createEditIcon = (message: MessageEntity) => (
         props.currentUserId === message.senderId &&
@@ -41,21 +42,29 @@ function MessagesList(props: MessagesListProps) {
                     <ListItem key={message.id}>
                         <Grid container>
                             <Grid item xs={12}>
-                                <div className={style.message_div} style={{
-                                    float: (message.senderId === props.currentUserId ? 'right' : 'left'),
-                                    background: (message.senderId === props.currentUserId ? 'lightgreen' : 'grey')
-                                }}>
-                                    <ListItemText>
-                                        <span className={style.message_info}>
-                                            {createEditIcon(message)}
-                                            {MessengerService.generateMessageInfo(message)}
-                                        </span>
-                                    </ListItemText>
+                                {message.messageType === MessageType.CHAT &&
+                                    < div className={style.message_container} style={{
+                                        float: (message.senderId === props.currentUserId ? 'right' : 'left'),
+                                        background: (message.senderId === props.currentUserId ? 'lightgreen' : 'grey')
+                                    }}>
+                                        <ListItemText>
+                                    <span className={style.message_info}>
+                                        {createEditIcon(message)}
+                                        {MessengerService.generateMessageInfo(message, roomMembers.get(props.selectedRoom?.id))}
+                                    </span>
+                                        </ListItemText>
 
-                                    <ListItemText>
-                                        <span className={style.message}>{message.message}</span>
-                                    </ListItemText>
-                                </div>
+                                        <ListItemText>
+                                            <span className={style.message}>{message.message}</span>
+                                        </ListItemText>
+                                    </div>
+                                }
+
+                                {message.messageType === MessageType.SYSTEM &&
+                                    <div className={style.system_message}>
+                                        <span>{message.senderTitle} - {message.message}</span>
+                                    </div>
+                                }
                             </Grid>
                         </Grid>
                     </ListItem>

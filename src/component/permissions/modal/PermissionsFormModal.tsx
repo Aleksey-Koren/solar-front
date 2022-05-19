@@ -1,6 +1,7 @@
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField} from "@mui/material";
 import React, {ChangeEvent, useState} from "react";
-import style from './PermissionsFormModal.module.css'
+import globalStyles from '../../global-styles/ModalWindow.module.css'
+import localStyles from './PermissionsFormModal.module.css'
 import {AppState} from "../../../index";
 import {connect, ConnectedProps} from "react-redux";
 import {saveOrUpdatePermission, setOpenPermissionFormModal} from "../../../redux/permissions/permissionsActions";
@@ -24,11 +25,11 @@ const PermissionsFormModal: React.FC<Props> = (props) => {
 
     return (
         <Dialog open={props.isOpen} fullWidth>
-            <DialogTitle className={style.dialog__title}>Permission Form</DialogTitle>
+            <DialogTitle className={globalStyles.dialog__title}>Permission Form</DialogTitle>
 
-            <DialogContent className={style.dialog__content}>
+            <DialogContent className={globalStyles.dialog__content}>
                 <TextField
-                    className={style.dialog__text_field} margin="normal"
+                    className={localStyles.dialog__text_field} margin="normal"
                     label="Permission name" type={"text"} fullWidth variant="standard"
                     defaultValue={props.editedPermission && props.editedPermission.title}
                     onChange={onFieldChange} error={isErrorInput}
@@ -36,7 +37,7 @@ const PermissionsFormModal: React.FC<Props> = (props) => {
                 />
             </DialogContent>
 
-            <DialogActions className={style.dialog__actions}>
+            <DialogActions className={globalStyles.dialog__actions}>
                 <Button onClick={() => props.setOpenPermissionFormModal(false)}>Cancel</Button>
                 <Button onClick={onSaveButtonClick} disabled={isErrorInput}>Save</Button>
             </DialogActions>

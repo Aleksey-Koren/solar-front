@@ -1,5 +1,5 @@
 import {
-    FETCH_ROOMS,
+    FETCH_ROOMS, SET_EDIT_TITLE_OPEN,
     SET_MESSAGES,
     SET_ROOM_MEMBERS,
     SET_ROOMS,
@@ -17,7 +17,8 @@ const initialState: TMessengerState = {
     messages: Immutable.Map<number, MessageEntity[]>(),
     roomMembers: Immutable.Map<number, User[]>(),
     isError: false,
-    isLoading: false
+    isLoading: false,
+    isEditTitleModalOpen: false
 }
 
 export function messengerReducer(state: TMessengerState = initialState, action: TMessengerAction) {
@@ -44,6 +45,10 @@ export function messengerReducer(state: TMessengerState = initialState, action: 
         case SET_ROOM_MEMBERS:
             const usersAction = action as IPlainDataAction<Immutable.Map<number, User[]>>;
             return {...state, roomMembers: usersAction.payload};
+
+        case SET_EDIT_TITLE_OPEN:
+            const editTitleAction = action as IPlainDataAction<boolean>;
+            return {...state, isEditTitleModalOpen: editTitleAction.payload};
 
         default:
             return state;
