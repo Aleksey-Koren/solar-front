@@ -36,6 +36,11 @@ export class RoomService {
         return axiosApi.patch<void>(`chat/room/${roomId}/leave`);
     }
 
+    static kickUserFromRoom(roomId: number, kickedUserId: number) {
+
+        return axiosApi.delete<void>(`chat/room/${roomId}/participants/${kickedUserId}`);
+    }
+
     static getUsersOfRoom(roomId: number) {
 
         return axiosApi.get<User[]>(`chat/room/${roomId}/participants`);
@@ -43,7 +48,7 @@ export class RoomService {
 
     static updateRoomTitle(roomId: number, roomTitle: string) {
 
-        return axiosApi.patch<void>(`chat/room/${roomId}/title`, roomTitle, {headers: {'Content-Type' : 'text/plain'}});
+        return axiosApi.patch<void>(`chat/room/${roomId}/title`, roomTitle, {headers: {'Content-Type': 'text/plain'}});
     }
 
     static updateLastSeenAt(roomId: number) {

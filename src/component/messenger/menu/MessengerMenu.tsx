@@ -3,11 +3,13 @@ import {useState} from "react";
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import EditIcon from '@mui/icons-material/Edit';
 import AddIcon from '@mui/icons-material/Add';
+import ListIcon from '@mui/icons-material/List';
 
 import {Room} from "../../../model/messenger/room/Room";
 import {RoomType} from "../../../model/messenger/room/RoomType";
 import {useAppDispatch} from "../../../index";
-import {setEditTitleOpen} from "../../../redux/messenger/messengerActions";
+import {setEditTitleOpen, setParticipantsListModalOpen} from "../../../redux/messenger/messengerActions";
+import {IPlainDataAction} from "../../../redux/redux-types";
 
 interface MessengerMenuProps {
     selectedRoom: Room;
@@ -17,6 +19,11 @@ interface MessengerMenuProps {
 function MessengerMenu(props: MessengerMenuProps) {
     const [anchorEl, setAnchorEl] = useState(null);
     const dispatch = useAppDispatch();
+
+    const onMenuItemClick = (dispatchAction: (isOpen: boolean) => IPlainDataAction<boolean>) => {
+        setAnchorEl(null);
+        dispatch(dispatchAction(true))
+    }
 
     return (
         <div>
@@ -31,19 +38,22 @@ function MessengerMenu(props: MessengerMenuProps) {
                 onClose={() => setAnchorEl(null)}
             >
                 {props.selectedRoom?.roomType === RoomType.PUBLIC &&
-                    <>
-                        <MenuItem onClick={() => {
-                            setAnchorEl(null);
-                            dispatch(setEditTitleOpen(true))
-                        }}>
-                            <EditIcon style={{marginRight: '10px'}}/>
+                    <div>
+                        <MenuItem onClick={() => onMenuItemClick(setEditTitleOpen)}>
+                            <EditIcon style={{marginRight: '10px'}} fontSize={"medium"}/>
                             Edit Title
                         </MenuItem>
-                        <MenuItem key={2} style={{paddingRight: '50px'}}>
-                            <AddIcon fontSize={'large'} style={{marginRight: '10px', width: '40px'}}/>
+
+                        <MenuItem>
+                            <AddIcon fontSize={'medium'} style={{marginRight: '10px'}}/>
                             Add member
                         </MenuItem>
-                    </>
+
+                        <MenuItem onClick={() => onMenuItemClick(setParticipantsListModalOpen)}>
+                            <ListIcon style={{marginRight: '10px'}} fontSize={"medium"}/>
+                            Members
+                        </MenuItem>
+                    </div>
                 }
             </Menu>
         </div>

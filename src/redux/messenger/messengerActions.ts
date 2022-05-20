@@ -4,7 +4,14 @@ import {AppDispatch, AppState} from "../../index";
 import {connectStompClient, stompClient, subscribeToRooms} from "../../http/webSocket";
 import {RoomService} from "../../service/messenger/room/RoomService";
 import {IPendingAction, IPlainDataAction} from "../redux-types";
-import {FETCH_ROOMS, SET_EDIT_TITLE_OPEN, SET_MESSAGES, SET_ROOM_MEMBERS, SET_ROOMS} from "./messengerTypes";
+import {
+    FETCH_ROOMS,
+    SET_EDIT_TITLE_OPEN,
+    SET_MESSAGES,
+    SET_PARTICIPANTS_LIST_MODAL_OPEN,
+    SET_ROOM_MEMBERS,
+    SET_ROOMS
+} from "./messengerTypes";
 import Immutable from "immutable";
 import {User} from "../../model/User";
 import {Message} from "stompjs";
@@ -64,6 +71,7 @@ export function setEditTitleOpen(isOpen: boolean): IPlainDataAction<boolean> {
     }
 }
 
+
 export function updateRoomTitle(roomId: number, title: string) {
     return (dispatch: AppDispatch) => {
         RoomService.updateRoomTitle(roomId, title)
@@ -72,4 +80,11 @@ export function updateRoomTitle(roomId: number, title: string) {
 }
 
 
+export function setParticipantsListModalOpen(isOpen: boolean): IPlainDataAction<boolean> {
+
+    return {
+        type: SET_PARTICIPANTS_LIST_MODAL_OPEN,
+        payload: isOpen
+    }
+}
 

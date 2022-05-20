@@ -19,6 +19,7 @@ import {MessengerService} from "../../service/messenger/MessengerService";
 import {Room} from "../../model/messenger/room/Room";
 import MessengerMenu from "./menu/MessengerMenu";
 import EditTitleModal from "./menu/edit-title/EditTitleModal";
+import ParticipantsListModal from "./menu/participants-list/ParticipantsListModal";
 
 
 const Messenger: React.FC<TProps> = (props) => {
@@ -90,6 +91,8 @@ const Messenger: React.FC<TProps> = (props) => {
             </Grid>
 
             <EditTitleModal selectedRoom={selectedRoom}/>
+
+            <ParticipantsListModal selectedRoom={selectedRoom}/>
 
         </div>
     );

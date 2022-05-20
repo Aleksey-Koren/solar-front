@@ -1,6 +1,6 @@
 import {
     FETCH_ROOMS, SET_EDIT_TITLE_OPEN,
-    SET_MESSAGES,
+    SET_MESSAGES, SET_PARTICIPANTS_LIST_MODAL_OPEN,
     SET_ROOM_MEMBERS,
     SET_ROOMS,
     TMessengerAction,
@@ -18,7 +18,8 @@ const initialState: TMessengerState = {
     roomMembers: Immutable.Map<number, User[]>(),
     isError: false,
     isLoading: false,
-    isEditTitleModalOpen: false
+    isEditTitleModalOpen: false,
+    isParticipantsListModalOpen: false
 }
 
 export function messengerReducer(state: TMessengerState = initialState, action: TMessengerAction) {
@@ -49,6 +50,10 @@ export function messengerReducer(state: TMessengerState = initialState, action: 
         case SET_EDIT_TITLE_OPEN:
             const editTitleAction = action as IPlainDataAction<boolean>;
             return {...state, isEditTitleModalOpen: editTitleAction.payload};
+
+        case SET_PARTICIPANTS_LIST_MODAL_OPEN:
+            const participantsListOpenAction = action as IPlainDataAction<boolean>;
+            return {...state, isParticipantsListModalOpen: participantsListOpenAction.payload}
 
         default:
             return state;
