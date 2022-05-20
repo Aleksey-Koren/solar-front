@@ -5,7 +5,7 @@ import Immutable from "immutable";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {User} from "../../model/User";
 import {RoomService} from "./room/RoomService";
-import {setMessagesToState, setRoomMembersToState} from "../../redux/messenger/messengerActions";
+import {setMessagesToState, setRoomMembersToState, setRoomsToState} from "../../redux/messenger/messengerActions";
 import {MessageService} from "./message/MessageService";
 import {RoomType} from "../../model/messenger/room/RoomType";
 import {retrieveUserId} from "../authService";
@@ -15,22 +15,45 @@ import {SearchRoom} from "../../model/messenger/room/SearchRoom";
 
 export class MessengerService {
 
-    static fetchMessages(room: Room,
-                         dispatch: AppDispatch,
-                         setRoom: Dispatch<SetStateAction<Room>>,
-                         messages: Immutable.Map<number, MessageEntity[]>,
-                         roomMembers: Immutable.Map<number, User[]>) {
+    static openRoom(room: Room,
+                    dispatch: AppDispatch,
+                    setRoom: Dispatch<SetStateAction<Room>>,
+                    rooms: Room[],
+                    roomMembers: Immutable.Map<number, User[]>) {
+
+        let modifiedRooms = MessengerService.setAmountToZero(rooms, room.id);
+        dispatch(setRoomsToState(modifiedRooms));
+
+        RoomService.updateLastSeenAt(room.id)
+            .then(() =>
+                MessengerService.fetchMessages(room, dispatch, setRoom, roomMembers)
+            )
+    }
+
+    private static setAmountToZero(rooms: Room[], roomId: number) {
+        let roomsToModify = new Array<Room>(...rooms);
+        roomsToModify.map(s => {
+            if (s.id === roomId) {
+                s.amount = 0;
+            }
+        });
+        return roomsToModify;
+    }
+
+    private static fetchMessages(room: Room,
+                                 dispatch: AppDispatch,
+                                 setRoom: Dispatch<SetStateAction<Room>>,
+                                 roomMembers: Immutable.Map<number, User[]>) {
         Promise.all([
-            RoomService.updateLastSeenAt(room.id),
             MessageService.getMessageHistory(room.id, 0, 20),
             RoomService.getUsersOfRoom(room.id)
-        ]).then(([lastSeenAtResp, messagesResp, usersResp]) => {
+        ]).then(([messagesResp, usersResp]) => {
             setRoom(room);
 
             const roomMembersMap = new Map(roomMembers).set(room.id, usersResp.data);
             dispatch(setRoomMembersToState(Immutable.Map(roomMembersMap)));
 
-            const messagesMap = new Map(messages).set(room.id, messagesResp.data.content.reverse());
+            const messagesMap = new Map().set(room.id, messagesResp.data.content.reverse());
             dispatch(setMessagesToState(Immutable.Map(messagesMap)));
         })
     }
@@ -83,7 +106,7 @@ export class MessengerService {
     }
 
     static createPrivateRoomWith(invitedId: number) {
-        RoomService.createRoom({userId: invitedId, isPrivate: true})
+        RoomService.createRoom({userId: invitedId, isPrivate: true}).then();
     }
 
     private static usersIHaveAlreadyHadPrivateChatsWithIds(myPrivateRooms: SearchRoom[]) {

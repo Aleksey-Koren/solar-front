@@ -19,7 +19,6 @@ import {MessengerService} from "../../service/messenger/MessengerService";
 import {Room} from "../../model/messenger/room/Room";
 import MessengerMenu from "./menu/MessengerMenu";
 import EditTitleModal from "./menu/edit-title/EditTitleModal";
-import { components } from 'react-select/dist/declarations/src/components';
 
 
 const Messenger: React.FC<TProps> = (props) => {
@@ -42,21 +41,13 @@ const Messenger: React.FC<TProps> = (props) => {
 
     const onChange = (option: ChatSearchOption) => {
         if (option.type === ChatSearchOptionType.ROOM) {
-            MessengerService.fetchMessages(option.payload as Room, dispatch, setSelectedRoom, props.messages, props.roomMembers);
+            MessengerService.openRoom(option.payload as Room, dispatch, setSelectedRoom, props.rooms, props.roomMembers);
             setSelectValue(null);
         } else {
             MessengerService.createPrivateRoomWith(option.payload.id);
             setSelectValue(null);
         }
     }
-
-    // const NoOptionsMessage = (props: any) => {
-    //     return (
-    //         <components.NoOptionsMessage {...props}>
-    //             <span className="custom-css-class">Text</span>
-    //         </components.NoOptionsMessage>
-    //     );
-    // };
 
     return (
         <div className={style.wrapper}>
@@ -75,7 +66,7 @@ const Messenger: React.FC<TProps> = (props) => {
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
                             <ListItemButton key={room.id}
-                                            onClick={() => MessengerService.fetchMessages(room, dispatch, setSelectedRoom, props.messages, props.roomMembers)}>
+                                            onClick={() => MessengerService.openRoom(room, dispatch, setSelectedRoom, props.rooms, props.roomMembers)}>
                                 <ListItemText className={style.unread_message_text}>{room.amount}</ListItemText>
                                 <ListItemText>{MessengerService.retrieveRoomTitle(room)}</ListItemText>
                             </ListItemButton>
