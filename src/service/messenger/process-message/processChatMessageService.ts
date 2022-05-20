@@ -7,18 +7,6 @@ import {Room} from "../../../model/messenger/room/Room";
 
 export class ProcessChatMessageService {
 
-    // title start with 'Room title has been changed to " ' -- it's equal 32 symbols
-    static updateRoomTitle(messageEntity: MessageEntity, rooms: Room[], dispatch: AppDispatch) {
-        const roomTitle = messageEntity.message.substring(32, messageEntity.message.length - 1);
-        const updatedRooms = rooms.map(room => {
-            if (room.id === messageEntity.roomId) {
-                room.title = roomTitle
-            }
-            return room;
-        })
-        dispatch(setRoomsToState(updatedRooms))
-    }
-
     static appendOrUpdateMessage(messageEntity: MessageEntity, messages: Immutable.Map<number, MessageEntity[]>, dispatch: AppDispatch) {
         const map = new Map(messages);
         const messageRoomId = messageEntity.roomId;

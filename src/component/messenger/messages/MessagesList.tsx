@@ -22,7 +22,6 @@ interface MessagesListProps {
 
 function MessagesList(props: MessagesListProps) {
     const messages = useAppSelector(state => state.messenger.messages);
-    const roomMembers = useAppSelector(state => state.messenger.roomMembers);
 
     const createEditIcon = (message: MessageEntity) => (
         props.currentUserId === message.senderId &&
@@ -43,7 +42,7 @@ function MessagesList(props: MessagesListProps) {
                         <Grid container>
                             <Grid item xs={12}>
                                 {message.messageType === MessageType.CHAT &&
-                                    < div className={style.message_container} style={{
+                                    <div className={style.message_container} style={{
                                         float: (message.senderId === props.currentUserId ? 'right' : 'left'),
                                         background: (message.senderId === props.currentUserId ? 'lightgreen' : 'grey')
                                     }}>

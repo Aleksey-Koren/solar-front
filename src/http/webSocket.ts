@@ -5,7 +5,6 @@ import {AppDispatch, AppState} from "../index";
 import {MessageEntity} from "../model/messenger/message/MessageEntity";
 import {MessageType} from "../model/messenger/message/MessageType";
 import {ProcessChatMessageService} from "../service/messenger/process-message/processChatMessageService";
-import {NotificationService} from "../service/messenger/NotificationService";
 
 export let stompClient: Client = null;
 
@@ -28,11 +27,6 @@ function processMessage(message: Message, getState: () => AppState, dispatch: Ap
     const messageRoomId = messageEntity.roomId;
     const messages = getState().messenger.messages;
     const rooms = getState().messenger.rooms;
-
-    //todo: SYSTEM MESSAGE SEND ONLY ON UPDATE TITLE
-    if (messageEntity.messageType === MessageType.SYSTEM) {
-        ProcessChatMessageService.updateRoomTitle(messageEntity, rooms, dispatch)
-    }
 
     if (messages.has(messageRoomId)) {
         ProcessChatMessageService.appendOrUpdateMessage(messageEntity, messages, dispatch)

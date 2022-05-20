@@ -9,7 +9,7 @@ import {
     SET_IS_ADD_USERS_OPENED,
     SET_EDIT_TITLE_OPEN,
     SET_MESSAGES,
-    SET_ROOM_MEMBERS,
+    SET_PARTICIPANTS_LIST_MODAL_OPEN, SET_ROOM_MEMBERS,
     SET_ROOMS
 } from "./messengerTypes";
 import Immutable from "immutable";
@@ -28,6 +28,7 @@ export function messengerInitialization() {
                     dispatch(setRoomsToState(resp.data));
                 })
         }
+
         connectStompClient(sessionStorage.getItem('auth_token'), callback);
     }
 }
@@ -83,3 +84,12 @@ export function setIsAddUsersModalOpened(isOpened: boolean): IPlainDataAction<bo
         payload: isOpened
     }
 }
+
+export function setParticipantsListModalOpen(isOpen: boolean): IPlainDataAction<boolean> {
+
+    return {
+        type: SET_PARTICIPANTS_LIST_MODAL_OPEN,
+        payload: isOpen
+    }
+}
+

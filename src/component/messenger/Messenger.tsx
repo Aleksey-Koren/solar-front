@@ -21,13 +21,13 @@ import MessengerMenu from "./menu/MessengerMenu";
 import EditTitleModal from "./menu/edit-title/EditTitleModal";
 import AddUsersModal from "./menu/add-users/AddUsersModal";
 import MessengerSelect from "./select/MessengerSelect";
+import ParticipantsListModal from "./menu/participants-list/ParticipantsListModal";
 
 
 const Messenger: React.FC<TProps> = (props) => {
     const [messageText, setMessageText] = useState<string>('');
     const [selectedRoom, setSelectedRoom] = useState<Room>(null);
     const [editedMessage, setEditedMessage] = useState<MessageEntity>(null);
-
     const dispatch = useAppDispatch();
     const currentUserId = retrieveUserId();
 
@@ -82,11 +82,10 @@ const Messenger: React.FC<TProps> = (props) => {
 
             <EditTitleModal selectedRoom={selectedRoom}/>
             <AddUsersModal selectedRoom={selectedRoom}/>
+            <ParticipantsListModal selectedRoom={selectedRoom}/>
         </div>
     );
 }
-
-
 
 
 const mapStateToProps = (state: AppState) => ({
