@@ -105,8 +105,8 @@ export class MessengerService {
         }
     }
 
-    static createPrivateRoomWith(invitedId: number) {
-        RoomService.createRoom({userId: invitedId, isPrivate: true}).then();
+    static async createPrivateRoomWith(invitedId: number) {
+        return RoomService.createRoom({userId: invitedId, isPrivate: true})
     }
 
     private static usersIHaveAlreadyHadPrivateChatsWithIds(myPrivateRooms: SearchRoom[]) {

@@ -7,7 +7,7 @@ import AddIcon from '@mui/icons-material/Add';
 import {Room} from "../../../model/messenger/room/Room";
 import {RoomType} from "../../../model/messenger/room/RoomType";
 import {useAppDispatch} from "../../../index";
-import {setEditTitleOpen} from "../../../redux/messenger/messengerActions";
+import {setEditTitleOpen, setIsAddUsersModalOpened} from "../../../redux/messenger/messengerActions";
 
 interface MessengerMenuProps {
     selectedRoom: Room;
@@ -39,9 +39,15 @@ function MessengerMenu(props: MessengerMenuProps) {
                             <EditIcon style={{marginRight: '10px'}}/>
                             Edit Title
                         </MenuItem>
-                        <MenuItem key={2} style={{paddingRight: '50px'}}>
+                        <MenuItem key={2}
+                                  style={{paddingRight: '50px'}}
+                                  onClick={() => {
+                                      dispatch(setIsAddUsersModalOpened(true));
+                                      setAnchorEl(null);
+                                  }}
+                        >
                             <AddIcon fontSize={'large'} style={{marginRight: '10px', width: '40px'}}/>
-                            Add member
+                            Add members
                         </MenuItem>
                     </>
                 }

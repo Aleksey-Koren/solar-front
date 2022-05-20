@@ -9,6 +9,7 @@ interface IMessengerState {
     messages: Immutable.Map<number, MessageEntity[]>;
     roomMembers: Immutable.Map<number, User[]>;
     isEditTitleModalOpen: boolean;
+    isAddUsersModalOpened: boolean;
 }
 
 export type TMessengerState = IMessengerState & IDefaultStateField;
@@ -20,3 +21,4 @@ export const SET_MESSAGES = 'SET_MESSAGES';
 export const FETCH_ROOMS = 'FETCH_ROOMS';
 export const SET_ROOM_MEMBERS = 'SET_ROOM_MEMBERS';
 export const SET_EDIT_TITLE_OPEN = 'SET_EDIT_TITLE_OPEN';
+export const SET_IS_ADD_USERS_OPENED = 'SET_ADD_USERS_OPENED';

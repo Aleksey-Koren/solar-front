@@ -19,13 +19,15 @@ import {MessengerService} from "../../service/messenger/MessengerService";
 import {Room} from "../../model/messenger/room/Room";
 import MessengerMenu from "./menu/MessengerMenu";
 import EditTitleModal from "./menu/edit-title/EditTitleModal";
+import AddUsersModal from "./menu/add-users/AddUsersModal";
+import MessengerSelect from "./select/MessengerSelect";
 
 
 const Messenger: React.FC<TProps> = (props) => {
     const [messageText, setMessageText] = useState<string>('');
     const [selectedRoom, setSelectedRoom] = useState<Room>(null);
     const [editedMessage, setEditedMessage] = useState<MessageEntity>(null);
-    const [selectValue, setSelectValue] = useState<ChatSearchOption>(null);
+
     const dispatch = useAppDispatch();
     const currentUserId = retrieveUserId();
 
@@ -39,29 +41,12 @@ const Messenger: React.FC<TProps> = (props) => {
         MessengerService.retrieveRoomTitle(selectedRoom)
     }, [props.messages]);
 
-    const onChange = (option: ChatSearchOption) => {
-        if (option.type === ChatSearchOptionType.ROOM) {
-            MessengerService.openRoom(option.payload as Room, dispatch, setSelectedRoom, props.rooms, props.roomMembers);
-            setSelectValue(null);
-        } else {
-            MessengerService.createPrivateRoomWith(option.payload.id);
-            setSelectValue(null);
-        }
-    }
 
     return (
         <div className={style.wrapper}>
             <Grid container component={Paper} className={style.chatSection}>
                 <Grid item xs={3} className={style.room_container}>
-                    <AsyncSelect loadOptions={MessengerService.promiseOptions}
-                                 getOptionLabel={MessengerService.generateOptionLabel}
-                                 getOptionValue={s => s.toString()}
-                                 maxMenuHeight={500}
-                                 onChange={onChange}
-                                 value={selectValue}
-                                 placeholder={'Search...'}
-                                 noOptionsMessage={({inputValue}) => inputValue ? "No results found" : ""}
-                    />
+                    <MessengerSelect setSelectedRoom={setSelectedRoom}/>
                     <Divider/>
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
@@ -96,7 +81,7 @@ const Messenger: React.FC<TProps> = (props) => {
             </Grid>
 
             <EditTitleModal selectedRoom={selectedRoom}/>
-
+            <AddUsersModal selectedRoom={selectedRoom}/>
         </div>
     );
 }
