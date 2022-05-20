@@ -21,7 +21,6 @@ export function messengerInitialization() {
                     dispatch(setRoomsToState(resp.data));
                 })
         }
-
         connectStompClient(sessionStorage.getItem('auth_token'), callback);
     }
 }
@@ -70,6 +69,3 @@ export function updateRoomTitle(roomId: number, title: string) {
             .then(() => dispatch(setEditTitleOpen(false)))
     }
 }
-
-
-

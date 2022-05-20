@@ -19,12 +19,14 @@ import {MessengerService} from "../../service/messenger/MessengerService";
 import {Room} from "../../model/messenger/room/Room";
 import MessengerMenu from "./menu/MessengerMenu";
 import EditTitleModal from "./menu/edit-title/EditTitleModal";
+import { components } from 'react-select/dist/declarations/src/components';
 
 
 const Messenger: React.FC<TProps> = (props) => {
     const [messageText, setMessageText] = useState<string>('');
     const [selectedRoom, setSelectedRoom] = useState<Room>(null);
     const [editedMessage, setEditedMessage] = useState<MessageEntity>(null);
+    const [selectValue, setSelectValue] = useState<ChatSearchOption>(null);
     const dispatch = useAppDispatch();
     const currentUserId = retrieveUserId();
 
@@ -41,10 +43,20 @@ const Messenger: React.FC<TProps> = (props) => {
     const onChange = (option: ChatSearchOption) => {
         if (option.type === ChatSearchOptionType.ROOM) {
             MessengerService.fetchMessages(option.payload as Room, dispatch, setSelectedRoom, props.messages, props.roomMembers);
+            setSelectValue(null);
         } else {
             MessengerService.createPrivateRoomWith(option.payload.id);
+            setSelectValue(null);
         }
     }
+
+    // const NoOptionsMessage = (props: any) => {
+    //     return (
+    //         <components.NoOptionsMessage {...props}>
+    //             <span className="custom-css-class">Text</span>
+    //         </components.NoOptionsMessage>
+    //     );
+    // };
 
     return (
         <div className={style.wrapper}>
@@ -55,6 +67,9 @@ const Messenger: React.FC<TProps> = (props) => {
                                  getOptionValue={s => s.toString()}
                                  maxMenuHeight={500}
                                  onChange={onChange}
+                                 value={selectValue}
+                                 placeholder={'Search...'}
+                                 noOptionsMessage={({inputValue}) => inputValue ? "No results found" : ""}
                     />
                     <Divider/>
                     <List className={style.room_list}>
@@ -94,6 +109,8 @@ const Messenger: React.FC<TProps> = (props) => {
         </div>
     );
 }
+
+
 
 
 const mapStateToProps = (state: AppState) => ({
