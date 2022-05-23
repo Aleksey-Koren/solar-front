@@ -3,7 +3,7 @@ import Grid from '@mui/material/Grid/Grid';
 import List from '@mui/material/List';
 import ListItemText from '@mui/material/ListItemText/ListItemText';
 import Paper from '@mui/material/Paper/Paper';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import style from './Messenger.module.css'
 import {AppState, useAppDispatch} from "../../index";
 import {connect, ConnectedProps} from "react-redux";
@@ -29,6 +29,8 @@ const Messenger: React.FC<TProps> = (props) => {
     const dispatch = useAppDispatch();
     const currentUserId = retrieveUserId();
 
+    const ref = useRef(null);
+
     useEffect(() => {
         props.messengerInitialization();
     }, [props.messengerInitialization]);
@@ -41,7 +43,7 @@ const Messenger: React.FC<TProps> = (props) => {
 
 
     return (
-        <div className={style.wrapper}>
+        <div className={style.wrapper} ref={ref}>
             <Grid container component={Paper} className={style.chatSection}>
                 <Grid item xs={3} className={style.room_container}>
                     <MessengerSelect setSelectedRoom={setSelectedRoom}/>
@@ -50,7 +52,10 @@ const Messenger: React.FC<TProps> = (props) => {
                         {props.rooms.map(room => (
                             <ListItemButton key={room.id}
                                             onClick={() => MessengerService.openRoom(room, dispatch, setSelectedRoom, props.rooms, props.roomMembers)}>
-                                <ListItemText className={style.unread_message_text} style={{visibility: (room.amount === 0 ? "hidden" : "visible")}}>{room.amount}</ListItemText>
+                                <ListItemText className={style.unread_message_text}
+                                              style={{visibility: (room.amount === 0 ? "hidden" : "visible")}}>
+                                    {room.amount}
+                                </ListItemText>
                                 <ListItemText>{MessengerService.retrieveRoomTitle(room)}</ListItemText>
                             </ListItemButton>
                         ))}
@@ -80,7 +85,7 @@ const Messenger: React.FC<TProps> = (props) => {
 
             <EditTitleModal selectedRoom={selectedRoom}/>
             <AddUsersModal selectedRoom={selectedRoom}/>
-            <ParticipantsListModal selectedRoom={selectedRoom}/>
+            <ParticipantsListModal selectedRoom={selectedRoom} parentRef={ref}/>
         </div>
     );
 }

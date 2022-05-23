@@ -26,7 +26,7 @@ export class MessengerService {
                     rooms: Room[],
                     roomMembers: Immutable.Map<number, User[]>) {
 
-        let modifiedRooms = MessengerService.setAmountToZero(rooms, room.id);
+        let modifiedRooms = MessengerService.setAmountToZero(rooms, room);
         dispatch(setRoomsToState(modifiedRooms));
         dispatch(setSelectedRoom(room));
 
@@ -36,12 +36,13 @@ export class MessengerService {
             )
     }
 
-    private static setAmountToZero(rooms: Room[], roomId: number) {
-        let roomsToModify = new Array<Room>(...rooms);
+    private static setAmountToZero(rooms: Room[], createdRoom: Room) {
+        let roomsToModify = new Array<Room>(...rooms, createdRoom);
         roomsToModify.map(s => {
-            if (s.id === roomId) {
+            if (s.id === createdRoom.id) {
                 s.amount = 0;
             }
+            return s;
         });
         return roomsToModify;
     }
