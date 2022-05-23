@@ -8,7 +8,9 @@ interface IMessengerState {
     rooms: Room[];
     messages: Immutable.Map<number, MessageEntity[]>;
     roomMembers: Immutable.Map<number, User[]>;
+    selectedRoom: Room | null;
     isEditTitleModalOpen: boolean;
+    isAddUsersModalOpened: boolean;
     isParticipantsListModalOpen: boolean;
 }
 
@@ -21,4 +23,6 @@ export const SET_MESSAGES = 'SET_MESSAGES';
 export const FETCH_ROOMS = 'FETCH_ROOMS';
 export const SET_ROOM_MEMBERS = 'SET_ROOM_MEMBERS';
 export const SET_EDIT_TITLE_OPEN = 'SET_EDIT_TITLE_OPEN';
+export const SET_IS_ADD_USERS_OPENED = 'SET_ADD_USERS_OPENED';
 export const SET_PARTICIPANTS_LIST_MODAL_OPEN = 'SET_PARTICIPANTS_LIST_MODAL_OPEN';
+export const SET_SELECTED_ROOM = 'SET_SELECTED_ROOM';

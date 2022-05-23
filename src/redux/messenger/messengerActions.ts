@@ -6,11 +6,11 @@ import {RoomService} from "../../service/messenger/room/RoomService";
 import {IPendingAction, IPlainDataAction} from "../redux-types";
 import {
     FETCH_ROOMS,
+    SET_IS_ADD_USERS_OPENED,
     SET_EDIT_TITLE_OPEN,
     SET_MESSAGES,
-    SET_PARTICIPANTS_LIST_MODAL_OPEN,
-    SET_ROOM_MEMBERS,
-    SET_ROOMS
+    SET_PARTICIPANTS_LIST_MODAL_OPEN, SET_ROOM_MEMBERS,
+    SET_ROOMS, SET_SELECTED_ROOM
 } from "./messengerTypes";
 import Immutable from "immutable";
 import {User} from "../../model/User";
@@ -71,7 +71,6 @@ export function setEditTitleOpen(isOpen: boolean): IPlainDataAction<boolean> {
     }
 }
 
-
 export function updateRoomTitle(roomId: number, title: string) {
     return (dispatch: AppDispatch) => {
         RoomService.updateRoomTitle(roomId, title)
@@ -79,12 +78,25 @@ export function updateRoomTitle(roomId: number, title: string) {
     }
 }
 
+export function setIsAddUsersModalOpened(isOpened: boolean): IPlainDataAction<boolean> {
+    return {
+        type: SET_IS_ADD_USERS_OPENED,
+        payload: isOpened
+    }
+}
 
 export function setParticipantsListModalOpen(isOpen: boolean): IPlainDataAction<boolean> {
 
     return {
         type: SET_PARTICIPANTS_LIST_MODAL_OPEN,
         payload: isOpen
+    }
+}
+
+export function setSelectedRoom(room: Room): IPlainDataAction<Room> {
+    return {
+        type: SET_SELECTED_ROOM,
+        payload: room
     }
 }
 

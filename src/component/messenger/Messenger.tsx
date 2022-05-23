@@ -19,6 +19,8 @@ import {MessengerService} from "../../service/messenger/MessengerService";
 import {Room} from "../../model/messenger/room/Room";
 import MessengerMenu from "./menu/MessengerMenu";
 import EditTitleModal from "./menu/edit-title/EditTitleModal";
+import AddUsersModal from "./menu/add-users/AddUsersModal";
+import MessengerSelect from "./select/MessengerSelect";
 import ParticipantsListModal from "./menu/participants-list/ParticipantsListModal";
 
 
@@ -39,30 +41,18 @@ const Messenger: React.FC<TProps> = (props) => {
         MessengerService.retrieveRoomTitle(selectedRoom)
     }, [props.messages]);
 
-    const onChange = (option: ChatSearchOption) => {
-        if (option.type === ChatSearchOptionType.ROOM) {
-            MessengerService.fetchMessages(option.payload as Room, dispatch, setSelectedRoom, props.messages, props.roomMembers);
-        } else {
-            MessengerService.createPrivateRoomWith(option.payload.id);
-        }
-    }
 
     return (
         <div className={style.wrapper}>
             <Grid container component={Paper} className={style.chatSection}>
                 <Grid item xs={3} className={style.room_container}>
-                    <AsyncSelect loadOptions={MessengerService.promiseOptions}
-                                 getOptionLabel={MessengerService.generateOptionLabel}
-                                 getOptionValue={s => s.toString()}
-                                 maxMenuHeight={500}
-                                 onChange={onChange}
-                    />
+                    <MessengerSelect setSelectedRoom={setSelectedRoom}/>
                     <Divider/>
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
                             <ListItemButton key={room.id}
-                                            onClick={() => MessengerService.fetchMessages(room, dispatch, setSelectedRoom, props.messages, props.roomMembers)}>
-                                <ListItemText className={style.unread_message_text}>{room.amount}</ListItemText>
+                                            onClick={() => MessengerService.openRoom(room, dispatch, setSelectedRoom, props.rooms, props.roomMembers)}>
+                                <ListItemText className={style.unread_message_text} style={room.amount === 0 && {visibility: "hidden"}}>{room.amount}</ListItemText>
                                 <ListItemText>{MessengerService.retrieveRoomTitle(room)}</ListItemText>
                             </ListItemButton>
                         ))}
@@ -91,9 +81,8 @@ const Messenger: React.FC<TProps> = (props) => {
             </Grid>
 
             <EditTitleModal selectedRoom={selectedRoom}/>
-
+            <AddUsersModal selectedRoom={selectedRoom}/>
             <ParticipantsListModal selectedRoom={selectedRoom}/>
-
         </div>
     );
 }

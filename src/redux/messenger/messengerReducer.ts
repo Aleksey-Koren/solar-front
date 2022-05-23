@@ -1,8 +1,8 @@
 import {
-    FETCH_ROOMS, SET_EDIT_TITLE_OPEN,
+    FETCH_ROOMS, SET_EDIT_TITLE_OPEN, SET_IS_ADD_USERS_OPENED,
     SET_MESSAGES, SET_PARTICIPANTS_LIST_MODAL_OPEN,
     SET_ROOM_MEMBERS,
-    SET_ROOMS,
+    SET_ROOMS, SET_SELECTED_ROOM,
     TMessengerAction,
     TMessengerState
 } from "./messengerTypes";
@@ -16,9 +16,11 @@ const initialState: TMessengerState = {
     rooms: new Array<Room>(),
     messages: Immutable.Map<number, MessageEntity[]>(),
     roomMembers: Immutable.Map<number, User[]>(),
+    selectedRoom: null,
     isError: false,
     isLoading: false,
     isEditTitleModalOpen: false,
+    isAddUsersModalOpened: false,
     isParticipantsListModalOpen: false
 }
 
@@ -39,6 +41,10 @@ export function messengerReducer(state: TMessengerState = initialState, action: 
             let setRoomsAction = action as IPlainDataAction<Room[]>;
             return {...state, rooms: setRoomsAction.payload}
 
+        case SET_SELECTED_ROOM:
+            let setSelectedRoomAction = action as IPlainDataAction<Room>
+            return {...state, selectedRoom: setSelectedRoomAction.payload}
+
         case SET_MESSAGES:
             let setMessagesAction = action as IPlainDataAction<Immutable.Map<number, MessageEntity[]>>;
             return {...state, messages: setMessagesAction.payload}
@@ -50,6 +56,10 @@ export function messengerReducer(state: TMessengerState = initialState, action: 
         case SET_EDIT_TITLE_OPEN:
             const editTitleAction = action as IPlainDataAction<boolean>;
             return {...state, isEditTitleModalOpen: editTitleAction.payload};
+
+        case SET_IS_ADD_USERS_OPENED:
+            const isAddUsersModalOpenedAction = action as IPlainDataAction<boolean>;
+            return {...state, isAddUsersModalOpened: isAddUsersModalOpenedAction.payload};
 
         case SET_PARTICIPANTS_LIST_MODAL_OPEN:
             const participantsListOpenAction = action as IPlainDataAction<boolean>;
