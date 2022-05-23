@@ -10,7 +10,6 @@ import StarIcon from '@mui/icons-material/Star';
 import PersonIcon from '@mui/icons-material/Person';
 import RemoveCircleIcon from '@mui/icons-material/RemoveCircle';
 import {AppState} from "../../../../index";
-import {Room} from "../../../../model/messenger/room/Room";
 import {setParticipantsListModalOpen} from "../../../../redux/messenger/messengerActions";
 import {retrieveUserId} from "../../../../service/authService";
 import {RoomService} from "../../../../service/messenger/room/RoomService";
@@ -58,11 +57,11 @@ const ParticipantsListModal: React.FC<Props> = (props) => {
     );
 }
 
-const mapStateToProps = (state: AppState, ownProps: { selectedRoom: Room, parentRef: React.MutableRefObject<any>}) => ({
+const mapStateToProps = (state: AppState, ownProps: { parentRef: React.MutableRefObject<any> }) => ({
     isOpen: state.messenger.isParticipantsListModalOpen,
     roomMembers: state.messenger.roomMembers,
-    selectedRoom: ownProps.selectedRoom,
-    roomOwnerId: ownProps.selectedRoom?.ownerId,
+    selectedRoom: state.messenger.selectedRoom,
+    roomOwnerId: state.messenger.selectedRoom?.ownerId,
     parentRef: ownProps.parentRef
 })
 

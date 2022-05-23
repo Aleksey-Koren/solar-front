@@ -1,6 +1,5 @@
 import {Room} from "../../model/messenger/room/Room";
 import {AppDispatch} from "../../index";
-import {Dispatch, SetStateAction} from "react";
 import Immutable from "immutable";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {User} from "../../model/User";
@@ -22,7 +21,6 @@ export class MessengerService {
 
     static openRoom(room: Room,
                     dispatch: AppDispatch,
-                    setRoom: Dispatch<SetStateAction<Room>>,
                     rooms: Room[],
                     roomMembers: Immutable.Map<number, User[]>) {
 
@@ -32,12 +30,12 @@ export class MessengerService {
 
         RoomService.updateLastSeenAt(room.id)
             .then(() =>
-                MessengerService.fetchMessages(room, dispatch, setRoom, roomMembers)
+                MessengerService.fetchMessages(room, dispatch, roomMembers)
             )
     }
 
     private static setAmountToZero(rooms: Room[], createdRoom: Room) {
-        let roomsToModify = new Array<Room>(...rooms, createdRoom);
+        let roomsToModify = new Array<Room>(...rooms);
         roomsToModify.map(s => {
             if (s.id === createdRoom.id) {
                 s.amount = 0;
@@ -49,13 +47,12 @@ export class MessengerService {
 
     private static fetchMessages(room: Room,
                                  dispatch: AppDispatch,
-                                 setRoom: Dispatch<SetStateAction<Room>>,
                                  roomMembers: Immutable.Map<number, User[]>) {
         Promise.all([
             MessageService.getMessageHistory(room.id, 0, 20),
             RoomService.getUsersOfRoom(room.id)
         ]).then(([messagesResp, usersResp]) => {
-            setRoom(room);
+            dispatch(setSelectedRoom(room));
 
             const roomMembersMap = new Map(roomMembers).set(room.id, usersResp.data);
             dispatch(setRoomMembersToState(Immutable.Map(roomMembersMap)));
@@ -81,7 +78,7 @@ export class MessengerService {
         return room?.title;
     }
 
-    static promiseOptions (inputValue: string): Promise<ChatSearchOption[]> {
+    static promiseOptions(inputValue: string): Promise<ChatSearchOption[]> {
         let rooms = RoomService.findRoomsWithSpecificUser(inputValue, RoomType.PRIVATE);
         let users = findUsersPerPage(0, 20, {title: inputValue})
         return Promise.all([rooms, users]).then(

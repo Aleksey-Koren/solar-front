@@ -99,4 +99,3 @@ export function setSelectedRoom(room: Room): IPlainDataAction<Room> {
         payload: room
     }
 }
-

@@ -14,7 +14,6 @@ import MessengerFooter from "./footer/MessengerFooter";
 import MessagesList from "./messages/MessagesList";
 import ListItemButton from '@mui/material/ListItemButton';
 import {MessengerService} from "../../service/messenger/MessengerService";
-import {Room} from "../../model/messenger/room/Room";
 import MessengerMenu from "./menu/MessengerMenu";
 import EditTitleModal from "./menu/edit-title/EditTitleModal";
 import AddUsersModal from "./menu/add-users/AddUsersModal";
@@ -24,7 +23,6 @@ import ParticipantsListModal from "./menu/participants-list/ParticipantsListModa
 
 const Messenger: React.FC<TProps> = (props) => {
     const [messageText, setMessageText] = useState<string>('');
-    const [selectedRoom, setSelectedRoom] = useState<Room>(null);
     const [editedMessage, setEditedMessage] = useState<MessageEntity>(null);
     const dispatch = useAppDispatch();
     const currentUserId = retrieveUserId();
@@ -38,7 +36,7 @@ const Messenger: React.FC<TProps> = (props) => {
     useEffect(() => {
         const element = document.getElementById('list');
         element.scrollTop = element.scrollHeight;
-        MessengerService.retrieveRoomTitle(selectedRoom)
+        MessengerService.retrieveRoomTitle(props.selectedRoom)
     }, [props.messages]);
 
 
@@ -46,12 +44,12 @@ const Messenger: React.FC<TProps> = (props) => {
         <div className={style.wrapper} ref={ref}>
             <Grid container component={Paper} className={style.chatSection}>
                 <Grid item xs={3} className={style.room_container}>
-                    <MessengerSelect setSelectedRoom={setSelectedRoom}/>
+                    <MessengerSelect />
                     <Divider/>
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
                             <ListItemButton key={room.id}
-                                            onClick={() => MessengerService.openRoom(room, dispatch, setSelectedRoom, props.rooms, props.roomMembers)}>
+                                            onClick={() => MessengerService.openRoom(room, dispatch, props.rooms, props.roomMembers)}>
                                 <ListItemText className={style.unread_message_text}
                                               style={{visibility: (room.amount === 0 ? "hidden" : "visible")}}>
                                     {room.amount}
@@ -65,27 +63,27 @@ const Messenger: React.FC<TProps> = (props) => {
                 <Grid container direction={'column'} item xs={9}>
                     <Grid container item className={style.room_title_container}>
                         <Grid item xs={11} className={style.room_title}>
-                            <strong>{MessengerService.retrieveRoomTitle(selectedRoom)}</strong>
+                            <strong>{MessengerService.retrieveRoomTitle(props.selectedRoom)}</strong>
                         </Grid>
 
                         <Grid item xs={1} className={style.room_title}>
-                            <MessengerMenu selectedRoom={selectedRoom}/>
+                            <MessengerMenu />
                         </Grid>
                     </Grid>
 
-                    <MessagesList currentUserId={currentUserId} selectedRoom={selectedRoom}
+                    <MessagesList currentUserId={currentUserId}
                                   setEditedMessage={setEditedMessage} setMessageText={setMessageText}/>
 
-                    <MessengerFooter editedMessage={editedMessage} messageText={messageText} selectedRoom={selectedRoom}
+                    <MessengerFooter editedMessage={editedMessage} messageText={messageText}
                                      setEditedMessage={setEditedMessage} setMessageText={setMessageText}
                     />
 
                 </Grid>
             </Grid>
 
-            <EditTitleModal selectedRoom={selectedRoom}/>
-            <AddUsersModal selectedRoom={selectedRoom}/>
-            <ParticipantsListModal selectedRoom={selectedRoom} parentRef={ref}/>
+            <EditTitleModal />
+            <AddUsersModal />
+            <ParticipantsListModal parentRef={ref}/>
         </div>
     );
 }
@@ -94,7 +92,8 @@ const Messenger: React.FC<TProps> = (props) => {
 const mapStateToProps = (state: AppState) => ({
     rooms: state.messenger.rooms,
     messages: state.messenger.messages,
-    roomMembers: state.messenger.roomMembers
+    roomMembers: state.messenger.roomMembers,
+    selectedRoom: state.messenger.selectedRoom
 })
 
 const mapDispatchToProps = {
