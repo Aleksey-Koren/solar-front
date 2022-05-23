@@ -18,7 +18,7 @@ const AddUsersModal: React.FC<TProps> = (props) => {
                     <DialogContentText>
                         TEST TEXT!!!!!!!!
                     </DialogContentText>
-                    <AddUserSelect selectedRoom={props.room}/>
+                    <AddUserSelect/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

@@ -10,8 +10,6 @@ import {connect, ConnectedProps} from "react-redux";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {messengerInitialization} from "../../redux/messenger/messengerActions";
 import {retrieveUserId} from "../../service/authService";
-import AsyncSelect from "react-select/async";
-import {ChatSearchOption, ChatSearchOptionType} from "../../model/messenger/chatSearchOptiom/ChatSearchOption";
 import MessengerFooter from "./footer/MessengerFooter";
 import MessagesList from "./messages/MessagesList";
 import ListItemButton from '@mui/material/ListItemButton';
@@ -52,7 +50,7 @@ const Messenger: React.FC<TProps> = (props) => {
                         {props.rooms.map(room => (
                             <ListItemButton key={room.id}
                                             onClick={() => MessengerService.openRoom(room, dispatch, setSelectedRoom, props.rooms, props.roomMembers)}>
-                                <ListItemText className={style.unread_message_text} style={room.amount === 0 && {visibility: "hidden"}}>{room.amount}</ListItemText>
+                                <ListItemText className={style.unread_message_text} style={{visibility: (room.amount === 0 ? "hidden" : "visible")}}>{room.amount}</ListItemText>
                                 <ListItemText>{MessengerService.retrieveRoomTitle(room)}</ListItemText>
                             </ListItemButton>
                         ))}
