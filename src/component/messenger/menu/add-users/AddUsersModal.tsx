@@ -5,6 +5,7 @@ import {AppState} from "../../../../index";
 import React from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, TextField} from "@mui/material";
 import {Room} from "../../../../model/messenger/room/Room";
+import AddUserSelect from "../../select/AddUserSelect";
 
 const AddUsersModal: React.FC<TProps> = (props) => {
 
@@ -17,15 +18,7 @@ const AddUsersModal: React.FC<TProps> = (props) => {
                     <DialogContentText>
                         TEST TEXT!!!!!!!!
                     </DialogContentText>
-                    {/*<TextField*/}
-                    {/*    autoFocus*/}
-                    {/*    margin="dense"*/}
-                    {/*    id="name"*/}
-                    {/*    label="Email Address"*/}
-                    {/*    type="email"*/}
-                    {/*    fullWidth*/}
-                    {/*    variant="standard"*/}
-                    {/*/>*/}
+                    <AddUserSelect selectedRoom={props.room}/>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>

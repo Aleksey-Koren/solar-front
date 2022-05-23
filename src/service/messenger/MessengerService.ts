@@ -5,7 +5,12 @@ import Immutable from "immutable";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {User} from "../../model/User";
 import {RoomService} from "./room/RoomService";
-import {setMessagesToState, setRoomMembersToState, setRoomsToState} from "../../redux/messenger/messengerActions";
+import {
+    setMessagesToState,
+    setRoomMembersToState,
+    setRoomsToState,
+    setSelectedRoom
+} from "../../redux/messenger/messengerActions";
 import {MessageService} from "./message/MessageService";
 import {RoomType} from "../../model/messenger/room/RoomType";
 import {retrieveUserId} from "../authService";
@@ -23,6 +28,7 @@ export class MessengerService {
 
         let modifiedRooms = MessengerService.setAmountToZero(rooms, room.id);
         dispatch(setRoomsToState(modifiedRooms));
+        dispatch(setSelectedRoom(room));
 
         RoomService.updateLastSeenAt(room.id)
             .then(() =>

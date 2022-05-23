@@ -10,7 +10,7 @@ import {
     SET_EDIT_TITLE_OPEN,
     SET_MESSAGES,
     SET_PARTICIPANTS_LIST_MODAL_OPEN, SET_ROOM_MEMBERS,
-    SET_ROOMS
+    SET_ROOMS, SET_SELECTED_ROOM
 } from "./messengerTypes";
 import Immutable from "immutable";
 import {User} from "../../model/User";
@@ -90,6 +90,13 @@ export function setParticipantsListModalOpen(isOpen: boolean): IPlainDataAction<
     return {
         type: SET_PARTICIPANTS_LIST_MODAL_OPEN,
         payload: isOpen
+    }
+}
+
+export function setSelectedRoom(room: Room): IPlainDataAction<Room> {
+    return {
+        type: SET_SELECTED_ROOM,
+        payload: room
     }
 }
 
