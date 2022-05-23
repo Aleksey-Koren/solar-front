@@ -12,7 +12,6 @@ export function connectStompClient(authToken: string, callback: () => void) {
     const sockJS = new SockJS('http://localhost:8081/api/ws', {}, {timeout: -1});
     stompClient = over(sockJS);
     stompClient.connect({'auth_token': authToken}, callback, () => console.log('WEB SOCKET ERROR'));
-
 }
 
 export function subscribeToRooms(rooms: Room[], getState: () => AppState, dispatch: AppDispatch) {

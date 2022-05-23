@@ -18,7 +18,7 @@ import {RoomService} from "../../../../service/messenger/room/RoomService";
 const ParticipantsListModal: React.FC<Props> = (props) => {
 
     return (
-        <Dialog open={props.isOpen} maxWidth="sm" fullWidth>
+        <Dialog open={props.isOpen} maxWidth="sm" fullWidth container={() => props.parentRef.current}>
             <AppBar classes={{root: style.dialog__app_bar}}>
                 <Toolbar>
                     <IconButton onClick={() => props.setParticipantsListModalOpen(false)}>
@@ -58,11 +58,12 @@ const ParticipantsListModal: React.FC<Props> = (props) => {
     );
 }
 
-const mapStateToProps = (state: AppState, ownProps: { selectedRoom: Room }) => ({
+const mapStateToProps = (state: AppState, ownProps: { selectedRoom: Room, parentRef: React.MutableRefObject<any>}) => ({
     isOpen: state.messenger.isParticipantsListModalOpen,
     roomMembers: state.messenger.roomMembers,
     selectedRoom: ownProps.selectedRoom,
-    roomOwnerId: ownProps.selectedRoom?.ownerId
+    roomOwnerId: ownProps.selectedRoom?.ownerId,
+    parentRef: ownProps.parentRef
 })
 
 const mapDispatchToProps = {

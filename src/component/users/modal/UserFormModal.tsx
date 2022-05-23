@@ -27,8 +27,7 @@ const UserFormModal: React.FC<Props> = (props) => {
 
 
     return (
-        <Dialog open={props.isEditFormOpen} fullWidth maxWidth={'md'}>
-
+        <Dialog open={props.isEditFormOpen} fullWidth={true} maxWidth="xl">
             <UserFormAppBar/>
 
             <Formik
@@ -68,27 +67,6 @@ const UserFormModal: React.FC<Props> = (props) => {
                                             </div>
                                         </Tooltip>
                                     </td>
-                                </tr>
-
-                                <tr>
-                                    <td className={style.dialog__label}>Permissions</td>
-                                    <td>
-                                        <Select
-                                            className={style.dialog__select_field}
-                                            styles={{control: (base, state) => ({...base, borderRadius: '20px'})}}
-                                            closeMenuOnSelect={false}
-                                            isMulti
-                                            maxMenuHeight={200}
-                                            menuPlacement={'top'}
-                                            options={permissionsDropdown}
-                                            defaultValue={props.editedUser?.permissions}
-                                            getOptionLabel={(option) => option.title}
-                                            getOptionValue={(option) => option.id.toString()}
-                                            onChange={(selectedOptions) => {
-                                                formik.values.permissions = [...selectedOptions]
-                                            }}
-                                        />
-                                    </td>
 
                                     <td className={style.dialog__label}>Location</td>
                                     <td>
@@ -111,13 +89,33 @@ const UserFormModal: React.FC<Props> = (props) => {
                                         </Tooltip>
                                     </td>
                                 </tr>
+
+                                <tr>
+                                    <td className={style.dialog__label}>Permissions</td>
+                                    <td colSpan={5}>
+                                        <Select
+                                            styles={{control: (base, state) => ({...base, borderRadius: '20px'})}}
+                                            closeMenuOnSelect={false}
+                                            isMulti
+                                            maxMenuHeight={150}
+                                            menuPlacement={'top'}
+                                            options={permissionsDropdown}
+                                            defaultValue={props.editedUser?.permissions}
+                                            getOptionLabel={(option) => option.title}
+                                            getOptionValue={(option) => option.id.toString()}
+                                            onChange={(selectedOptions) => {
+                                                formik.values.permissions = [...selectedOptions]
+                                            }}
+                                        />
+                                    </td>
+                                </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <DialogActions className={style.dialog__actions}>
                             <Button onClick={() => props.removeUser(props.editedUser?.id)}>Delete</Button>
-                            <Button type={"submit"} disabled={formik.dirty}>Save</Button>
+                            <Button type={"submit"} disabled={!formik.isValid}>Save</Button>
                         </DialogActions>
                     </Form>
                 )}
