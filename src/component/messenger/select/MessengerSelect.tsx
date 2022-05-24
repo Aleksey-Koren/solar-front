@@ -14,11 +14,11 @@ const MessengerSelect: React.FC<TProps> = (props) => {
 
     const onChange = (option: ChatSearchOption) => {
         if (option.type === ChatSearchOptionType.ROOM) {
-            MessengerService.openRoom(option.payload as Room, dispatch, props.setSelectedRoom, props.rooms, props.roomMembers);
+            MessengerService.openRoom(option.payload as Room, dispatch, props.rooms, props.roomMembers, props.setSelectedRoom);
             setSelectValue(null);
         } else {
             MessengerService.createPrivateRoomWith(option.payload.id)
-                .then(createdRoom => MessengerService.openRoom(createdRoom.data, dispatch, props.setSelectedRoom, props.rooms, props.roomMembers));
+                .then(createdRoom => MessengerService.openRoom(createdRoom.data, dispatch, [...props.rooms, createdRoom.data], props.roomMembers, props.setSelectedRoom));
             setSelectValue(null);
         }
     }

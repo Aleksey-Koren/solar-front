@@ -8,6 +8,8 @@ import {TMessengerState} from "../../redux/messenger/messengerTypes";
 import {retrieveUserId} from "../authService";
 import {KickUserNotificationPayload} from "../../model/messenger/notification/kickUserNotificationPayload";
 import Immutable from "immutable";
+import {SearchRoom} from "../../model/messenger/room/SearchRoom";
+import {MessengerService} from "./MessengerService";
 
 interface Notification {
     type: NotificationType;
@@ -32,6 +34,14 @@ export class NotificationService {
 
             case NotificationType.KICK_USER_FROM_ROOM:
                 processKickUserFromRoom(notification, getState().messenger, dispatch);
+                break;
+
+            case NotificationType.ROOM_UPDATED:
+                const updatedSearchRoom = notification.payload as Room;
+                const state = getState();
+                if(state.messenger.selectedRoom.id === updatedSearchRoom.id) {
+                    MessengerService.openRoom(updatedSearchRoom, dispatch, state.messenger.rooms, state.messenger.roomMembers);
+                }
                 break;
 
             default:

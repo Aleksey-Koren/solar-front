@@ -61,7 +61,7 @@ function MessagesList(props: MessagesListProps) {
 
                                 {message.messageType === MessageType.SYSTEM &&
                                     <div className={style.system_message}>
-                                        <span>{message.senderTitle} - {message.message}</span>
+                                        <span>SYSTEM MESSAGE - {message.message}</span>
                                     </div>
                                 }
                             </Grid>

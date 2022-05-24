@@ -51,7 +51,7 @@ const Messenger: React.FC<TProps> = (props) => {
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
                             <ListItemButton key={room.id}
-                                            onClick={() => MessengerService.openRoom(room, dispatch, setSelectedRoom, props.rooms, props.roomMembers)}>
+                                            onClick={() => MessengerService.openRoom(room, dispatch, props.rooms, props.roomMembers, setSelectedRoom)}>
                                 <ListItemText className={style.unread_message_text}
                                               style={{visibility: (room.amount === 0 ? "hidden" : "visible")}}>
                                     {room.amount}

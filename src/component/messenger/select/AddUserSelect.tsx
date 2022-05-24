@@ -1,58 +1,65 @@
 import React, {Dispatch, SetStateAction, useState} from "react";
-import {AppState, useAppDispatch} from "../../../index";
-import {Room} from "../../../model/messenger/room/Room";
+import {AppState} from "../../../index";
 import AsyncSelect from "react-select/async";
 import {connect, ConnectedProps} from "react-redux";
 import {User} from "../../../model/User";
 
 import {findUsersPerPage} from "../../../service/userService";
+import {MultiValue} from "react-select";
 
-const AddUserSelect: React.FC<TProps> = (props) => {
+const AddUserSelect: React.FC<TProps> = (props: TProps) => {
 
-    const [selectedUsers, setSelectedUsers] = useState<User[]>(null);
-    const [selectedValue, setSelectedValue] = useState<User>(null);
+    const [isSearchable, setIsSearchable] = useState<boolean>(true)
 
-    // const onChange = (option: User) => {
-    //     if (option.type === ChatSearchOptionType.ROOM) {
-    //         MessengerService.openRoom(option.payload as Room, dispatch, props.setSelectedRoom, props.rooms, props.roomMembers);
-    //         setSelectedValue(null);
-    //     } else {
-    //         MessengerService.createPrivateRoomWith(option.payload.id)
-    //             .then(createdRoom => MessengerService.openRoom(createdRoom.data, dispatch, props.setSelectedRoom, props.rooms, props.roomMembers));
-    //         setSelectedValue(null);
-    //     }
-    // }
-
+    const onChange = (users: MultiValue<User>) => {
+        props.setSelectedUsers([...users]);
+        setIsSearchable(users.length < 10);
+        console.log(users.length);
+        console.log(isSearchable);
+    }
 
 
     return (
-        <AsyncSelect loadOptions={promiseOptions(props.selectedRoom.id)}
+        <AsyncSelect styles={{
+            control: (base, state) => ({...base, borderRadius: '20px', backgroundColor: "grey"}),
+            input: (base, state) => ({...base, color: "white"}),
+            menu: (base, state) => ({...base, backgroundColor: "grey", color: "white", borderRadius: '20px'}),
+            option: (base, state) => ({...base, color: state.isFocused ? "black" : "white", borderRadius: '20px'}),
+            placeholder: (base, state) => ({...base, color: "white"})
+        }}
+                     loadOptions={promiseOptions(props.selectedRoom.id)}
+                     isMulti
                      getOptionLabel={s => s.title}
                      getOptionValue={s => JSON.stringify(s)}
-                     maxMenuHeight={500}
-                     onChange={() => {}}
-                     value={selectedValue}
+                     maxMenuHeight={300}
+                     onChange={onChange}
                      placeholder={'Search...'}
                      noOptionsMessage={({inputValue}) => inputValue ? "No results found" : ""}
+                     isSearchable={isSearchable}
         />
     );
 }
 
 function promiseOptions (roomId: number) {
     return (inputValue: string): Promise<User[]> => {
-        return findUsersPerPage(0, 20, {notInRoom: roomId}).then(s => s.data.content)
+        return findUsersPerPage(0, 20, {title: inputValue, notInRoom: roomId}).then(s => s.data.content)
     }
 }
 
-const mapStateToProps = (state: AppState) => ({
-    selectedRoom: state.messenger.selectedRoom,
-})
-
-const mapDispatchToProps = {
-
+interface OwnProps {
+    setSelectedUsers:  Dispatch<SetStateAction<User[]>>;
+    selectedUsers: User[];
+    isDisabled: boolean;
 }
 
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const mapStateToProps = (state: AppState, ownProps: OwnProps) => ({
+    selectedRoom: state.messenger.selectedRoom,
+    selectedUsers: ownProps.selectedUsers,
+    setSelectedUsers: ownProps.setSelectedUsers,
+    isDisabled: ownProps.isDisabled,
+})
+
+const connector = connect(mapStateToProps);
 
 type TProps = ConnectedProps<typeof connector>;
 

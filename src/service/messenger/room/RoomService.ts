@@ -26,9 +26,9 @@ export class RoomService {
         return axiosApi.get<Room[]>('chat/room/user');
     }
 
-    static inviteToRoom(invitedId: number, roomId: number) {
+    static inviteToRoom(invitedIds: number[], roomId: number) {
 
-        return axiosApi.patch<void>(`chat/room/${roomId}/participants`, {invitedId: invitedId});
+        return axiosApi.patch<void>(`chat/room/${roomId}/participants`, {invitedIds: invitedIds});
     }
 
     static leaveFromRoom(roomId: number) {

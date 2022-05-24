@@ -22,9 +22,9 @@ export class MessengerService {
 
     static openRoom(room: Room,
                     dispatch: AppDispatch,
-                    setRoom: Dispatch<SetStateAction<Room>>,
                     rooms: Room[],
-                    roomMembers: Immutable.Map<number, User[]>) {
+                    roomMembers: Immutable.Map<number, User[]>,
+                    setRoom?: Dispatch<SetStateAction<Room>>) {
 
         let modifiedRooms = MessengerService.setAmountToZero(rooms, room);
         dispatch(setRoomsToState(modifiedRooms));
@@ -32,30 +32,29 @@ export class MessengerService {
 
         RoomService.updateLastSeenAt(room.id)
             .then(() =>
-                MessengerService.fetchMessages(room, dispatch, setRoom, roomMembers)
+                MessengerService.fetchMessages(room, dispatch, roomMembers, setRoom)
             )
     }
 
     private static setAmountToZero(rooms: Room[], createdRoom: Room) {
-        let roomsToModify = new Array<Room>(...rooms, createdRoom);
-        roomsToModify.map(s => {
+        rooms.map(s => {
             if (s.id === createdRoom.id) {
                 s.amount = 0;
             }
             return s;
         });
-        return roomsToModify;
+        return rooms;
     }
 
     private static fetchMessages(room: Room,
                                  dispatch: AppDispatch,
-                                 setRoom: Dispatch<SetStateAction<Room>>,
-                                 roomMembers: Immutable.Map<number, User[]>) {
+                                 roomMembers: Immutable.Map<number, User[]>,
+                                 setRoom?: Dispatch<SetStateAction<Room>>) {
         Promise.all([
             MessageService.getMessageHistory(room.id, 0, 20),
             RoomService.getUsersOfRoom(room.id)
         ]).then(([messagesResp, usersResp]) => {
-            setRoom(room);
+            setRoom && setRoom(room);
 
             const roomMembersMap = new Map(roomMembers).set(room.id, usersResp.data);
             dispatch(setRoomMembersToState(Immutable.Map(roomMembersMap)));
