@@ -1,10 +1,8 @@
-
 import {setIsAddUsersModalOpened} from "../../../../redux/messenger/messengerActions";
 import {connect, ConnectedProps} from "react-redux";
 import {AppState} from "../../../../index";
 import React, {useState} from "react";
 import {Button, Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
-import {Room} from "../../../../model/messenger/room/Room";
 import AddUserSelect from "../../select/AddUserSelect";
 import style from "./Add-users.module.css"
 import {User} from "../../../../model/User";
@@ -42,19 +40,14 @@ const AddUsersModal: React.FC<TProps> = (props) => {
                         <Button onClick={handleSubmit} style={{color: "#ecca19"}}>Add</Button>
                     </DialogActions>
                 </div>
-
             </Dialog>
     );
 }
 
-interface DirectProps {
-    selectedRoom: Room
-}
-
-const mapStateToProps = (state: AppState, ownProps: DirectProps) => ({
+const mapStateToProps = (state: AppState) => ({
     isOpened: state.messenger.isAddUsersModalOpened,
     roomMembers: state.messenger.roomMembers,
-    room: ownProps.selectedRoom
+    room: state.messenger.selectedRoom
 })
 
 const mapDispatchToProps = {

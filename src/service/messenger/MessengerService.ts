@@ -1,6 +1,5 @@
 import {Room} from "../../model/messenger/room/Room";
 import {AppDispatch} from "../../index";
-import {Dispatch, SetStateAction} from "react";
 import Immutable from "immutable";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
 import {User} from "../../model/User";
@@ -23,8 +22,7 @@ export class MessengerService {
     static openRoom(room: Room,
                     dispatch: AppDispatch,
                     rooms: Room[],
-                    roomMembers: Immutable.Map<number, User[]>,
-                    setRoom?: Dispatch<SetStateAction<Room>>) {
+                    roomMembers: Immutable.Map<number, User[]>) {
 
         let modifiedRooms = MessengerService.setAmountToZero(rooms, room);
         dispatch(setRoomsToState(modifiedRooms));
@@ -32,29 +30,29 @@ export class MessengerService {
 
         RoomService.updateLastSeenAt(room.id)
             .then(() =>
-                MessengerService.fetchMessages(room, dispatch, roomMembers, setRoom)
+                MessengerService.fetchMessages(room, dispatch, roomMembers)
             )
     }
 
     private static setAmountToZero(rooms: Room[], createdRoom: Room) {
-        rooms.map(s => {
+        let roomsToModify = new Array<Room>(...rooms);
+        roomsToModify.map(s => {
             if (s.id === createdRoom.id) {
                 s.amount = 0;
             }
             return s;
         });
-        return rooms;
+        return roomsToModify;
     }
 
     private static fetchMessages(room: Room,
                                  dispatch: AppDispatch,
-                                 roomMembers: Immutable.Map<number, User[]>,
-                                 setRoom?: Dispatch<SetStateAction<Room>>) {
+                                 roomMembers: Immutable.Map<number, User[]>) {
         Promise.all([
             MessageService.getMessageHistory(room.id, 0, 20),
             RoomService.getUsersOfRoom(room.id)
         ]).then(([messagesResp, usersResp]) => {
-            setRoom && setRoom(room);
+            dispatch(setSelectedRoom(room));
 
             const roomMembersMap = new Map(roomMembers).set(room.id, usersResp.data);
             dispatch(setRoomMembersToState(Immutable.Map(roomMembersMap)));
@@ -80,7 +78,7 @@ export class MessengerService {
         return room?.title;
     }
 
-    static promiseOptions (inputValue: string): Promise<ChatSearchOption[]> {
+    static promiseOptions(inputValue: string): Promise<ChatSearchOption[]> {
         let rooms = RoomService.findRoomsWithSpecificUser(inputValue, RoomType.PRIVATE);
         let users = findUsersPerPage(0, 20, {title: inputValue})
         return Promise.all([rooms, users]).then(

@@ -33,7 +33,12 @@ export class RoomService {
 
     static leaveFromRoom(roomId: number) {
 
-        return axiosApi.patch<void>(`chat/room/${roomId}/leave`);
+        axiosApi.patch<void>(`chat/room/${roomId}/leave`);
+    }
+
+    static deleteRoom(roomId: number) {
+
+        axiosApi.delete(`chat/room/${roomId}`);
     }
 
     static kickUserFromRoom(roomId: number, kickedUserId: number) {

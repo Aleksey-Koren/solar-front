@@ -1,6 +1,6 @@
 import AsyncSelect from "react-select/async";
 import {MessengerService} from "../../../service/messenger/MessengerService";
-import React, {Dispatch, SetStateAction, useState} from "react";
+import React, {useState} from "react";
 import {ChatSearchOption, ChatSearchOptionType} from "../../../model/messenger/chatSearchOptiom/ChatSearchOption";
 import {Room} from "../../../model/messenger/room/Room";
 import {AppState, useAppDispatch} from "../../../index";
@@ -14,11 +14,11 @@ const MessengerSelect: React.FC<TProps> = (props) => {
 
     const onChange = (option: ChatSearchOption) => {
         if (option.type === ChatSearchOptionType.ROOM) {
-            MessengerService.openRoom(option.payload as Room, dispatch, props.rooms, props.roomMembers, props.setSelectedRoom);
+            MessengerService.openRoom(option.payload as Room, dispatch, props.rooms, props.roomMembers);
             setSelectValue(null);
         } else {
             MessengerService.createPrivateRoomWith(option.payload.id)
-                .then(createdRoom => MessengerService.openRoom(createdRoom.data, dispatch, [...props.rooms, createdRoom.data], props.roomMembers, props.setSelectedRoom));
+                .then(createdRoom => MessengerService.openRoom(createdRoom.data, dispatch, [...props.rooms, createdRoom.data], props.roomMembers));
             setSelectValue(null);
         }
     }
@@ -36,21 +36,14 @@ const MessengerSelect: React.FC<TProps> = (props) => {
     );
 }
 
-interface DirectProps {
-    setSelectedRoom: Dispatch<SetStateAction<Room>>
-}
 
-const mapStateToProps = (state: AppState, ownProps: DirectProps) => ({
-    setSelectedRoom: ownProps.setSelectedRoom,
+const mapStateToProps = (state: AppState) => ({
     rooms: state.messenger.rooms,
-    roomMembers: state.messenger.roomMembers
+    roomMembers: state.messenger.roomMembers,
+    selectedRoom: state.messenger.selectedRoom
 })
 
-const mapDispatchToProps = {
-
-}
-
-const connector = connect(mapStateToProps, mapDispatchToProps);
+const connector = connect(mapStateToProps);
 
 type TProps = ConnectedProps<typeof connector>;
 

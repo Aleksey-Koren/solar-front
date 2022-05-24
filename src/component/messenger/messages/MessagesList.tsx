@@ -8,13 +8,11 @@ import BorderColorIcon from "@mui/icons-material/BorderColor";
 import Divider from "@mui/material/Divider";
 import React, {Dispatch, SetStateAction} from "react";
 import {useAppSelector} from "../../../index";
-import {Room} from "../../../model/messenger/room/Room";
 import {MessageEntity} from "../../../model/messenger/message/MessageEntity";
 import {MessengerService} from "../../../service/messenger/MessengerService";
 import {MessageType} from "../../../model/messenger/message/MessageType";
 
 interface MessagesListProps {
-    selectedRoom: Room;
     currentUserId: number;
     setEditedMessage: Dispatch<SetStateAction<MessageEntity>>;
     setMessageText: Dispatch<SetStateAction<string>>;
@@ -22,6 +20,7 @@ interface MessagesListProps {
 
 function MessagesList(props: MessagesListProps) {
     const messages = useAppSelector(state => state.messenger.messages);
+    const selectedRoom = useAppSelector(state => state.messenger.selectedRoom);
 
     const createEditIcon = (message: MessageEntity) => (
         props.currentUserId === message.senderId &&
@@ -37,14 +36,14 @@ function MessagesList(props: MessagesListProps) {
     return (
         <Grid item>
             <List className={style.message_list} id={'list'}>
-                {messages.get(props.selectedRoom?.id)?.map(message => (
+                {messages.get(selectedRoom?.id)?.map(message => (
                     <ListItem key={message.id}>
                         <Grid container>
                             <Grid item xs={12}>
                                 {message.messageType === MessageType.CHAT &&
                                     <div className={style.message_container} style={{
                                         float: (message.senderId === props.currentUserId ? 'right' : 'left'),
-                                        background: (message.senderId === props.currentUserId ? 'lightgreen' : 'grey')
+                                        background: (message.senderId === props.currentUserId ? '#60ad60' : 'grey')
                                     }}>
                                         <ListItemText>
                                     <span className={style.message_info}>
@@ -61,7 +60,7 @@ function MessagesList(props: MessagesListProps) {
 
                                 {message.messageType === MessageType.SYSTEM &&
                                     <div className={style.system_message}>
-                                        <span>SYSTEM MESSAGE - {message.message}</span>
+                                        <span>{message.message}</span>
                                     </div>
                                 }
                             </Grid>
@@ -69,7 +68,7 @@ function MessagesList(props: MessagesListProps) {
                     </ListItem>
                 ))}
             </List>
-            <Divider/>
+            <Divider style={{background: '#ecca19'}}/>
         </Grid>
     );
 }

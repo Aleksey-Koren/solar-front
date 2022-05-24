@@ -1,12 +1,12 @@
 import {Message} from "stompjs";
 import {AppDispatch, AppState} from "../../index";
 import {Room} from "../../model/messenger/room/Room";
-import {setRoomMembersToState, setRoomsToState} from "../../redux/messenger/messengerActions";
+import {setRoomMembersToState, setRoomsToState, setSelectedRoom} from "../../redux/messenger/messengerActions";
 import {subscribeToRooms} from "../../http/webSocket";
 import {NotificationType} from "../../model/messenger/notification/notificationType";
 import {TMessengerState} from "../../redux/messenger/messengerTypes";
 import {retrieveUserId} from "../authService";
-import {KickUserNotificationPayload} from "../../model/messenger/notification/kickUserNotificationPayload";
+import {DepartedUserNotificationPayload} from "../../model/messenger/notification/departedUserNotificationPayload";
 import Immutable from "immutable";
 import {SearchRoom} from "../../model/messenger/room/SearchRoom";
 import {MessengerService} from "./MessengerService";
@@ -32,8 +32,12 @@ export class NotificationService {
                 updateRoomTitle(updatedRoom.id, updatedRoom.title, getState().messenger.rooms, dispatch);
                 break;
 
-            case NotificationType.KICK_USER_FROM_ROOM:
-                processKickUserFromRoom(notification, getState().messenger, dispatch);
+            case NotificationType.KICK_OR_LEAVE_USER_FROM_ROOM:
+                processKickOrLeaveUserFromRoom(notification, getState().messenger, dispatch);
+                break;
+
+            case NotificationType.ROOM_DELETED:
+                processRoomDeleted(notification, getState().messenger, dispatch);
                 break;
 
             case NotificationType.ROOM_UPDATED:
@@ -61,13 +65,13 @@ function processInvitedToRoom(notification: Notification, getState: () => AppSta
 }
 
 
-function processKickUserFromRoom(notification: Notification, messengerState: TMessengerState, dispatch: AppDispatch) {
-    const notificationPayload = notification.payload as KickUserNotificationPayload;
+function processKickOrLeaveUserFromRoom(notification: Notification, messengerState: TMessengerState, dispatch: AppDispatch) {
+    const notificationPayload = notification.payload as DepartedUserNotificationPayload;
 
     if (notificationPayload.kickedUserId === retrieveUserId()) {
-        //todo: move selectedRoom to redux-store and set selectedRoom = null
         const updatedRooms = messengerState.rooms.filter(room => room.id !== notificationPayload.roomId);
         dispatch(setRoomsToState(updatedRooms));
+        dispatch(setSelectedRoom(null));
     } else {
         const filteredMembers = messengerState.roomMembers.get(notificationPayload.roomId)
             .filter(member => member.id !== notificationPayload.kickedUserId);
@@ -87,4 +91,15 @@ function updateRoomTitle(roomId: number, updatedTitle: string, rooms: Room[], di
         return room;
     })
     dispatch(setRoomsToState(updatedRooms))
+}
+
+function processRoomDeleted(notification: Notification, messenger: TMessengerState, dispatch: AppDispatch) {
+    const deletedRoomId = notification.payload as number;
+
+    const filteredRooms = messenger.rooms.filter(room => room.id !== deletedRoomId);
+    dispatch(setRoomsToState(filteredRooms));
+
+    if (messenger.selectedRoom?.id === deletedRoomId) {
+        dispatch(setSelectedRoom(null));
+    }
 }

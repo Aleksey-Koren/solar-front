@@ -4,19 +4,14 @@ import {setEditTitleOpen, updateRoomTitle} from "../../../../redux/messenger/mes
 import style from "../../../global-styles/ModalWindow.module.css";
 import {Form, Formik} from "formik";
 import * as yup from "yup";
-import {Room} from "../../../../model/messenger/room/Room";
-
-interface EditTitleModalProps {
-    selectedRoom: Room
-}
 
 const validationSchema = yup.object().shape({
-    title: yup.string().required('Room title cannot be empty').min(3, )
+    title: yup.string().required('Room title cannot be empty').min(3,)
 })
 
-
-function EditTitleModal(props: EditTitleModalProps) {
+function EditTitleModal() {
     const isOpen = useAppSelector(state => state.messenger.isEditTitleModalOpen);
+    const selectedRoom = useAppSelector(state => state.messenger.selectedRoom);
     const dispatch = useAppDispatch();
 
     const onCloseModal = () => dispatch(setEditTitleOpen(false));
@@ -25,8 +20,10 @@ function EditTitleModal(props: EditTitleModalProps) {
         <Dialog open={isOpen} onClose={onCloseModal} maxWidth={"sm"} fullWidth>
             <DialogTitle className={style.dialog__title}>Enter room title</DialogTitle>
             <Formik
-                initialValues={{title: props.selectedRoom?.title}}
-                onSubmit={(values) => {dispatch(updateRoomTitle(props.selectedRoom?.id, values.title))}}
+                initialValues={{title: selectedRoom?.title}}
+                onSubmit={(values) => {
+                    dispatch(updateRoomTitle(selectedRoom?.id, values.title))
+                }}
                 validationSchema={validationSchema}
             >
                 {formik => (

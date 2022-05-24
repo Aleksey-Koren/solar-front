@@ -9,18 +9,18 @@ import SendIcon from "@mui/icons-material/Send";
 import React, {Dispatch, SetStateAction} from "react";
 import {MessageEntity} from "../../../model/messenger/message/MessageEntity";
 import {retrieveUserId} from "../../../service/authService";
-import {Room} from "../../../model/messenger/room/Room";
+import {useAppSelector} from "../../../index";
 
 interface MessengerFooterProps {
     editedMessage: MessageEntity;
     messageText: string;
     setMessageText: Dispatch<SetStateAction<string>>;
     setEditedMessage: Dispatch<SetStateAction<MessageEntity>>;
-    selectedRoom: Room;
 }
 
 
 function MessengerFooter(props: MessengerFooterProps) {
+    const selectedRoom = useAppSelector(state => state.messenger.selectedRoom);
 
     const textFieldInputProps = {
         startAdornment:
@@ -52,7 +52,7 @@ function MessengerFooter(props: MessengerFooterProps) {
                 <Grid item xs={1}>
                     <Fab className={style.send_icon} size={"large"}
                          onClick={() => {
-                             sendMessage(props.selectedRoom.id, retrieveUserId(), props.messageText, props.editedMessage);
+                             sendMessage(selectedRoom.id, retrieveUserId(), props.messageText, props.editedMessage);
                              props.setMessageText('');
                              props.setEditedMessage(null);
                          }}
