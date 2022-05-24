@@ -8,7 +8,6 @@ import {TMessengerState} from "../../redux/messenger/messengerTypes";
 import {retrieveUserId} from "../authService";
 import {DepartedUserNotificationPayload} from "../../model/messenger/notification/departedUserNotificationPayload";
 import Immutable from "immutable";
-import {SearchRoom} from "../../model/messenger/room/SearchRoom";
 import {MessengerService} from "./MessengerService";
 
 interface Notification {
@@ -52,7 +51,6 @@ export class NotificationService {
                 throw new Error("Unknown notification Type");
         }
     }
-
 }
 
 function processInvitedToRoom(notification: Notification, getState: () => AppState, dispatch: AppDispatch) {

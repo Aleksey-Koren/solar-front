@@ -19,6 +19,7 @@ import EditTitleModal from "./menu/edit-title/EditTitleModal";
 import AddUsersModal from "./menu/add-users/AddUsersModal";
 import MessengerSelect from "./select/MessengerSelect";
 import ParticipantsListModal from "./menu/participants-list/ParticipantsListModal";
+import GroupAddIcon from '@mui/icons-material/GroupAdd';
 
 
 const Messenger: React.FC<TProps> = (props) => {
@@ -62,7 +63,13 @@ const Messenger: React.FC<TProps> = (props) => {
                 </Grid>
                 <Grid container direction={'column'} item xs={9}>
                     <Grid container item className={style.room_title_container}>
-                        <Grid item xs={11} className={style.room_title}>
+                        <Grid item xs={2} >
+                            <button>
+                                <GroupAddIcon/>
+                                <span>Create new public room</span>
+                            </button>
+                        </Grid>
+                        <Grid item xs={9} className={style.room_title}>
                             <strong>{MessengerService.retrieveRoomTitle(props.selectedRoom)}</strong>
                         </Grid>
 
