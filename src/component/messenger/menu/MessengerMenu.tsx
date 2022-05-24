@@ -15,6 +15,8 @@ import {IPlainDataAction} from "../../../redux/redux-types";
 import ExitToAppIcon from '@mui/icons-material/ExitToApp';
 import Divider from "@mui/material/Divider";
 import {RoomService} from "../../../service/messenger/room/RoomService";
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
+import {retrieveUserId} from "../../../service/authService";
 
 function MessengerMenu() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -53,11 +55,24 @@ function MessengerMenu() {
                             Members
                         </MenuItem>
                         <Divider/>
-                        <MenuItem onClick={() => RoomService.leaveFromRoom(selectedRoom?.id)}>
+                        <MenuItem onClick={() => {
+                            setAnchorEl(null);
+                            RoomService.leaveFromRoom(selectedRoom?.id);
+                        }}>
                             <ExitToAppIcon style={{marginRight: '10px'}} fontSize={'medium'}/>
                             Leave room
                         </MenuItem>
                     </div>
+                }
+
+                {(selectedRoom?.roomType === RoomType.PRIVATE || selectedRoom?.ownerId === retrieveUserId()) &&
+                    <MenuItem onClick={() => {
+                        setAnchorEl(null);
+                        RoomService.deleteRoom(selectedRoom?.id);
+                    }}>
+                        <DeleteOutlineOutlinedIcon style={{marginRight: '10px', color: 'red'}} fontSize={'medium'}/>
+                        <span style={{color: 'red'}}>Delete room</span>
+                    </MenuItem>
                 }
             </Menu>
         </div>

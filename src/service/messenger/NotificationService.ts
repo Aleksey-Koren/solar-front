@@ -34,6 +34,10 @@ export class NotificationService {
                 processKickOrLeaveUserFromRoom(notification, getState().messenger, dispatch);
                 break;
 
+            case NotificationType.ROOM_DELETED:
+                processRoomDeleted(notification, getState().messenger, dispatch);
+                break;
+
             default:
                 throw new Error("Unknown notification Type");
         }
@@ -77,4 +81,15 @@ function updateRoomTitle(roomId: number, updatedTitle: string, rooms: Room[], di
         return room;
     })
     dispatch(setRoomsToState(updatedRooms))
+}
+
+function processRoomDeleted(notification: Notification, messenger: TMessengerState, dispatch: AppDispatch) {
+    const deletedRoomId = notification.payload as number;
+
+    const filteredRooms = messenger.rooms.filter(room => room.id !== deletedRoomId);
+    dispatch(setRoomsToState(filteredRooms));
+
+    if (messenger.selectedRoom?.id === deletedRoomId) {
+        dispatch(setSelectedRoom(null));
+    }
 }

@@ -43,7 +43,7 @@ function MessagesList(props: MessagesListProps) {
                                 {message.messageType === MessageType.CHAT &&
                                     <div className={style.message_container} style={{
                                         float: (message.senderId === props.currentUserId ? 'right' : 'left'),
-                                        background: (message.senderId === props.currentUserId ? 'lightgreen' : 'grey')
+                                        background: (message.senderId === props.currentUserId ? '#60ad60' : 'grey')
                                     }}>
                                         <ListItemText>
                                     <span className={style.message_info}>
@@ -60,7 +60,7 @@ function MessagesList(props: MessagesListProps) {
 
                                 {message.messageType === MessageType.SYSTEM &&
                                     <div className={style.system_message}>
-                                        <span>{message.senderTitle} - {message.message}</span>
+                                        <span>{message.message}</span>
                                     </div>
                                 }
                             </Grid>
@@ -68,7 +68,7 @@ function MessagesList(props: MessagesListProps) {
                     </ListItem>
                 ))}
             </List>
-            <Divider/>
+            <Divider style={{background: '#ecca19'}}/>
         </Grid>
     );
 }

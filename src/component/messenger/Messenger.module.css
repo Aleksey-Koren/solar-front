@@ -6,6 +6,7 @@
 .chatSection {
     min-height: 100%;
     max-height: 100%;
+    background: #312d2d !important;
 }
 
 .message_list {
@@ -37,10 +38,11 @@
 
 .message_container {
     width: fit-content;
+    height: fit-content;
     max-width: 50%;
     word-break: break-word;
-    border-radius: 30px;
-    padding: 10px;
+    border-radius: 10px;
+    padding: 0 10px;
 }
 
 .system_message {
@@ -48,9 +50,12 @@
     max-width: 70%;
     word-break: break-all;
     margin: auto;
-    border-radius: 30px;
-    border: 1px black solid;
+    border-radius: 10px;
+    border: 1px #ecca19 dashed;
     padding: 10px;
+    color: white;
+    font-weight: bold;
+    font-size: 18px;
 }
 
 .unread_message_text {
@@ -61,7 +66,8 @@
     padding: 20px 30px 10px 20px;
 }
 
-.message_input_field {
+.message_input_field input{
+    color: white !important;
 }
 
 .send_icon {
@@ -69,18 +75,26 @@
 }
 
 .room_container {
-    border-right: 1px solid red;
+    border-right: 1px solid #ecca19;
     overflow-x: hidden;
+    color: white !important;
 }
-
 .room_list {
-    max-height: 740px;
-    height: 740px;
+    max-height: 745px;
+    height: 745px;
     overflow-y: auto;
 }
 
+.room_button{
+    color: white;
+}
+
+.room_button:hover {
+    color: #ecca19;
+}
+
 .room_title_container {
-    border-bottom: 1px red solid;
+    border-bottom: 1px #ecca19 solid;
 }
 
 .room_title {
@@ -90,4 +104,5 @@
     height: 50px;
     overflow-y: hidden;
     font-size: 20px;
+    color: #ecca19;
 }
