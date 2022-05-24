@@ -29,7 +29,14 @@ const MessengerSelect: React.FC<TProps> = (props) => {
     }
 
     return (
-        <AsyncSelect loadOptions={MessengerService.promiseOptions}
+        <AsyncSelect styles={{
+            control: (base, state) => ({...base, borderRadius: '20px', backgroundColor: "grey", height: "50px"}),
+            input: (base, state) => ({...base, color: "white"}),
+            menu: (base, state) => ({...base, backgroundColor: "grey", color: "white", borderRadius: '20px'}),
+            option: (base, state) => ({...base, color: state.isFocused ? "black" : "white", borderRadius: '20px'}),
+            placeholder: (base, state) => ({...base, color: "white"})
+        }}
+                     loadOptions={MessengerService.promiseOptions}
                      getOptionLabel={MessengerService.generateOptionLabel}
                      getOptionValue={s => s.toString()}
                      maxMenuHeight={500}

@@ -47,7 +47,7 @@ const Messenger: React.FC<TProps> = (props) => {
         <div className={style.wrapper} ref={ref}>
             <Grid container component={Paper} className={style.chatSection}>
                 <Grid item xs={3} className={style.room_container}>
-                    <MessengerSelect/>
+                        <MessengerSelect/>
                     <Divider/>
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
