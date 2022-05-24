@@ -1,4 +1,5 @@
 import {RoomType} from "./RoomType";
+import {Subscription} from "stompjs";
 
 export class Room {
     id: number | null = null;
@@ -7,4 +8,5 @@ export class Room {
     ownerId: number | null = null;
     amount: number | null = null;
     roomType: RoomType | null = null;
+    subscription: Subscription | null = null;
 }
