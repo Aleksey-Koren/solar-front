@@ -5,6 +5,7 @@ import {ChatSearchOption, ChatSearchOptionType} from "../../../model/messenger/c
 import {Room} from "../../../model/messenger/room/Room";
 import {AppState, useAppDispatch} from "../../../index";
 import {connect, ConnectedProps} from "react-redux";
+import {openRoomActionTF, setRoomsToState} from "../../../redux/messenger/messengerActions";
 
 
 const MessengerSelect: React.FC<TProps> = (props) => {
@@ -14,11 +15,15 @@ const MessengerSelect: React.FC<TProps> = (props) => {
 
     const onChange = (option: ChatSearchOption) => {
         if (option.type === ChatSearchOptionType.ROOM) {
-            MessengerService.openRoom(option.payload as Room, dispatch, props.rooms, props.roomMembers);
+            dispatch(openRoomActionTF(option.payload as Room));
             setSelectValue(null);
         } else {
+
             MessengerService.createPrivateRoomWith(option.payload.id)
-                .then(createdRoom => MessengerService.openRoom(createdRoom.data, dispatch, [...props.rooms, createdRoom.data], props.roomMembers));
+                .then(createdRoom => {
+                    dispatch(setRoomsToState([...props.rooms, createdRoom.data]));
+                    dispatch(openRoomActionTF(createdRoom.data))
+                });
             setSelectValue(null);
         }
     }

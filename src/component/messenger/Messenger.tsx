@@ -8,7 +8,7 @@ import style from './Messenger.module.css'
 import {AppState, useAppDispatch} from "../../index";
 import {connect, ConnectedProps} from "react-redux";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
-import {messengerInitialization} from "../../redux/messenger/messengerActions";
+import {messengerInitializationTF, setIsNewRoomModalOpened} from "../../redux/messenger/messengerActions";
 import {retrieveUserId} from "../../service/authService";
 import MessengerFooter from "./footer/MessengerFooter";
 import MessagesList from "./messages/MessagesList";
@@ -20,6 +20,8 @@ import AddUsersModal from "./menu/add-users/AddUsersModal";
 import MessengerSelect from "./select/MessengerSelect";
 import ParticipantsListModal from "./menu/participants-list/ParticipantsListModal";
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
+import CreateNewRoomModal from "./new-room-modal/CreateNewRoomModal";
+import CreateRoomButton from "./new-room-modal/CreateRoomButton";
 
 
 const Messenger: React.FC<TProps> = (props) => {
@@ -45,7 +47,7 @@ const Messenger: React.FC<TProps> = (props) => {
         <div className={style.wrapper} ref={ref}>
             <Grid container component={Paper} className={style.chatSection}>
                 <Grid item xs={3} className={style.room_container}>
-                    <MessengerSelect />
+                    <MessengerSelect/>
                     <Divider/>
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
@@ -58,18 +60,14 @@ const Messenger: React.FC<TProps> = (props) => {
                                 <ListItemText>{MessengerService.retrieveRoomTitle(room)}</ListItemText>
                             </ListItemButton>
                         ))}
-
                     </List>
                 </Grid>
                 <Grid container direction={'column'} item xs={9}>
                     <Grid container item className={style.room_title_container}>
-                        <Grid item xs={2} >
-                            <button>
-                                <GroupAddIcon/>
-                                <span>Create new public room</span>
-                            </button>
+                        <Grid item xs={2.1} >
+                            <CreateRoomButton/>
                         </Grid>
-                        <Grid item xs={9} className={style.room_title}>
+                        <Grid item xs={8.9} className={style.room_title}>
                             <strong>{MessengerService.retrieveRoomTitle(props.selectedRoom)}</strong>
                         </Grid>
 
@@ -91,6 +89,7 @@ const Messenger: React.FC<TProps> = (props) => {
             <EditTitleModal />
             <AddUsersModal />
             <ParticipantsListModal parentRef={ref}/>
+            <CreateNewRoomModal/>
         </div>
     );
 }
@@ -104,7 +103,7 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = {
-    messengerInitialization
+    messengerInitialization: messengerInitializationTF
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

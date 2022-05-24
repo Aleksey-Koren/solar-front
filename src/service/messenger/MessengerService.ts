@@ -16,6 +16,7 @@ import {retrieveUserId} from "../authService";
 import {ChatSearchOption, ChatSearchOptionType} from "../../model/messenger/chatSearchOptiom/ChatSearchOption";
 import {findUsersPerPage} from "../userService";
 import {SearchRoom} from "../../model/messenger/room/SearchRoom";
+import {CreateRoom} from "../../model/messenger/room/CreateRoom";
 
 export class MessengerService {
 
@@ -34,7 +35,7 @@ export class MessengerService {
             )
     }
 
-    private static setAmountToZero(rooms: Room[], createdRoom: Room) {
+    static setAmountToZero(rooms: Room[], createdRoom: Room) {
         let roomsToModify = new Array<Room>(...rooms);
         roomsToModify.map(s => {
             if (s.id === createdRoom.id) {
@@ -45,7 +46,7 @@ export class MessengerService {
         return roomsToModify;
     }
 
-    private static fetchMessages(room: Room,
+    static fetchMessages(room: Room,
                                  dispatch: AppDispatch,
                                  roomMembers: Immutable.Map<number, User[]>) {
         Promise.all([
@@ -98,7 +99,6 @@ export class MessengerService {
         switch (option.type) {
             case ChatSearchOptionType.ROOM:
                 let s = MessengerService.retrieveRoomTitle(option.payload as Room);
-                console.log('label' + s);
                 return 'Existing chat: ' + s;
 
             case ChatSearchOptionType.USER:
@@ -110,7 +110,10 @@ export class MessengerService {
     }
 
     static async createPrivateRoomWith(invitedId: number) {
-        return RoomService.createRoom({userId: invitedId, isPrivate: true})
+        let createRoomDto = new CreateRoom();
+        createRoomDto.userId = invitedId;
+        createRoomDto.isPrivate = true;
+        return RoomService.createRoom(createRoomDto);
     }
 
     private static usersIHaveAlreadyHadPrivateChatsWithIds(myPrivateRooms: SearchRoom[]) {

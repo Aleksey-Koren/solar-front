@@ -1,5 +1,5 @@
 import {
-    FETCH_ROOMS, SET_EDIT_TITLE_OPEN, SET_IS_ADD_USERS_OPENED,
+    FETCH_ROOMS, SET_EDIT_TITLE_OPEN, SET_IS_ADD_USERS_OPENED, SET_IS_NEW_ROOM_MODAL_OPENED,
     SET_MESSAGES, SET_PARTICIPANTS_LIST_MODAL_OPEN,
     SET_ROOM_MEMBERS,
     SET_ROOMS, SET_SELECTED_ROOM,
@@ -21,7 +21,8 @@ const initialState: TMessengerState = {
     isLoading: false,
     isEditTitleModalOpen: false,
     isAddUsersModalOpened: false,
-    isParticipantsListModalOpen: false
+    isParticipantsListModalOpen: false,
+    isNewRoomModalOpened: false
 }
 
 export function messengerReducer(state: TMessengerState = initialState, action: TMessengerAction) {
@@ -64,6 +65,10 @@ export function messengerReducer(state: TMessengerState = initialState, action: 
         case SET_PARTICIPANTS_LIST_MODAL_OPEN:
             const participantsListOpenAction = action as IPlainDataAction<boolean>;
             return {...state, isParticipantsListModalOpen: participantsListOpenAction.payload}
+
+        case SET_IS_NEW_ROOM_MODAL_OPENED:
+            const isNewRoomModalOpenedAction = action as IPlainDataAction<boolean>;
+            return {...state, isNewRoomModalOpened: isNewRoomModalOpenedAction.payload}
 
         default:
             return state;

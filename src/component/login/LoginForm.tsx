@@ -15,7 +15,7 @@ import styles from './loginForm.module.css'
 import {connectStompClient} from "../../http/webSocket";
 import {AppState, useAppDispatch, useAppSelector} from "../../index";
 import {connect, ConnectedProps} from "react-redux";
-import {messengerInitialization} from "../../redux/messenger/messengerActions";
+import {messengerInitializationTF} from "../../redux/messenger/messengerActions";
 
 interface IFormikValues {
     login: string;

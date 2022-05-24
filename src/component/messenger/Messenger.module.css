@@ -106,3 +106,26 @@
     font-size: 20px;
     color: #ecca19;
 }
+
+.new_room_button_container {
+    height: 80%;
+}
+
+.new_room_button {
+    margin: 4px 4px;
+    background-color: black;
+    border-radius: 20px;
+    border: 1px #ecca19 solid;
+    height: 100%;
+    color: #ecca19;
+}
+
+.button_content {
+    display: flex;
+    align-items: center;
+    margin: 0 5px;
+}
+
+.button_content_spacer {
+    width: 10px;
+}

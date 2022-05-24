@@ -12,6 +12,7 @@ interface IMessengerState {
     isEditTitleModalOpen: boolean;
     isAddUsersModalOpened: boolean;
     isParticipantsListModalOpen: boolean;
+    isNewRoomModalOpened: boolean;
 }
 
 export type TMessengerState = IMessengerState & IDefaultStateField;
@@ -26,3 +27,4 @@ export const SET_EDIT_TITLE_OPEN = 'SET_EDIT_TITLE_OPEN';
 export const SET_IS_ADD_USERS_OPENED = 'SET_ADD_USERS_OPENED';
 export const SET_PARTICIPANTS_LIST_MODAL_OPEN = 'SET_PARTICIPANTS_LIST_MODAL_OPEN';
 export const SET_SELECTED_ROOM = 'SET_SELECTED_ROOM';
+export const SET_IS_NEW_ROOM_MODAL_OPENED = 'SET_IS_NEW_ROOM_MODAL_OPENED';

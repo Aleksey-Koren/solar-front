@@ -10,14 +10,17 @@ import {
     SET_EDIT_TITLE_OPEN,
     SET_MESSAGES,
     SET_PARTICIPANTS_LIST_MODAL_OPEN, SET_ROOM_MEMBERS,
-    SET_ROOMS, SET_SELECTED_ROOM
+    SET_ROOMS, SET_SELECTED_ROOM, SET_IS_NEW_ROOM_MODAL_OPENED
 } from "./messengerTypes";
 import Immutable from "immutable";
 import {User} from "../../model/User";
 import {Message} from "stompjs";
 import {NotificationService} from "../../service/messenger/NotificationService";
+import {CreateRoom} from "../../model/messenger/room/CreateRoom";
+import {MessengerService} from "../../service/messenger/MessengerService";
+import {MessageService} from "../../service/messenger/message/MessageService";
 
-export function messengerInitialization() {
+export function messengerInitializationTF() {
     return (dispatch: AppDispatch, getState: () => AppState) => {
 
         const callback = () => {
@@ -97,5 +100,53 @@ export function setSelectedRoom(room: Room): IPlainDataAction<Room> {
     return {
         type: SET_SELECTED_ROOM,
         payload: room
+    }
+}
+export function setIsNewRoomModalOpened(isOpened: boolean): IPlainDataAction<boolean> {
+    return {
+        type: SET_IS_NEW_ROOM_MODAL_OPENED,
+        payload: isOpened
+    }
+}
+
+export function openRoomActionTF(room: Room) {
+    return (dispatch: AppDispatch, getState: () => AppState) => {
+        let state = getState();
+        let modifiedRooms = MessengerService.setAmountToZero(state.messenger.rooms, room);
+        dispatch(setRoomsToState(modifiedRooms));
+        dispatch(setSelectedRoom(room));
+
+        RoomService.updateLastSeenAt(room.id)
+            .then(() => dispatch(fetchMessagesTF(room)))
+
+    }
+}
+
+export function fetchMessagesTF(room: Room) {
+    return (dispatch: AppDispatch, getState: () => AppState) => {
+        let state = getState();
+
+        Promise.all([
+            MessageService.getMessageHistory(room.id, 0, 20),
+            RoomService.getUsersOfRoom(room.id)
+        ]).then(([messagesResp, usersResp]) => {
+            dispatch(setSelectedRoom(room));
+
+            const roomMembersMap = new Map(state.messenger.roomMembers).set(room.id, usersResp.data);
+            dispatch(setRoomMembersToState(Immutable.Map(roomMembersMap)));
+
+            const messagesMap = new Map().set(room.id, messagesResp.data.content.reverse());
+            dispatch(setMessagesToState(Immutable.Map(messagesMap)));
+        })
+    }
+}
+
+export function createNewPublicRoomTF(title: string) {
+    return (dispatch: AppDispatch) => {
+        let createRoomDto = new CreateRoom();
+        createRoomDto.title = title;
+        createRoomDto.isPrivate = false;
+        RoomService.createRoom(createRoomDto)
+            .then(createdRoom => dispatch(openRoomActionTF(createdRoom.data)))
     }
 }
