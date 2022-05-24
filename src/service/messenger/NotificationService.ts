@@ -42,7 +42,7 @@ export class NotificationService {
             case NotificationType.ROOM_UPDATED:
                 const updatedSearchRoom = notification.payload as Room;
                 const state = getState();
-                if(state.messenger.selectedRoom.id === updatedSearchRoom.id) {
+                if (state.messenger.selectedRoom.id === updatedSearchRoom.id) {
                     MessengerService.openRoom(updatedSearchRoom, dispatch, state.messenger.rooms, state.messenger.roomMembers);
                 }
                 break;
@@ -67,7 +67,13 @@ function processKickOrLeaveUserFromRoom(notification: Notification, messengerSta
     const notificationPayload = notification.payload as DepartedUserNotificationPayload;
 
     if (notificationPayload.kickedUserId === retrieveUserId()) {
-        const updatedRooms = messengerState.rooms.filter(room => room.id !== notificationPayload.roomId);
+        const updatedRooms = messengerState.rooms.filter(room => {
+            if (room.id === notificationPayload.roomId) {
+                room.subscription.unsubscribe();
+                return false;
+            }
+            return true;
+        });
         dispatch(setRoomsToState(updatedRooms));
         dispatch(setSelectedRoom(null));
     } else {
@@ -94,7 +100,14 @@ function updateRoomTitle(roomId: number, updatedTitle: string, rooms: Room[], di
 function processRoomDeleted(notification: Notification, messenger: TMessengerState, dispatch: AppDispatch) {
     const deletedRoomId = notification.payload as number;
 
-    const filteredRooms = messenger.rooms.filter(room => room.id !== deletedRoomId);
+    const filteredRooms = messenger.rooms.filter(room => {
+        if (room.id === deletedRoomId) {
+            room.subscription.unsubscribe();
+            return false;
+        }
+        return true;
+    });
+
     dispatch(setRoomsToState(filteredRooms));
 
     if (messenger.selectedRoom?.id === deletedRoomId) {

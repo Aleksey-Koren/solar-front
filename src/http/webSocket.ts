@@ -16,10 +16,9 @@ export function connectStompClient(authToken: string, callback: () => void) {
 
 export function subscribeToRooms(rooms: Room[], getState: () => AppState, dispatch: AppDispatch) {
     rooms.forEach(room => {
-        stompClient.subscribe(`/room/${room.id}`, (message: Message) => processMessage(message, getState, dispatch));
+        room.subscription = stompClient.subscribe(`/room/${room.id}`, (message: Message) => processMessage(message, getState, dispatch));
     })
 }
-
 
 function processMessage(message: Message, getState: () => AppState, dispatch: AppDispatch) {
     const messageEntity: MessageEntity = JSON.parse(message.body);
