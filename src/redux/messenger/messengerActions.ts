@@ -78,6 +78,11 @@ export function updateRoomTitle(roomId: number, title: string) {
     return (dispatch: AppDispatch) => {
         RoomService.updateRoomTitle(roomId, title)
             .then(() => dispatch(setEditTitleOpen(false)))
+            .catch(e => {
+                if (e.response.status === 409) {
+                    dispatch(setIsTitleAlreadyExistsModalOpened(true));
+                }
+            })
     }
 }
 
@@ -149,14 +154,21 @@ export function createNewPublicRoomTF(title: string) {
         RoomService.createRoom(createRoomDto)
             .then(createdRoom => {
                     subscribeToRooms([createdRoom.data], getState, dispatch);
+                    dispatch(setIsNewRoomModalOpened(false));
                     dispatch(openRoomTF(createdRoom.data));
+            }).catch(e => {
+                if (e.response.status === 409) {
+                    dispatch(setIsTitleAlreadyExistsModalOpened(true));
+                 }
             })
     }
 }
 
-export function isTitleAlreadyExistsModalOpened(isOpened: boolean): IPlainDataAction<boolean> {
+export function setIsTitleAlreadyExistsModalOpened(isOpened: boolean): IPlainDataAction<boolean> {
     return {
         type: SET_IS_TITLE_ALREADY_EXISTS_MODAL_OPENED,
         payload: isOpened
     }
 }
+
+

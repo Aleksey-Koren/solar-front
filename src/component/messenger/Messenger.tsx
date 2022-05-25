@@ -22,6 +22,7 @@ import ParticipantsListModal from "./menu/participants-list/ParticipantsListModa
 import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import CreateNewRoomModal from "./new-room-modal/CreateNewRoomModal";
 import CreateRoomButton from "./new-room-modal/CreateRoomButton";
+import TitleAlreadyExistsModal from "./new-room-modal/TitleAlreadyExistsModal";
 
 
 const Messenger: React.FC<TProps> = (props) => {
