@@ -5,7 +5,7 @@ import {ChatSearchOption, ChatSearchOptionType} from "../../../model/messenger/c
 import {Room} from "../../../model/messenger/room/Room";
 import {AppState, useAppDispatch} from "../../../index";
 import {connect, ConnectedProps} from "react-redux";
-import {openRoomActionTF, setRoomsToState} from "../../../redux/messenger/messengerActions";
+import {openRoomTF, setRoomsToState} from "../../../redux/messenger/messengerActions";
 
 
 const MessengerSelect: React.FC<TProps> = (props) => {
@@ -15,14 +15,14 @@ const MessengerSelect: React.FC<TProps> = (props) => {
 
     const onChange = (option: ChatSearchOption) => {
         if (option.type === ChatSearchOptionType.ROOM) {
-            dispatch(openRoomActionTF(option.payload as Room));
+            dispatch(openRoomTF(option.payload as Room));
             setSelectValue(null);
         } else {
 
             MessengerService.createPrivateRoomWith(option.payload.id)
                 .then(createdRoom => {
                     dispatch(setRoomsToState([...props.rooms, createdRoom.data]));
-                    dispatch(openRoomActionTF(createdRoom.data))
+                    dispatch(openRoomTF(createdRoom.data))
                 });
             setSelectValue(null);
         }
@@ -30,7 +30,7 @@ const MessengerSelect: React.FC<TProps> = (props) => {
 
     return (
         <AsyncSelect styles={{
-            control: (base, state) => ({...base, borderRadius: '20px', backgroundColor: "grey", height: "50px"}),
+            control: (base, state) => ({...base, backgroundColor: "grey", height: "50px"}),
             input: (base, state) => ({...base, color: "white"}),
             menu: (base, state) => ({...base, backgroundColor: "grey", color: "white", borderRadius: '20px'}),
             option: (base, state) => ({...base, color: state.isFocused ? "black" : "white", borderRadius: '20px'}),

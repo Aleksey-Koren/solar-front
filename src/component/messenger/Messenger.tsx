@@ -8,7 +8,7 @@ import style from './Messenger.module.css'
 import {AppState, useAppDispatch} from "../../index";
 import {connect, ConnectedProps} from "react-redux";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
-import {messengerInitializationTF, setIsNewRoomModalOpened} from "../../redux/messenger/messengerActions";
+import {messengerInitializationTF, openRoomTF, setIsNewRoomModalOpened} from "../../redux/messenger/messengerActions";
 import {retrieveUserId} from "../../service/authService";
 import MessengerFooter from "./footer/MessengerFooter";
 import MessagesList from "./messages/MessagesList";
@@ -33,8 +33,8 @@ const Messenger: React.FC<TProps> = (props) => {
     const ref = useRef(null);
 
     useEffect(() => {
-        props.messengerInitialization();
-    }, [props.messengerInitialization]);
+        props.messengerInitializationTF();
+    }, [props.messengerInitializationTF]);
 
     useEffect(() => {
         const element = document.getElementById('list');
@@ -52,7 +52,7 @@ const Messenger: React.FC<TProps> = (props) => {
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
                             <ListItemButton key={room.id} className={style.room_button} style={{color: props.selectedRoom?.id === room.id && '#60ad60'}}
-                                            onClick={() => MessengerService.openRoom(room, dispatch, props.rooms, props.roomMembers)}>
+                                            onClick={() => props.openRoomTF(room)}>
                                 <ListItemText className={style.unread_message_text}
                                               style={{visibility: (room.amount === 0 ? "hidden" : "visible")}}>
                                     {room.amount}
@@ -86,8 +86,8 @@ const Messenger: React.FC<TProps> = (props) => {
                 </Grid>
             </Grid>
 
-            <EditTitleModal />
-            <AddUsersModal />
+            <EditTitleModal/>
+            <AddUsersModal/>
             <ParticipantsListModal parentRef={ref}/>
             <CreateNewRoomModal/>
         </div>
@@ -103,7 +103,8 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = {
-    messengerInitialization: messengerInitializationTF
+    messengerInitializationTF,
+    openRoomTF
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

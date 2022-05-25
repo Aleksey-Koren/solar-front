@@ -1,7 +1,12 @@
 import {Message} from "stompjs";
 import {AppDispatch, AppState} from "../../index";
 import {Room} from "../../model/messenger/room/Room";
-import {setRoomMembersToState, setRoomsToState, setSelectedRoom} from "../../redux/messenger/messengerActions";
+import {
+    openRoomTF,
+    setRoomMembersToState,
+    setRoomsToState,
+    setSelectedRoom
+} from "../../redux/messenger/messengerActions";
 import {subscribeToRooms} from "../../http/webSocket";
 import {NotificationType} from "../../model/messenger/notification/notificationType";
 import {TMessengerState} from "../../redux/messenger/messengerTypes";
@@ -43,7 +48,7 @@ export class NotificationService {
                 const updatedSearchRoom = notification.payload as Room;
                 const state = getState();
                 if (state.messenger.selectedRoom.id === updatedSearchRoom.id) {
-                    MessengerService.openRoom(updatedSearchRoom, dispatch, state.messenger.rooms, state.messenger.roomMembers);
+                    dispatch(openRoomTF(updatedSearchRoom));
                 }
                 break;
 

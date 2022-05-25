@@ -2,7 +2,7 @@ import * as yup from "yup";
 import {useAppDispatch, useAppSelector} from "../../../index";
 import {
     createNewPublicRoomTF,
-    setEditTitleOpen,
+    setEditTitleOpen, setIsAddUsersModalOpened,
     setIsNewRoomModalOpened,
     updateRoomTitle
 } from "../../../redux/messenger/messengerActions";
