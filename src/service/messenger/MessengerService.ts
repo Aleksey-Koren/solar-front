@@ -20,21 +20,6 @@ import {CreateRoom} from "../../model/messenger/room/CreateRoom";
 
 export class MessengerService {
 
-    static openRoom(room: Room,
-                    dispatch: AppDispatch,
-                    rooms: Room[],
-                    roomMembers: Immutable.Map<number, User[]>) {
-
-        let modifiedRooms = MessengerService.setAmountToZero(rooms, room);
-        dispatch(setRoomsToState(modifiedRooms));
-        dispatch(setSelectedRoom(room));
-
-        RoomService.updateLastSeenAt(room.id)
-            .then(() =>
-                MessengerService.fetchMessages(room, dispatch, roomMembers)
-            )
-    }
-
     static setAmountToZero(rooms: Room[], createdRoom: Room) {
         let roomsToModify = new Array<Room>(...rooms);
         roomsToModify.map(s => {
@@ -44,23 +29,6 @@ export class MessengerService {
             return s;
         });
         return roomsToModify;
-    }
-
-    static fetchMessages(room: Room,
-                                 dispatch: AppDispatch,
-                                 roomMembers: Immutable.Map<number, User[]>) {
-        Promise.all([
-            MessageService.getMessageHistory(room.id, 0, 20),
-            RoomService.getUsersOfRoom(room.id)
-        ]).then(([messagesResp, usersResp]) => {
-            dispatch(setSelectedRoom(room));
-
-            const roomMembersMap = new Map(roomMembers).set(room.id, usersResp.data);
-            dispatch(setRoomMembersToState(Immutable.Map(roomMembersMap)));
-
-            const messagesMap = new Map().set(room.id, messagesResp.data.content.reverse());
-            dispatch(setMessagesToState(Immutable.Map(messagesMap)));
-        })
     }
 
     static generateMessageInfo(message: MessageEntity) {

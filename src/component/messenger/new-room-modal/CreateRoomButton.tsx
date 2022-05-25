@@ -1,6 +1,5 @@
 import React from "react";
-import {AppState, useAppDispatch} from "../../../index";
-import {messengerInitializationTF, setIsNewRoomModalOpened} from "../../../redux/messenger/messengerActions";
+import {setIsNewRoomModalOpened} from "../../../redux/messenger/messengerActions";
 import {connect, ConnectedProps} from "react-redux";
 import style from "../Messenger.module.css";
 import GroupAddIcon from "@mui/icons-material/GroupAdd";

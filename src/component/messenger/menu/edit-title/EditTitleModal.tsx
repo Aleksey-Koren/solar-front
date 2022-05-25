@@ -4,6 +4,7 @@ import {setEditTitleOpen, updateRoomTitle} from "../../../../redux/messenger/mes
 import style from "../../../global-styles/ModalWindow.module.css";
 import {Form, Formik} from "formik";
 import * as yup from "yup";
+import TitleAlreadyExistsModal from "../../new-room-modal/TitleAlreadyExistsModal";
 
 const validationSchema = yup.object().shape({
     title: yup.string().required('Room title cannot be empty').min(3,)
@@ -27,22 +28,25 @@ function EditTitleModal() {
                 validationSchema={validationSchema}
             >
                 {formik => (
-                    <Form>
-                        <DialogContent className={style.dialog__content}>
-                            <TextField
-                                className={style.dialog__text_field}
-                                autoFocus margin="dense" type="text"
-                                defaultValue={formik.values.title}
-                                onChange={(event) => formik.setFieldValue('title', event.target.value)}
-                                error={!!formik.errors.title} helperText={formik.errors.title}
-                                fullWidth variant="standard" placeholder={"Room title"}
-                            />
-                        </DialogContent>
-                        <DialogActions className={style.dialog__actions}>
-                            <Button onClick={onCloseModal}>Cancel</Button>
-                            <Button type={"submit"} disabled={!formik.isValid}>Save</Button>
-                        </DialogActions>
-                    </Form>
+                    <div>
+                        <Form>
+                            <DialogContent className={style.dialog__content}>
+                                <TextField
+                                    className={style.dialog__text_field}
+                                    autoFocus margin="dense" type="text"
+                                    defaultValue={formik.values.title}
+                                    onChange={(event) => formik.setFieldValue('title', event.target.value)}
+                                    error={!!formik.errors.title} helperText={formik.errors.title}
+                                    fullWidth variant="standard" placeholder={"Room title"}
+                                />
+                            </DialogContent>
+                            <DialogActions className={style.dialog__actions}>
+                                <Button onClick={onCloseModal}>Cancel</Button>
+                                <Button type={"submit"} disabled={!formik.isValid}>Save</Button>
+                            </DialogActions>
+                        </Form>
+                        <TitleAlreadyExistsModal title={formik.values.title}/>
+                    </div>
                 )}
             </Formik>
         </Dialog>

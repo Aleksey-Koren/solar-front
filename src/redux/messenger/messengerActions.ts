@@ -10,7 +10,7 @@ import {
     SET_EDIT_TITLE_OPEN,
     SET_MESSAGES,
     SET_PARTICIPANTS_LIST_MODAL_OPEN, SET_ROOM_MEMBERS,
-    SET_ROOMS, SET_SELECTED_ROOM, SET_IS_NEW_ROOM_MODAL_OPENED
+    SET_ROOMS, SET_SELECTED_ROOM, SET_IS_NEW_ROOM_MODAL_OPENED, SET_IS_TITLE_ALREADY_EXISTS_MODAL_OPENED
 } from "./messengerTypes";
 import Immutable from "immutable";
 import {User} from "../../model/User";
@@ -78,6 +78,11 @@ export function updateRoomTitle(roomId: number, title: string) {
     return (dispatch: AppDispatch) => {
         RoomService.updateRoomTitle(roomId, title)
             .then(() => dispatch(setEditTitleOpen(false)))
+            .catch(e => {
+                if (e.response.status === 409) {
+                    dispatch(setIsTitleAlreadyExistsModalOpened(true));
+                }
+            })
     }
 }
 
@@ -109,7 +114,7 @@ export function setIsNewRoomModalOpened(isOpened: boolean): IPlainDataAction<boo
     }
 }
 
-export function openRoomActionTF(room: Room) {
+export function openRoomTF(room: Room) {
     return (dispatch: AppDispatch, getState: () => AppState) => {
         let state = getState();
         let modifiedRooms = MessengerService.setAmountToZero(state.messenger.rooms, room);
@@ -142,11 +147,28 @@ export function fetchMessagesTF(room: Room) {
 }
 
 export function createNewPublicRoomTF(title: string) {
-    return (dispatch: AppDispatch) => {
+    return (dispatch: AppDispatch, getState: () => AppState) => {
         let createRoomDto = new CreateRoom();
         createRoomDto.title = title;
         createRoomDto.isPrivate = false;
         RoomService.createRoom(createRoomDto)
-            .then(createdRoom => dispatch(openRoomActionTF(createdRoom.data)))
+            .then(createdRoom => {
+                    subscribeToRooms([createdRoom.data], getState, dispatch);
+                    dispatch(setIsNewRoomModalOpened(false));
+                    dispatch(openRoomTF(createdRoom.data));
+            }).catch(e => {
+                if (e.response.status === 409) {
+                    dispatch(setIsTitleAlreadyExistsModalOpened(true));
+                 }
+            })
     }
 }
+
+export function setIsTitleAlreadyExistsModalOpened(isOpened: boolean): IPlainDataAction<boolean> {
+    return {
+        type: SET_IS_TITLE_ALREADY_EXISTS_MODAL_OPENED,
+        payload: isOpened
+    }
+}
+
+

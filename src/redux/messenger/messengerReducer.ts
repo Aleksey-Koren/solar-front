@@ -1,8 +1,14 @@
 import {
-    FETCH_ROOMS, SET_EDIT_TITLE_OPEN, SET_IS_ADD_USERS_OPENED, SET_IS_NEW_ROOM_MODAL_OPENED,
-    SET_MESSAGES, SET_PARTICIPANTS_LIST_MODAL_OPEN,
+    FETCH_ROOMS,
+    SET_EDIT_TITLE_OPEN,
+    SET_IS_ADD_USERS_OPENED,
+    SET_IS_NEW_ROOM_MODAL_OPENED,
+    SET_IS_TITLE_ALREADY_EXISTS_MODAL_OPENED,
+    SET_MESSAGES,
+    SET_PARTICIPANTS_LIST_MODAL_OPEN,
     SET_ROOM_MEMBERS,
-    SET_ROOMS, SET_SELECTED_ROOM,
+    SET_ROOMS,
+    SET_SELECTED_ROOM,
     TMessengerAction,
     TMessengerState
 } from "./messengerTypes";
@@ -22,7 +28,8 @@ const initialState: TMessengerState = {
     isEditTitleModalOpen: false,
     isAddUsersModalOpened: false,
     isParticipantsListModalOpen: false,
-    isNewRoomModalOpened: false
+    isNewRoomModalOpened: false,
+    isTitleAlreadyExistsModalOpened: false
 }
 
 export function messengerReducer(state: TMessengerState = initialState, action: TMessengerAction) {
@@ -70,6 +77,9 @@ export function messengerReducer(state: TMessengerState = initialState, action: 
             const isNewRoomModalOpenedAction = action as IPlainDataAction<boolean>;
             return {...state, isNewRoomModalOpened: isNewRoomModalOpenedAction.payload}
 
+        case SET_IS_TITLE_ALREADY_EXISTS_MODAL_OPENED:
+            const titleExists = action as IPlainDataAction<boolean>
+            return {...state, isTitleAlreadyExistsModalOpened: titleExists.payload}
         default:
             return state;
     }
