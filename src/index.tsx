@@ -12,6 +12,8 @@ import {permissionsReducer} from "./redux/permissions/permissionsReducer";
 import {usersReducer} from "./redux/users/usersReducer";
 import {stationsReducer} from "./redux/stations/stationsReducer";
 import {messengerReducer} from "./redux/messenger/messengerReducer";
+import {appReducer} from "./redux/app/appReducer";
+import ConfirmModal from "./component/confirm-modal/ConfirmModal";
 
 const reducers = combineReducers({
     products: productReducer,
@@ -19,7 +21,8 @@ const reducers = combineReducers({
     permissions: permissionsReducer,
     users: usersReducer,
     stations: stationsReducer,
-    messenger: messengerReducer
+    messenger: messengerReducer,
+    app: appReducer
 });
 
 export const store = configureStore({reducer: reducers, devTools: true, middleware: [thunk, promise]})
@@ -33,6 +36,7 @@ export const useAppSelector: TypedUseSelectorHook<AppState> = useSelector
 ReactDOM.render(
     <Provider store={store}>
         <App/>
+        <ConfirmModal/>
     </Provider>,
     document.getElementById('root')
 );

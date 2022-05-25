@@ -8,7 +8,7 @@ import style from './Messenger.module.css'
 import {AppState, useAppDispatch} from "../../index";
 import {connect, ConnectedProps} from "react-redux";
 import {MessageEntity} from "../../model/messenger/message/MessageEntity";
-import {messengerInitializationTF, setIsNewRoomModalOpened} from "../../redux/messenger/messengerActions";
+import {messengerInitializationTF} from "../../redux/messenger/messengerActions";
 import {retrieveUserId} from "../../service/authService";
 import MessengerFooter from "./footer/MessengerFooter";
 import MessagesList from "./messages/MessagesList";
@@ -19,7 +19,6 @@ import EditTitleModal from "./menu/edit-title/EditTitleModal";
 import AddUsersModal from "./menu/add-users/AddUsersModal";
 import MessengerSelect from "./select/MessengerSelect";
 import ParticipantsListModal from "./menu/participants-list/ParticipantsListModal";
-import GroupAddIcon from '@mui/icons-material/GroupAdd';
 import CreateNewRoomModal from "./new-room-modal/CreateNewRoomModal";
 import CreateRoomButton from "./new-room-modal/CreateRoomButton";
 
@@ -47,11 +46,12 @@ const Messenger: React.FC<TProps> = (props) => {
         <div className={style.wrapper} ref={ref}>
             <Grid container component={Paper} className={style.chatSection}>
                 <Grid item xs={3} className={style.room_container}>
-                        <MessengerSelect/>
+                    <MessengerSelect/>
                     <Divider/>
                     <List className={style.room_list}>
                         {props.rooms.map(room => (
-                            <ListItemButton key={room.id} className={style.room_button} style={{color: props.selectedRoom?.id === room.id && '#60ad60'}}
+                            <ListItemButton key={room.id} className={style.room_button}
+                                            style={{color: props.selectedRoom?.id === room.id && '#60ad60'}}
                                             onClick={() => MessengerService.openRoom(room, dispatch, props.rooms, props.roomMembers)}>
                                 <ListItemText className={style.unread_message_text}
                                               style={{visibility: (room.amount === 0 ? "hidden" : "visible")}}>
@@ -64,7 +64,7 @@ const Messenger: React.FC<TProps> = (props) => {
                 </Grid>
                 <Grid container direction={'column'} item xs={9}>
                     <Grid container item className={style.room_title_container}>
-                        <Grid item xs={2.1} >
+                        <Grid item xs={2.1}>
                             <CreateRoomButton/>
                         </Grid>
                         <Grid item xs={8.9} className={style.room_title}>
@@ -72,7 +72,7 @@ const Messenger: React.FC<TProps> = (props) => {
                         </Grid>
 
                         <Grid item xs={1} className={style.room_title}>
-                            <MessengerMenu />
+                            <MessengerMenu/>
                         </Grid>
                     </Grid>
 
@@ -86,8 +86,8 @@ const Messenger: React.FC<TProps> = (props) => {
                 </Grid>
             </Grid>
 
-            <EditTitleModal />
-            <AddUsersModal />
+            <EditTitleModal/>
+            <AddUsersModal/>
             <ParticipantsListModal parentRef={ref}/>
             <CreateNewRoomModal/>
         </div>

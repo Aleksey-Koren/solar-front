@@ -34,9 +34,11 @@ function processMessage(message: Message, getState: () => AppState, dispatch: Ap
 }
 
 export function sendMessage(roomId: number, senderId: number, message: string, editedMessage: MessageEntity) {
-    stompClient.send(`/chat/${roomId}`, {}, JSON.stringify({
-        id: editedMessage?.id,
-        senderId: senderId,
-        message: message
-    }));
+    if (message.trim()) {
+        stompClient.send(`/chat/${roomId}`, {}, JSON.stringify({
+            id: editedMessage?.id,
+            senderId: senderId,
+            message: message
+        }));
+    }
 }

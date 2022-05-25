@@ -30,7 +30,7 @@ function MessengerFooter(props: MessengerFooterProps) {
                         props.setMessageText('');
                         props.setEditedMessage(null);
                     }}>
-                        <CloseIcon/>
+                        <CloseIcon style={{color: 'white'}}/>
                     </IconButton>
                 </InputAdornment>
             ),

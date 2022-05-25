@@ -13,6 +13,7 @@ import {AppState} from "../../../../index";
 import {setParticipantsListModalOpen} from "../../../../redux/messenger/messengerActions";
 import {retrieveUserId} from "../../../../service/authService";
 import {RoomService} from "../../../../service/messenger/room/RoomService";
+import {openConfirmModal} from "../../../../redux/app/appActions";
 
 const ParticipantsListModal: React.FC<Props> = (props) => {
 
@@ -35,7 +36,11 @@ const ParticipantsListModal: React.FC<Props> = (props) => {
                         secondaryAction={
                             props.roomOwnerId === retrieveUserId() && props.roomOwnerId !== member.id && (
                                 <IconButton
-                                    onClick={() => RoomService.kickUserFromRoom(props.selectedRoom?.id, member.id)}>
+                                    onClick={() =>
+                                        props.openConfirmModal(
+                                            () => RoomService.kickUserFromRoom(props.selectedRoom?.id, member.id),
+                                            `Do you want kick '${member.title}?'`)
+                                    }>
                                     <RemoveCircleIcon className={style.dialog__remove_icon}/>
                                 </IconButton>
                             )
@@ -67,6 +72,7 @@ const mapStateToProps = (state: AppState, ownProps: { parentRef: React.MutableRe
 
 const mapDispatchToProps = {
     setParticipantsListModalOpen,
+    openConfirmModal
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);

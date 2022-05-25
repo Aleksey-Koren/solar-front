@@ -17,6 +17,7 @@ import Divider from "@mui/material/Divider";
 import {RoomService} from "../../../service/messenger/room/RoomService";
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined';
 import {retrieveUserId} from "../../../service/authService";
+import {openConfirmModal} from "../../../redux/app/appActions";
 
 function MessengerMenu() {
     const [anchorEl, setAnchorEl] = useState(null);
@@ -26,6 +27,16 @@ function MessengerMenu() {
     const onMenuItemClick = (dispatchAction: (isOpen: boolean) => IPlainDataAction<boolean>) => {
         setAnchorEl(null);
         dispatch(dispatchAction(true))
+    }
+
+    const onLeaveRoomClick = () => {
+        setAnchorEl(null);
+        dispatch(openConfirmModal(() => RoomService.leaveFromRoom(selectedRoom?.id), 'Do you want leave from room?'));
+    }
+
+    const onDeleteRoomClick = () => {
+        setAnchorEl(null);
+        dispatch(openConfirmModal(() => RoomService.deleteRoom(selectedRoom?.id), 'Do you want delete room?'))
     }
 
     return (
@@ -55,10 +66,7 @@ function MessengerMenu() {
                             Members
                         </MenuItem>
                         <Divider/>
-                        <MenuItem onClick={() => {
-                            setAnchorEl(null);
-                            RoomService.leaveFromRoom(selectedRoom?.id);
-                        }}>
+                        <MenuItem onClick={onLeaveRoomClick}>
                             <ExitToAppIcon style={{marginRight: '10px'}} fontSize={'medium'}/>
                             Leave room
                         </MenuItem>
@@ -66,10 +74,7 @@ function MessengerMenu() {
                 }
 
                 {(selectedRoom?.roomType === RoomType.PRIVATE || selectedRoom?.ownerId === retrieveUserId()) &&
-                    <MenuItem onClick={() => {
-                        setAnchorEl(null);
-                        RoomService.deleteRoom(selectedRoom?.id);
-                    }}>
+                    <MenuItem onClick={onDeleteRoomClick}>
                         <DeleteOutlineOutlinedIcon style={{marginRight: '10px', color: 'red'}} fontSize={'medium'}/>
                         <span style={{color: 'red'}}>Delete room</span>
                     </MenuItem>
