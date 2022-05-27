@@ -3,7 +3,7 @@ import {connect, ConnectedProps} from "react-redux";
 import React from "react";
 import {TableFooter, TablePagination, TableRow} from "@mui/material";
 import globalStyles from "../../global-styles/MUITable.module.css";
-import {findStationsActionCreator} from "../../../redux/stations/stationActions";
+import {findStationsTF} from "../../../redux/stations/stationActions";
 
 const StationsTableFooter: React.FC<TProps> = (props) => {
 
@@ -54,7 +54,7 @@ const mapStateToProps = (state: AppState) => ({
 });
 
 const mapDispatchToProps = {
-    findStationsActionCreator
+    findStationsActionCreator: findStationsTF
 }
 
 type TProps = ConnectedProps<typeof connector>;

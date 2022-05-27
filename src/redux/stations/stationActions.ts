@@ -2,14 +2,14 @@ import {SET_ERROR, SET_IS_LOADING, SET_STATIONS,} from "./stationTypes";
 import {IPlainDataAction} from "../redux-types";
 import {AppDispatch} from "../../index";
 import {fetchStations} from "../../service/stationService";
-import {StationForTable} from "../../model/station/StationForTable";
 import {mapStationDtoToStationForTable} from "../../model/station/StationMapper";
 import {Page} from "../../model/util/Page";
 import {StationDto} from "../../model/station/StationDto";
 import {Builder} from "builder-pattern";
+import {Station} from "../../model/station/Station";
 
 
-export function findStationsActionCreator(page: number, size: number) {
+export function findStationsTF(page: number, size: number) {
     return (dispatch: AppDispatch) => {
         dispatch(setIsLoading(true));
 
@@ -22,7 +22,7 @@ export function findStationsActionCreator(page: number, size: number) {
             })
             .then(s => Promise.all(s)
                 .then(values => {
-                    let pageToSet: Page<StationForTable> = Builder<Page<StationForTable>>()
+                    const pageToSet: Page<Station> = Builder<Page<Station>>()
                         .size(pageFromServer.size)
                         .totalElements(pageFromServer.totalElements)
                         .number(pageFromServer.number)
@@ -34,6 +34,7 @@ export function findStationsActionCreator(page: number, size: number) {
     }
 }
 
+
 export function setIsLoading (payload: boolean): IPlainDataAction<boolean> {
     return {
         type: SET_IS_LOADING,
@@ -41,7 +42,7 @@ export function setIsLoading (payload: boolean): IPlainDataAction<boolean> {
     }
 }
 
-export function setStations(payload: Page<StationForTable>): IPlainDataAction<Page<StationForTable>> {
+export function setStations(payload: Page<Station>): IPlainDataAction<Page<Station>> {
     return {
         type: SET_STATIONS,
         payload: payload

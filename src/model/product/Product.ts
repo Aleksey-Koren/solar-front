@@ -6,5 +6,4 @@ export class Product {
     mass: number | null = null;
     price: number | null = null;
     volume: number | null = null;
-
 }

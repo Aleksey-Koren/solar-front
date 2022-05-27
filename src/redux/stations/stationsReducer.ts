@@ -1,25 +1,24 @@
 import {
-    IStationState,
     SET_ERROR,
     SET_IS_LOADING,
     SET_STATIONS,
-    StationsWithPlanetsDropdownPayload, TStationAction,
+    TStationAction,
     TStationState
 } from "./stationTypes";
-import {StationDto} from "../../model/station/StationDto";
-import {ActionType, IPlainDataAction} from "../redux-types";
+import {IPlainDataAction} from "../redux-types";
 import {StationForTable} from "../../model/station/StationForTable";
 import {Page} from "../../model/util/Page";
+import {Station} from "../../model/station/Station";
 
 const initialState: TStationState = {
-    stations: new Array<StationForTable>(),
+    stations: new Array<Station>(),
     planetsDropdown: new Map<number, string>(),
     totalItems: 0,
     itemsPerPage: 3,
     currentPage: 0,
     isError: false,
-    isLoading: false
-
+    isLoading: false,
+    stationToEdit: null
 }
 
 
@@ -32,7 +31,7 @@ export function stationsReducer (state: TStationState = initialState, action: TS
         case SET_ERROR:
             return {...state, isError: true, isLoading: false}
         case SET_STATIONS:
-            castedAction = action as IPlainDataAction<Page<StationForTable>>
+            castedAction = action as IPlainDataAction<Page<Station>>
             console.log(castedAction.payload);
             return {...state,
                 stations: castedAction.payload.content,

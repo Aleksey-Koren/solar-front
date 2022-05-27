@@ -1,10 +1,12 @@
 import {StationDto} from "../../model/station/StationDto";
 import {ActionType, IDefaultStateField, IPaginationState, IPlainDataAction} from "../redux-types";
 import {StationForTable} from "../../model/station/StationForTable";
+import {Station} from "../../model/station/Station";
 
 export interface IStationState {
-    stations: StationForTable[] | null;
+    stations: Station[] | null;
     planetsDropdown: Map<number, string>;
+    stationToEdit: null | Station;
 }
 
 export type TStationState = IStationState & IDefaultStateField & IPaginationState;

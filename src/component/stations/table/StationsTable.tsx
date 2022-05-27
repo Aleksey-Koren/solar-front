@@ -4,6 +4,7 @@ import StationsTableBody from "./StationsTableBody";
 import {Table, TableContainer} from "@mui/material";
 import styles from "../../global-styles/MUITable.module.css";
 import StationsTableFooter from "./StationsTableFooter";
+import {useParams} from "react-router-dom";
 
 const StationsTable: React.FC = () => {
 
@@ -17,8 +18,5 @@ const StationsTable: React.FC = () => {
             </TableContainer>
     )
 }
-// const connector = connect(mapStateToProps, mapDispatchToProps);
-
-// type Props = ConnectedProps<typeof connector>;
 
 export default StationsTable;

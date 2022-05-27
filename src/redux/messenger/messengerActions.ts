@@ -170,5 +170,3 @@ export function setIsTitleAlreadyExistsModalOpened(isOpened: boolean): IPlainDat
         payload: isOpened
     }
 }
-
-

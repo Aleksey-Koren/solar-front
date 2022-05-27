@@ -5,7 +5,8 @@ import {connect, ConnectedProps} from "react-redux";
 import StationsTable from "./table/StationsTable";
 import globalStyles from "../global-styles/GlobalStyles.module.css";
 import LoadProgress from "../circular-progress/LoadProgress";
-import {findStationsActionCreator} from "../../redux/stations/stationActions";
+import {findStationsTF} from "../../redux/stations/stationActions";
+import {Outlet} from "react-router-dom";
 
 const Stations: React.FC<Props> = (props) => {
 
@@ -33,7 +34,7 @@ const mapStateToProps = (state: AppState) => ({
 })
 
 const mapDispatchToProps = {
-    findStationsActionCreator
+    findStationsActionCreator: findStationsTF
 }
 
 const connector = connect(mapStateToProps, mapDispatchToProps);
