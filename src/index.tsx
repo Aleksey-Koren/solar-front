@@ -14,6 +14,7 @@ import {stationsReducer} from "./redux/stations/stationsReducer";
 import {messengerReducer} from "./redux/messenger/messengerReducer";
 import {appReducer} from "./redux/app/appReducer";
 import ConfirmModal from "./component/confirm-modal/ConfirmModal";
+import {inventoryTypesReducer} from "./redux/inventory-type/inventoryTypesReducer";
 
 const reducers = combineReducers({
     products: productReducer,
@@ -22,7 +23,8 @@ const reducers = combineReducers({
     users: usersReducer,
     stations: stationsReducer,
     messenger: messengerReducer,
-    app: appReducer
+    app: appReducer,
+    inventoryTypes: inventoryTypesReducer
 });
 
 export const store = configureStore({reducer: reducers, devTools: true, middleware: [thunk, promise]})

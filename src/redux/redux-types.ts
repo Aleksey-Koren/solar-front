@@ -11,6 +11,7 @@ export interface IPaginationState {
     currentPage: number;
     itemsPerPage: number;
     totalItems: number;
+    totalPagesAmount?: number;
 }
 
 export interface IDefaultStateField {
