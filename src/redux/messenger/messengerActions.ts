@@ -107,6 +107,7 @@ export function setSelectedRoom(room: Room): IPlainDataAction<Room> {
         payload: room
     }
 }
+
 export function setIsNewRoomModalOpened(isOpened: boolean): IPlainDataAction<boolean> {
     return {
         type: SET_IS_NEW_ROOM_MODAL_OPENED,
@@ -153,14 +154,14 @@ export function createNewPublicRoomTF(title: string) {
         createRoomDto.isPrivate = false;
         RoomService.createRoom(createRoomDto)
             .then(createdRoom => {
-                    subscribeToRooms([createdRoom.data], getState, dispatch);
-                    dispatch(setIsNewRoomModalOpened(false));
-                    dispatch(openRoomTF(createdRoom.data));
+                subscribeToRooms([createdRoom.data], getState, dispatch);
+                dispatch(setIsNewRoomModalOpened(false));
+                dispatch(openRoomTF(createdRoom.data));
             }).catch(e => {
-                if (e.response.status === 409) {
-                    dispatch(setIsTitleAlreadyExistsModalOpened(true));
-                 }
-            })
+            if (e.response.status === 409) {
+                dispatch(setIsTitleAlreadyExistsModalOpened(true));
+            }
+        })
     }
 }
 

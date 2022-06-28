@@ -19,23 +19,47 @@ function Navbar() {
 
     return (
         <div className={"navbar"}>
-            <Link className={"navbar__link link_hover"} to={"/"}>Star Map</Link>
-            <Link className={"navbar__link link_hover"} to={"/"}>Dashboard</Link>
-            <div className={"navbar__dropdown_menu"}>
-                <p className={"navbar__link"}>Config</p>
-                <div className={"navbar__menu_list"}>
-                    <Link to="/planets" onClick={onPlanetsClick}>Planets Management</Link>
-                    <Link to="/products" onClick={onProductsClick}>Products Management</Link>
-                    <Link to="/stations">Stations Management</Link>
-                    <Link to="/">Inventory Management</Link>
-                    <Link to="/permissions" onClick={onPermissionsClick}>Permissions Management</Link>
-                    <Link to="/users" onClick={onUsersClick}>Users Management</Link>
-                </div>
-            </div>
-            <p className={"navbar__logout link_hover"} onClick={() => {
-                localStorage.removeItem('token');
-                navigate('/login')
-            }}>Logout</p>
+            <nav className={"menu"}>
+                <ul className={"menu__list"}>
+                    <li><Link className={"menu__link link_hover"} to={"/"}>Star Map</Link></li>
+                    <li><Link className={"menu__link link_hover"} to={"/"}>Dashboard</Link></li>
+                    <li>
+                        <p className={"menu__link"}>Config</p>
+                        <ul className="sub-menu__list">
+                            <li>
+                                <Link to="/planets" onClick={onPlanetsClick} className={"menu__link"}>Planets
+                                    Management</Link>
+                            </li>
+                            <li>
+                                <Link to="/products" onClick={onProductsClick} className={"menu__link"}>Products
+                                    Management</Link>
+                            </li>
+                            <li><Link to="/stations" className={"menu__link"}>Stations Management</Link></li>
+                            <li>
+                                <Link to="/" className={"menu__link"}>Inventory Management</Link>
+                                <ul className="sub-sub-menu__list">
+                                    <li><Link to="/" className={"menu__link"}>Object Editor</Link></li>
+                                    <li><Link to="/" className={"menu__link"}>Inventory Types</Link></li>
+                                    <li><Link to="/" className={"menu__link"}>Inventory Descriptions</Link></li>
+                                    <li><Link to="/" className={"menu__link"}>Inventory Modifications</Link></li>
+                                </ul>
+                            </li>
+                            <li>
+                                <Link to="/permissions" onClick={onPermissionsClick} className={"menu__link"}>Permissions
+                                    Management</Link>
+                            </li>
+                            <li>
+                                <Link to="/users" onClick={onUsersClick} className={"menu__link"}>Users
+                                    Management</Link>
+                            </li>
+                        </ul>
+                    </li>
+                    <li><p className={"navbar__logout link_hover"} onClick={() => {
+                        localStorage.removeItem('token');
+                        navigate('/login')
+                    }}>Logout</p></li>
+                </ul>
+            </nav>
         </div>
     );
 }

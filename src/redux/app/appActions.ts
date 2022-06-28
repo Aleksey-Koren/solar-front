@@ -14,4 +14,3 @@ export function closeConfirmModal(): IPlainDataAction<void> {
         payload: null
     }
 }
-

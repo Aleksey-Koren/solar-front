@@ -6,60 +6,94 @@
     border-bottom: #adadad 1px solid;
 }
 
-/* NAVBAR LINKS */
-
-.navbar__link {
-    text-decoration: none;
+/* LINKS */
+.menu__link {
     padding: 5px 15px;
     color: #ecca19;
     font-size: 20px;
+    display: inline-block;
+}
+
+.link_hover {
+    border-radius: 20px;
+    border-bottom: 1px transparent solid;
 }
 
 .link_hover:hover {
-    border-radius: 20px;
     border-bottom: 1px #60ad60 solid;
 }
 
 /* DROPDOWN MENU */
-
-.navbar__dropdown_menu {
-    position: relative;
-    display: inline-block;
-}
-
-.navbar__dropdown_menu a {
-    display: block;
+.menu a {
     text-decoration: none;
-    padding: 5px;
-    color: white;
 }
 
-.navbar__dropdown_menu a:last-child {
-    border-bottom: none;
+.menu li {
+    position: relative;
+    list-style: none;
 }
 
-.navbar__dropdown_menu a:hover {
+.menu__list {
+    display: flex;
+    justify-content: center;
+    margin: 0 20px;
+}
+
+.menu__list > li:hover .sub-menu__list {
+    display: block;
+}
+
+
+.sub-menu__list {
+    display: none;
+    position: absolute;
+    background-color: #262424;
+    width: 260px;
+    left: 50%;
+    margin-left: -130px;
+    border: 1px #60ad60 solid;
+}
+
+.sub-menu__list > li{
+    border-bottom: transparent 1px solid;
+}
+
+.sub-menu__list > li:hover {
     color: #ecca19;
     border-bottom: #adadad 1px solid;
 }
 
-.navbar__dropdown_menu:hover .navbar__menu_list {
+.sub-menu__list > li:hover .sub-sub-menu__list {
     display: block;
 }
 
-.navbar__menu_list {
+
+.sub-sub-menu__list {
+    min-width: 240px;
     display: none;
     position: absolute;
+    top: -1px;
+    left: 100%;
     background-color: #262424;
-    width: 210px;
-    left: 50%;
-    margin-left: -100px;
     border: 1px #60ad60 solid;
 }
 
+.sub-sub-menu__list > li {
+    border-bottom: transparent 1px solid;
+}
+
+.sub-sub-menu__list > li:hover {
+    color: #ecca19;
+    border-bottom: #adadad 1px solid;
+}
+
 /* LOGOUT */
+.menu__list > li:last-child {
+    position: absolute;
+    right: 0;
+}
+
 .navbar__logout {
-    float: right;
     margin-right: 10px;
     padding: 5px 15px;
     font-size: 20px;
