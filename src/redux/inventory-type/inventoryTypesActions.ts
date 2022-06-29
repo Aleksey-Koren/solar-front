@@ -1,11 +1,12 @@
-import {IPendingAction, IPlainDataAction, REJECTED_POSTFIX} from "../redux-types";
+import {IPendingAction, IPlainDataAction} from "../redux-types";
 import {Page} from "../../model/util/Page";
 import {InventoryType} from "../../model/inventory/inventoryType";
 import {
-    DELETE_INVENTORY_TYPE,
+    DELETE_INVENTORY_TYPE_REJECTED,
+    EDIT_INVENTORY_TYPE,
     FETCH_INVENTORY_TYPES,
     SET_IS_INVENTORY_TYPE_EDIT_FORM_OPEN,
-    UPDATE_INVENTORY_TYPE
+    UPDATE_INVENTORY_TYPE_REJECTED
 } from "./inventoryTypesConsts";
 import {InventoryTypeService} from "../../service/inventory/inventoryTypeService";
 import {AppDispatch} from "../../index";
@@ -26,13 +27,21 @@ export function setIsInventoryTypeEditFormOpen(isOpen: boolean): IPlainDataActio
     }
 }
 
+export function editInventoryType(editedInventoryType: InventoryType) {
+
+    return {
+        type: EDIT_INVENTORY_TYPE,
+        payload: editedInventoryType
+    }
+}
+
 export function saveOrUpdateInventoryTypeTF(inventoryType: InventoryType) {
 
     return (dispatch: AppDispatch) => {
 
         InventoryTypeService.save(inventoryType)
             .then(() => dispatch(fetchInventoryTypes(0, 10)))
-            .catch(() => dispatch(UPDATE_INVENTORY_TYPE + REJECTED_POSTFIX));
+            .catch(() => dispatch({type: UPDATE_INVENTORY_TYPE_REJECTED}));
     }
 }
 
@@ -43,6 +52,6 @@ export function deleteInventoryTypeTF(inventoryTypeId: number) {
 
         InventoryTypeService.delete(inventoryTypeId)
             .then(() => dispatch(fetchInventoryTypes(0, 10)))
-            .catch(() => dispatch(DELETE_INVENTORY_TYPE + REJECTED_POSTFIX))
+            .catch(() => dispatch({type: DELETE_INVENTORY_TYPE_REJECTED}))
     }
 }

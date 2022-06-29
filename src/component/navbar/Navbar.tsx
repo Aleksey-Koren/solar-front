@@ -6,6 +6,7 @@ import {findPlanetsAndStars} from "../../redux/planets/planetActions";
 import {useAppDispatch} from "../../index";
 import {findAllPermissions} from "../../redux/permissions/permissionsActions";
 import {findUsers} from "../../redux/users/usersActions";
+import {fetchInventoryTypes} from "../../redux/inventory-type/inventoryTypesActions";
 
 function Navbar() {
     let navigate = useNavigate();
@@ -15,6 +16,7 @@ function Navbar() {
     const onProductsClick = () => dispatch(fetchProductsAction(0, 10));
     const onPermissionsClick = () => dispatch(findAllPermissions());
     const onUsersClick = () => dispatch(findUsers(0, 10));
+    const onInventoryTypesClick = () => dispatch(fetchInventoryTypes(0, 10));
 
 
     return (
@@ -39,7 +41,10 @@ function Navbar() {
                                 <Link to="/" className={"menu__link"}>Inventory Management</Link>
                                 <ul className="sub-sub-menu__list">
                                     <li><Link to="/" className={"menu__link"}>Object Editor</Link></li>
-                                    <li><Link to="/" className={"menu__link"}>Inventory Types</Link></li>
+                                    <li>
+                                        <Link to="/inventory-types" onClick={onInventoryTypesClick}
+                                              className={"menu__link"}>Inventory Types</Link>
+                                    </li>
                                     <li><Link to="/" className={"menu__link"}>Inventory Descriptions</Link></li>
                                     <li><Link to="/" className={"menu__link"}>Inventory Modifications</Link></li>
                                 </ul>
