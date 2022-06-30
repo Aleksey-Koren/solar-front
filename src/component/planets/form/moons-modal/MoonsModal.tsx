@@ -1,16 +1,14 @@
 import style from './MoonsModal.module.css';
 import Dialog from "@mui/material/Dialog/Dialog";
 import AppBar from "@mui/material/AppBar/AppBar";
-import {IconButton, Table, TableContainer, Toolbar, Typography} from "@mui/material";
+import {IconButton, Toolbar, Typography} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import React, {useEffect} from "react";
-import PlanetsTableHeader from "../../table/PlanetsTableHeader";
-import PlanetsTableBody from "../../table/PlanetsTableBody";
-import PlanetsTableFooter from "../../table/PlanetsTableFooter";
 import {findMoons, hideErrorPopup, hideMoonsModal} from "../../../../redux/planets/planetActions";
 import {connect, ConnectedProps} from "react-redux";
 import {Planet} from "../../../../model/planet/Planet";
 import {AppState} from "../../../../index";
+import PlanetsTable from "../../table/PlanetsTable";
 
 const MoonsModal: React.FC<Props> = (props) => {
     useEffect(() => {
@@ -29,15 +27,8 @@ const MoonsModal: React.FC<Props> = (props) => {
             </AppBar>
 
             {props.planets.length > 0
-                ? (
-                    <TableContainer classes={{root: style.table_container}}>
-                        <Table>
-                            <PlanetsTableHeader/>
-                            <PlanetsTableBody/>
-                            <PlanetsTableFooter parentPlanet={props.parentPlanet}/>
-                        </Table>
-                    </TableContainer>
-                ) : (
+                ? <PlanetsTable/>
+                : (
                     <div className={style.without_moons_box}>
                         <h1>Planet without moons</h1>
                     </div>

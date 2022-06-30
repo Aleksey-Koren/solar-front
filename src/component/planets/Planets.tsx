@@ -1,18 +1,15 @@
-import planetsStyle from './Planets.module.css'
 import globalStyle from '../global-styles/GlobalStyles.module.css'
-import {IconButton, Table, TableContainer} from "@mui/material";
+import {IconButton} from "@mui/material";
 import Navbar from "../navbar/Navbar";
 import React, {useEffect} from "react";
 import {connect, ConnectedProps} from 'react-redux';
 import {findPlanetsAndStars, hideErrorPopup} from '../../redux/planets/planetActions';
-import PlanetsTableHeader from "./table/PlanetsTableHeader";
-import PlanetsTableBody from "./table/PlanetsTableBody";
-import PlanetsTableFooter from "./table/PlanetsTableFooter";
 import {useNavigate} from "react-router-dom";
 import ErrorPopup from "../error-popup/ErrorPopup";
 import {AppState} from "../../index";
 import LoadProgress from "../circular-progress/LoadProgress";
 import AddIcon from "@mui/icons-material/Add";
+import PlanetsTable from "./table/PlanetsTable";
 
 const Planets: React.FC<Props> = (props) => {
     const navigate = useNavigate();
@@ -31,13 +28,7 @@ const Planets: React.FC<Props> = (props) => {
             {props.isLoading
                 ? <LoadProgress/>
                 : <div>
-                    <TableContainer classes={{root: planetsStyle.MuiTableContainer_root}}>
-                        <Table>
-                            <PlanetsTableHeader/>
-                            <PlanetsTableBody/>
-                            <PlanetsTableFooter/>
-                        </Table>
-                    </TableContainer>
+                    <PlanetsTable/>
                 </div>
             }
 

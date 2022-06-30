@@ -4,15 +4,6 @@
     margin: auto;
 }
 
-/* ------------ TABLE HEADER ------------ */
-.MuiTableCell_head {
-    font-size: 20px !important;
-    font-weight: bold !important;
-    color: #ecca19 !important;
-    border: 2px #60ad60 solid !important;
-    width: fit-content !important;
-}
-
 /* ------------ TABLE BODY ------------ */
 .MuiTableCell_body {
     color: white !important;
@@ -22,7 +13,6 @@
     text-align: center !important;
 }
 
-/* ------------ LINKS ------------ */
 .MuiTableCell_body a {
     text-decoration: none;
     color: white;
@@ -37,37 +27,4 @@
 
 .MuiTableCell_body a:hover {
     color: gold;
-}
-
-/* ------------ TABLE FOOTER ------------ */
-.MuiTableCell_footer {
-    color: white !important;
-    border: 2px #60ad60 solid !important;
-    font-size: 15px !important;
-}
-
-/* TABLE PAGINATION ROW */
-.MuiTablePagination_root {
-    border: 2px #60ad60 solid !important;
-    color: white !important;
-}
-
-/* ACTIVE PAGINATION BUTTONS */
-.MuiTablePagination_root button {
-    color: white;
-}
-
-/* DISABLED PAGINATION BUTTONS */
-.MuiTablePagination_root button:disabled {
-    color: grey;
-}
-
-/* PAGINATION SPACER */
-.MuiTablePagination_spacer {
-    flex: 0 !important;
-}
-
-/* PAGINATION BLOCK */
-.MuiTablePagination_toolbar {
-    justify-content: center !important;
 }

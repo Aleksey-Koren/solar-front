@@ -3,7 +3,7 @@ import {AppState} from "../../../index";
 import {findMoons, findPlanetsAndStars} from "../../../redux/planets/planetActions";
 import {connect, ConnectedProps} from "react-redux";
 import {TableFooter, TablePagination, TableRow} from "@mui/material";
-import style from '../Planets.module.css'
+import globalTableStyles from '../../global-styles/MUITable.module.css'
 import {Planet} from "../../../model/planet/Planet";
 
 const PlanetsTableFooter: React.FC<Props> = (props) => {
@@ -18,7 +18,11 @@ const PlanetsTableFooter: React.FC<Props> = (props) => {
     return (
         <TableFooter>
             <TableRow>
-                <TablePagination classes={{root: style.MuiTablePagination_root, spacer: style.MuiTablePagination_spacer, toolbar: style.MuiTablePagination_toolbar}}
+                <TablePagination classes={{
+                    root: globalTableStyles.MuiTablePagination_root,
+                    spacer: globalTableStyles.MuiTablePagination_spacer,
+                    toolbar: globalTableStyles.MuiTablePagination_toolbar
+                }}
                                  colSpan={5} count={props.totalPlanetsAmount} rowsPerPage={props.planetsOnPage}
                                  page={props.currentPage} rowsPerPageOptions={[5, 10, 25]}
                                  onPageChange={onPageChange} onRowsPerPageChange={onRowsPerPageChange}

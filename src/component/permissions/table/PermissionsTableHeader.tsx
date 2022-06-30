@@ -1,5 +1,6 @@
 import {Checkbox, TableCell, TableHead, TableRow} from "@mui/material";
-import style from "../Permissions.module.css"
+import permissionsStyles from "../Permissions.module.css"
+import globalTableStyles from '../../global-styles/MUITable.module.css'
 import React from "react";
 import {Permission} from "../../../model/Permission";
 import {TableProps} from "./PermissionsTable";
@@ -19,14 +20,14 @@ function PermissionsTableHeader(props: {
     }
 
     return (
-        <TableHead className={style.MuiTableCell_head}>
+        <TableHead className={globalTableStyles.MuiTableCell_head}>
             <TableRow>
                 <TableCell padding="checkbox">
-                    <Checkbox className={style.header_checkbox} checked={isCheckboxChecked}
+                    <Checkbox className={permissionsStyles.header_checkbox} checked={isCheckboxChecked}
                               onChange={onCheckboxChange}/>
                 </TableCell>
-                <TableCell classes={{head: style.MuiTableCell_head}} align="center"> # </TableCell>
-                <TableCell classes={{head: style.MuiTableCell_head}} align="center"> Permission </TableCell>
+                <TableCell classes={{head: globalTableStyles.MuiTableCell_head}} align="center"> # </TableCell>
+                <TableCell classes={{head: globalTableStyles.MuiTableCell_head}} align="center"> Permission </TableCell>
             </TableRow>
         </TableHead>
     );

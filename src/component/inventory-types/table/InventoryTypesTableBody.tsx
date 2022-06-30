@@ -1,7 +1,7 @@
 import React from "react";
 import {connect, ConnectedProps} from "react-redux";
 import {TableBody, TableCell, TableRow} from "@mui/material";
-import inventoryTypesTableStyles from '../InventoryTypes.module.css'
+import globalStyle from '../../global-styles/MUITable.module.css'
 import {AppState} from "../../../index";
 import {editInventoryType} from "../../../redux/inventory-type/inventoryTypesActions";
 
@@ -12,13 +12,13 @@ const InventoryTypesTableBody: React.FC<Props> = (props) => {
             {props.inventoryTypes.map(inventoryType => (
                 <TableRow key={inventoryType.id}>
 
-                    <TableCell padding={"checkbox"} classes={{body: inventoryTypesTableStyles.MuiTableCell_body}}>
+                    <TableCell padding={"checkbox"} classes={{body: globalStyle.MuiTableCell_body}}>
                         {inventoryType.id}
                     </TableCell>
 
                     <TableCell align={"center"} classes={{
-                        body: inventoryTypesTableStyles.MuiTableCell_body,
-                        alignCenter: inventoryTypesTableStyles.MuiTableCell_alignCenter
+                        body: globalStyle.MuiTableCell_body,
+                        alignCenter: globalStyle.MuiTableCell_alignCenter
                     }} onClick={() => props.editInventoryType(inventoryType)}>
                         {inventoryType.title}
                     </TableCell>

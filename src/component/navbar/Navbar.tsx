@@ -38,7 +38,7 @@ function Navbar() {
                             </li>
                             <li><Link to="/stations" className={"menu__link"}>Stations Management</Link></li>
                             <li>
-                                <Link to="/" className={"menu__link"}>Inventory Management</Link>
+                                <p className={"menu__link"}>Inventory Management</p>
                                 <ul className="sub-sub-menu__list">
                                     <li><Link to="/" className={"menu__link"}>Object Editor</Link></li>
                                     <li>

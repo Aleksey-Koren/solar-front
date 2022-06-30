@@ -2,7 +2,8 @@ import {Checkbox, TableBody, TableCell, TableRow} from "@mui/material";
 import React from "react";
 import {AppState} from "../../../index";
 import {connect, ConnectedProps} from "react-redux";
-import style from '../Permissions.module.css'
+import globalTableStyles from '../../global-styles/MUITable.module.css'
+import permissionsStyles from '../Permissions.module.css'
 import {editPermission} from "../../../redux/permissions/permissionsActions";
 import {Permission} from "../../../model/Permission";
 import {TableProps} from "./PermissionsTable";
@@ -23,19 +24,19 @@ const PermissionsTableBody: React.FC<Props> = (props) => {
             {props.permissions.map(permission => (
                 <TableRow key={permission.id}>
 
-                    <TableCell padding="checkbox" classes={{body: style.MuiTableCell_body}}>
-                        <Checkbox className={style.body_checkbox}
+                    <TableCell padding="checkbox" classes={{body: globalTableStyles.MuiTableCell_body}}>
+                        <Checkbox className={permissionsStyles.body_checkbox}
                                   onChange={() => onCheckboxChange(permission)}
                                   checked={props.selectedPermissionsIds.includes(permission.id)}
                         />
                     </TableCell>
 
-                    <TableCell padding={"checkbox"} classes={{body: style.MuiTableCell_body}}>
+                    <TableCell padding={"checkbox"} classes={{body: globalTableStyles.MuiTableCell_body}}>
                         {permission.id}
                     </TableCell>
 
                     <TableCell align={"center"} onClick={() => props.editPermission(permission)}
-                               classes={{body: style.MuiTableCell_body, alignCenter: style.MuiTableCell_alignCenter}}>
+                               classes={{body: globalTableStyles.MuiTableCell_body, alignCenter: globalTableStyles.MuiTableCell_alignCenter}}>
                         {permission.title}
                     </TableCell>
 
